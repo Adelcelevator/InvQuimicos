@@ -20,7 +20,7 @@ and open the template in the editor.
 			<ui:define name="cuerpo">
 				<h:outputLabel style="font-size: 12pt !important;" value="Usuarios:"/>
 				<h:form id="frm_tablausu">
-					<p:growl id="growl" showDetail="true" life="3000" sticky="false"/>
+					<p:growl id="growl" showDetail="true" life="3000" sticky="true"/>
 					<p:dataTable var="usu" value="#{usuario.todos()}">
 						<p:column headerText="ID">
 							<h:outputLabel value="#{usu.usu_id}"/>

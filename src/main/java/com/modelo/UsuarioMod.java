@@ -75,7 +75,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable
 						.prepareStatement("UPDATE public.tbl_usuarios SET usu_estado='I', fecha_mod=? WHERE usu_id=?");
 				pst.setDate(1, Date.valueOf(LocalDate.now()));
 				pst.setInt(2, id);
-				this.setFue(pst.executeUpdate() == 1 ? true : false);
+				this.setFue((pst.executeUpdate() == 1));
 				cn.commit();
 				cn.close();
 				return this.isFue();
@@ -107,7 +107,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable
 				pst.setInt(7, actual.getTus_id());
 				pst.setDate(8, java.sql.Date.valueOf(LocalDate.now()));
 				pst.setInt(9, actual.getUsu_id());
-				this.setFue(pst.executeUpdate() == 1 ? true : false);
+				this.setFue((pst.executeUpdate() == 1));
 				cn.commit();
 				cn.close();
 				return this.isFue();
@@ -130,7 +130,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable
 			cn.setAutoCommit(false);
 			try {
 				PreparedStatement pst = cn.prepareStatement(
-						"INSERT INTO public.tbl_usuarios(usu_id, usu_usuario, usu_contra, usu_nombre, usu_apellido, usu_telefono, usu_direccion, tus_id, fecha_in, fecha_mod, usu_estado) VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'A')");
+						"INSERT INTO public.tbl_usuarios(usu_id, usu_usuario, usu_contra, usu_nombre, usu_apellido, usu_telefono, usu_direccion, tus_id, fecha_in, fecha_mod, usu_estado) VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 				pst.setString(1, nuevo.getUsu_usuario());
 				pst.setString(2, nuevo.getUsu_contra());
 				pst.setString(3, nuevo.getUsu_nombre());
@@ -140,7 +140,8 @@ public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable
 				pst.setInt(7, nuevo.getTus_id());
 				pst.setDate(8, Date.valueOf(LocalDate.now()));
 				pst.setDate(9, Date.valueOf(LocalDate.now()));
-				this.setFue(pst.executeUpdate() == 1 ? true : false);
+				pst.setString(10, "A");
+				this.setFue((pst.executeUpdate() == 1));
 				cn.commit();
 				cn.close();
 				return this.isFue();

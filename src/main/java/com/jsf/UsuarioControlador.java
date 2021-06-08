@@ -36,13 +36,14 @@ public class UsuarioControlador implements Serializable {
 	
 	public void selecionar(Usuario usu) {
 		this.pusu = usu;
+		this.nusu = usu;
 	}
 	
 	public void eliminar() {
 		try {
 			if (modus.borrar(this.pusu.getUsu_id())) {
 				UtilitarioControlador.informativo("USUARIO ELIMINADO CON EXITO");
-				this.pusu = new Usuario();
+				limpiar();
 			} else {
 				UtilitarioControlador.advertencia("NO SE ELIMINO EL USUARIO");
 			}
@@ -53,20 +54,19 @@ public class UsuarioControlador implements Serializable {
 	
 	public void guardar() {
 		try {
-			Usuario aux = modus.buscado(nusu.getUsu_usuario());
-			if (aux.getUsu_usuario().equals("")) {
-				if (modus.guardar(nusu)) {
+			if (0==this.nusu.getUsu_id()) {
+				this.nusu.setTus_id(1);
+				if (modus.guardar(this.nusu)) {
 					UtilitarioControlador.informativo("GUARDADO CON EXITO");
-					nusu = new Usuario();
+					limpiar();
 				} else {
 					UtilitarioControlador.advertencia("NO SE GUARDO EL USUARIO");
 				}
 			} else {
-				nusu.setUsu_id(aux.getUsu_id());
-				nusu.setTus_id(1);
-				if (modus.actualizar(nusu)) {
+				this.nusu.setTus_id(1);
+				if (modus.actualizar(this.nusu)) {
 					UtilitarioControlador.informativo("USUARIO ACTUALIZADO CON EXITO");
-					nusu = new Usuario();
+					limpiar();
 				} else {
 					UtilitarioControlador.advertencia("NO SE PUDO ACTUALIZAR EL USUARIO");
 				}
@@ -74,6 +74,11 @@ public class UsuarioControlador implements Serializable {
 		} catch (Exception e) {
 			UtilitarioControlador.error("ERRROR AL GUARDAR EL USUARIO: " + e.getMessage());
 		}
+	}
+	
+	private void limpiar(){
+		pusu = new Usuario();
+		nusu = new Usuario();
 	}
 	
 	public Usuario getPusu() {

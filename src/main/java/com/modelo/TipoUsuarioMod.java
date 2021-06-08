@@ -1,6 +1,6 @@
 package com.modelo;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,8 +8,8 @@ import java.util.List;
 
 import com.objetos.TipoUsuario;
 
-public class TipoUsuarioMod extends UtilitarioMod<TipoUsuario> implements Serializable {
-	private static final long serialVersionUID = 5782337078176395916L;
+public class TipoUsuarioMod extends UtilitarioMod<TipoUsuario> /*implements Serializable*/ {
+	/*private static final long serialVersionUID = 5782337078176395916L;*/
 
 	// PETICIONES DE CONSULTA
 	@Override

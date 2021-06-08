@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+		<ui:composition template="../Template/template.xhtml">
+			<ui:define name="cuerpo">
+				<h:outputLabel style="font-size: 12pt !important;" value="Usuarios:"/>
+				<h:form id="frm_tablausu">
+					<p:growl id="growl" showDetail="true" life="3000" sticky="false"/>
+					<p:dataTable var="usu" value="#{usuario.todos()}">
+						<p:column headerText="ID">
+							<h:outputLabel value="#{usu.usu_id}"/>
+						</p:column>
+						<p:column headerText="Usuario">
+							<h:outputLabel value="#{usu.usu_usuario}"/>
+						</p:column>
+						<p:column headerText="Nombre y Apellido">
+							<h:outputLabel value="#{usu.usu_nombre}"/> <h:outputLabel value="#{usu.usu_apellido}"/>
+						</p:column>
+						<p:column headerText="Telefono">
+							<h:outputLabel value="#{usu.usu_telefono}"/>
+						</p:column>
+						<p:column headerText="Tipo de Usuario">
+							<h:outputLabel value="#{usuario.tipo(usu.tus_id)}"/>
+						</p:column>
+						<p:column headerText="Opciones">
+							<h:commandButton action="#{usuario.selecionar(usu)}" id="editarU" class="btn btn-primary" value="Seleccionar">
+								<f:ajax id="editar" execute="frm_tablausu:editarU" event="click" render="@form" />
+							</h:commandButton>
+						</p:column>
+					</p:dataTable>
+					<br/>
+					<hr/>
+					<p:accordionPanel widgetVar="basic">
+						<p:tab title="Editar o Agregar">
+							<table id="tbedit">
+								<tr>
+									<td>
+										Usuario:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_usuario}"/>
+									</td>
+									<td>
+										<h:inputText pt:placeholder="Usuario" value="#{usuario.nusu.usu_usuario}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Contraseña:
+									</td>
+									<td>
+										<h:outputLabel value=""/>
+									</td>
+									<td>
+										<h:inputSecret pt:placeholder="Contraseña" value="#{usuario.nusu.usu_contra}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Nombre:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_nombre}"/>
+									</td>
+									<td>
+										<h:inputText pt:placeholder="Nombre" value="#{usuario.nusu.usu_nombre}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Apellido:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_apellido}"/>
+									</td>
+									<td>
+										<h:inputText pt:placeholder="Apellido" value="#{usuario.nusu.usu_apellido}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Telefono:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_telefono}"/>
+									</td>
+									<td>
+										<h:inputText pt:placeholder="Telefono" value="#{usuario.nusu.usu_telefono}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Direccion:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_direccion}"/>
+									</td>
+									<td>
+										<h:inputText pt:placeholder="Direccion" value="#{usuario.nusu.usu_direccion}"/>
+									</td>
+								</tr>
+							</table>
+							<h:commandButton class="btn btn-primary" value="Guardar Cambios">
+								<f:ajax execute="@form" event="click" render="@form" listener="#{usuario.guardar()}"/>
+							</h:commandButton>
+						</p:tab>
+						<p:tab title="Borrar">
+							<table id="tbedit">
+								<tr>
+									<td>
+										Usuario:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_usuario}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Nombre:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_nombre}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Apellido:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_apellido}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Telefono:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_telefono}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Direccion:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_direccion}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Contraseña:
+									</td>
+									<td>
+										<h:outputLabel value="#{usuario.pusu.usu_contra}"/>
+									</td>
+								</tr>
+							</table>
+							<br/>
+							<h:commandButton action="#{usuario.eliminar()}" class="btn btn-danger" value="Eliminar">
+								<f:ajax execute="@form" event="click" render="@form"/>
+							</h:commandButton>
+						</p:tab>
+					</p:accordionPanel>
+				</h:form>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.objetos.Usuario;
 
-public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
+public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable*/ {
 
-	private static final long serialVersionUID = 8488918005199197806L;
+	/*private static final long serialVersionUID = 8488918005199197806L;*/
 
 	// PETICIONES DE LECTURA
 	@Override
@@ -20,7 +20,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 		this.getLis().clear();
 		try {
 			ResultSet rst = this.getCn().conectar().prepareStatement(
-					"SELECT * FROM public.tbl_usuarios usu WHERE usu.usu_estado != 'I' select * from tbl_usuarios usu ORDER BY usu.usu_id")
+					"SELECT * FROM public.tbl_usuarios usu WHERE usu.usu_estado != 'I' ORDER BY usu.usu_id")
 					.executeQuery();
 			while (rst.next()) {
 				this.getLis().add(new Usuario(rst.getInt("usu_id"), rst.getInt("tus_id"), rst.getString("usu_usuario"),
@@ -35,7 +35,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 			System.err.println("ERROR AL TRAER TODOS LOS USUARIOS: " + e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return this.getLis();
 	}
 
 	@Override
@@ -50,6 +50,8 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 						rst.getString("usu_contra"), rst.getString("usu_nombre"), rst.getString("usu_apellido"),
 						rst.getString("usu_telefono"), rst.getString("usu_direccion"), rst.getString("usu_estado"),
 						rst.getDate("fecha_in"), rst.getDate("fecha_mod")));
+			}else{
+				return new Usuario();
 			}
 			this.getCn().desconectar();
 			return this.getObj();
@@ -58,7 +60,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 			System.err.println("ERROR AL BUSCAR EL USUARIO " + bus + " : " + e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return new Usuario();
 	}
 
 //PETICIONES DE MANIPULACION	

@@ -2,6 +2,7 @@ package com.objetos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = -2073121264597476990L;
@@ -33,6 +34,7 @@ public class Usuario implements Serializable {
 	}
 
 	public Usuario() {
+		this(0, 0, "", "", "", "", "", "", "", Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()));
 	}
 
 	public int getUsu_id() {

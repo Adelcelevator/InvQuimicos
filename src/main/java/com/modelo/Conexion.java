@@ -1,11 +1,11 @@
 package com.modelo;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class Conexion implements Serializable {
-	private static final long serialVersionUID = -2061601848852548900L;
+public class Conexion /*implements Serializable*/ {
+	/*private static final long serialVersionUID = -2061601848852548900L;*/
 	Connection cn;
 
 	public Connection conectar() {

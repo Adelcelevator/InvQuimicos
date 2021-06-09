@@ -94,7 +94,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 			pst.setDate(4, Date.valueOf(LocalDate.now()));
 			pst.setInt(5, nuevo.getUsu_id_UltMod());
 			pst.setString(6, nuevo.getQui_nombreC());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -117,7 +117,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 			pst.setDate(1, Date.valueOf(LocalDate.now()));
 			pst.setInt(2, idusu);
 			pst.setInt(3, id);
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -143,7 +143,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 			pst.setInt(4, actual.getUsu_id_UltMod());
 			pst.setString(5, actual.getQui_nombreC());
 			pst.setInt(6, actual.getQui_id());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

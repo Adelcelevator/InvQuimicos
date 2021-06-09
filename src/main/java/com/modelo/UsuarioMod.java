@@ -10,9 +10,9 @@ import java.util.List;
 
 import com.objetos.Usuario;
 
-public class UsuarioMod extends UtilitarioMod<Usuario> /*implements Serializable*/ {
+public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 
-	/*private static final long serialVersionUID = 8488918005199197806L;*/
+	private static final long serialVersionUID = 8488918005199197806L;
 
 	// PETICIONES DE LECTURA
 	@Override

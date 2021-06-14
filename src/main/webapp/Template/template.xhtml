@@ -7,7 +7,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
     <h:head>
 		<link rel="icon" type="image/png" href="/InvQuimicos/resources/icons/favicon.png"></link>
         <title>InvQuimicos</title>
@@ -42,7 +43,7 @@ and open the template in the editor.
 									<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/InvQuimicos/resources/template/assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"/></a>
 									<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
 										<div class="nav-user-info">
-											<h5 class="mb-0 text-white nav-user-name"><h:form><h:outputLabel class="mb-0 text-white nav-user-name"  value="#{template.nombre()}"/></h:form></h5>
+											<h5 class="mb-0 text-white nav-user-name"><h:form><p:outputLabel class="mb-0 text-white nav-user-name"  value="#{template.nombre()}"/></h:form></h5>
 										</div>
 										<h:form><h:commandLink action="#{template.cerrar()}" class="dropdown-item"><i class="fas fa-power-off mr-2"></i> Cerrar Sesion</h:commandLink></h:form>
 									</div>
@@ -176,7 +177,8 @@ and open the template in the editor.
 		<!-- ============================================================== -->
 		<!-- Optional JavaScript -->
 		<!-- jquery 3.3.1 -->
-		<script src="/InvQuimicos/resources/template/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+		<h:outputScript library="primefaces" name="jquery/jquery.js" />
+		<!-- <script src="/InvQuimicos/resources/template/assets/vendor/jquery/jquery-3.3.1.min.js"></script> -->
 		<!-- bootstap bundle js -->
 		<script src="/InvQuimicos/resources/template/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 		<!-- slimscroll js -->

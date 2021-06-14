@@ -40,9 +40,10 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 		this.getLis().clear();
 		try {
 			PreparedStatement pst = this.getCn().conectar().prepareStatement(
-					"SELECT * FROM public.tbl_quimicos qui where qui.qui_estado!='V' AND qui.\"qui_CPC\" LIKE ? OR qui.qui_quimico LIKE ? ORDER BY qui.qui_id");
+					"SELECT * FROM public.tbl_quimicos qui where qui.\"qui_CPC\" LIKE ? OR qui.qui_quimico LIKE ? OR qui.\"qui_nombreC\" LIKE ? AND qui.qui_estado!='V' ORDER BY qui.qui_id");
 			pst.setString(1, "%" + nombre + "%");
 			pst.setString(2, "%" + nombre + "%");
+			pst.setString(3, "%" + nombre + "%");
 			ResultSet rst = pst.executeQuery();
 			while (rst.next()) {
 				this.getLis().add(new Quimico(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"), rst.getDate("fecha_mod"),
@@ -77,6 +78,27 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 			System.out.println("ERROR AL TRAER EL QUIMICO: " + e.getMessage());
 		}
 		return null;
+	}
+
+	@Override
+	public Quimico buscado(String bus) {
+		try {
+			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+					"SELECT * FROM public.tbl_quimicos qui WHERE qui.qui_estado!='V' AND qui.qui_quimico=?");
+			pst.setString(1, bus);
+			ResultSet rst = pst.executeQuery();
+			if (rst.next()) {
+				this.setObj(new Quimico(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"),
+						rst.getDate("fecha_mod"), rst.getInt("qui_id"), rst.getString("qui_quimico"),
+						rst.getString("qui_CPC"), rst.getString("qui_estado"), rst.getString("qui_nombreC")));
+			}
+			this.getCn().desconectar();
+			return this.getObj();
+		} catch (Exception e) {
+			this.getCn().desconectar();
+			System.out.println("ERROR AL TRAER EL QUIMICO: " + e.getMessage());
+		}
+		return new Quimico();
 	}
 
 // OPERACIONES DE ESCRITURA
@@ -136,13 +158,12 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
-					"UPDATE public.tbl_quimicos SET qui_quimico=?, \"qui_CPC\"=?, fecha_mod=?, \"usu_id_UltMod\"=?, \"qui_nombreC\"=? WHERE qui_id=?;");
-			pst.setString(1, actual.getQui_quimico());
-			pst.setString(2, actual.getQui_CPC());
-			pst.setDate(3, Date.valueOf(LocalDate.now()));
-			pst.setInt(4, actual.getUsu_id_UltMod());
-			pst.setString(5, actual.getQui_nombreC());
-			pst.setInt(6, actual.getQui_id());
+					"UPDATE public.tbl_quimicos SET \"qui_CPC\"=?, fecha_mod=?, \"usu_id_UltMod\"=?, \"qui_nombreC\"=? WHERE qui_id=?");
+			pst.setString(1, actual.getQui_CPC());
+			pst.setDate(2, Date.valueOf(LocalDate.now()));
+			pst.setInt(3, actual.getUsu_id_UltMod());
+			pst.setString(4, actual.getQui_nombreC());
+			pst.setInt(5, actual.getQui_id());
 			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();

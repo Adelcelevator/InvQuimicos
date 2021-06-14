@@ -20,7 +20,7 @@ and open the template in the editor.
 			<ui:define name="cuerpo">
 				<h:outputLabel style="font-size: 12pt !important;" value="Usuarios:"/>
 				<h:form id="frm_tablausu">
-					<p:growl id="growl" showDetail="true" life="3000" sticky="true"/>
+					<p:growl showDetail="true" life="3000" sticky="true"/>
 					<p:dataTable var="usu" value="#{usuario.todos()}">
 						<p:column headerText="ID">
 							<h:outputLabel value="#{usu.usu_id}"/>
@@ -49,18 +49,18 @@ and open the template in the editor.
 						<p:tab title="Editar o Agregar">
 							<table id="tbedit">
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Usuario:
 									</td>
 									<td>
 										<h:outputLabel value="#{usuario.pusu.usu_usuario}"/>
 									</td>
 									<td>
-										<h:inputText pt:placeholder="Usuario" disabled="#{usuario.nusu.usu_usuario==""?false:true}" value="#{usuario.nusu.usu_usuario}"/>
+										<h:inputText pt:placeholder="Usuario" disabled="#{!(usuario.nusu.usu_usuario.length()==0)}" value="#{usuario.nusu.usu_usuario}"/>
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Contraseña:
 									</td>
 									<td>
@@ -71,7 +71,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Nombre:
 									</td>
 									<td>
@@ -82,7 +82,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Apellido:
 									</td>
 									<td>
@@ -93,7 +93,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Telefono:
 									</td>
 									<td>
@@ -104,7 +104,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Direccion:
 									</td>
 									<td>
@@ -120,9 +120,9 @@ and open the template in the editor.
 							</h:commandButton>
 						</p:tab>
 						<p:tab title="Borrar">
-							<table id="tbedit">
+							<table id="tbborrar">
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Usuario:
 									</td>
 									<td>
@@ -130,7 +130,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Nombre:
 									</td>
 									<td>
@@ -138,7 +138,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Apellido:
 									</td>
 									<td>
@@ -146,7 +146,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Telefono:
 									</td>
 									<td>
@@ -154,7 +154,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Direccion:
 									</td>
 									<td>
@@ -162,7 +162,7 @@ and open the template in the editor.
 									</td>
 								</tr>
 								<tr>
-									<td>
+									<td style="text-align: right !important">
 										Contraseña:
 									</td>
 									<td>
@@ -171,8 +171,8 @@ and open the template in the editor.
 								</tr>
 							</table>
 							<br/>
-							<h:commandButton action="#{usuario.eliminar()}" class="btn btn-danger" value="Eliminar">
-								<f:ajax execute="@form" event="click" render="@form"/>
+							<h:commandButton class="btn btn-danger" value="Eliminar">
+								<f:ajax execute="@form" listener="#{usuario.eliminar()}" event="click" render="@form"/>
 							</h:commandButton>
 						</p:tab>
 					</p:accordionPanel>

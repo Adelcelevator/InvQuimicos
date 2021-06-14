@@ -2,6 +2,7 @@ package com.objetos;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Quimico extends Auditoria implements Serializable {
 	private static final long serialVersionUID = 2260815277515589895L;
@@ -40,9 +41,6 @@ public class Quimico extends Auditoria implements Serializable {
 		this.qui_estado = qui_estado;
 	}
 
-	public Quimico() {
-	}
-
 	public String getQui_nombreC() {
 		return qui_nombreC;
 	}
@@ -59,6 +57,10 @@ public class Quimico extends Auditoria implements Serializable {
 		this.qui_CPC = qui_CPC;
 		this.qui_estado = qui_estado;
 		this.qui_nombreC = qui_nombreC;
+	}
+
+	public Quimico() {
+		this(0, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()), 0, "", "", "", "");
 	}
 
 	@Override

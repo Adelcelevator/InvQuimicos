@@ -22,14 +22,14 @@ public class UtilitarioControlador implements Serializable {
 	}
 	
 	public final static void informativo(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "INFORMACION", mensaje));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "INFORMACION", mensaje.toUpperCase()));
 	}
 	
 	public final static void advertencia(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", mensaje));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", mensaje.toUpperCase()));
 	}
 	
 	public final static void error(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje.toUpperCase()));
 	}
 }

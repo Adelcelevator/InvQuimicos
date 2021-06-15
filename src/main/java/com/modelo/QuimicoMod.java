@@ -17,7 +17,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	public List<Quimico> todos() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
 							"SELECT * FROM public.tbl_quimicos qui where qui.qui_estado!='C' ORDER BY qui.qui_id")
 					.executeQuery();
@@ -26,10 +26,10 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 						rst.getInt("qui_id"), rst.getString("qui_quimico"), rst.getString("qui_CPC"),
 						rst.getString("qui_estado"), rst.getString("qui_nombreC")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODOS LOS QUIMICOS: " + e.getMessage());
 		}
 		return this.getLis();
@@ -39,7 +39,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	public List<Quimico> buscando(String nombre) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_quimicos qui where qui.\"qui_CPC\" LIKE ? OR qui.qui_quimico LIKE ? OR qui.\"qui_nombreC\" LIKE ? AND qui.qui_estado!='V' ORDER BY qui.qui_id");
 			pst.setString(1, "%" + nombre + "%");
 			pst.setString(2, "%" + nombre + "%");
@@ -50,10 +50,10 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 						rst.getInt("qui_id"), rst.getString("qui_quimico"), rst.getString("qui_CPC"),
 						rst.getString("qui_estado"), rst.getString("qui_nombreC")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL BUSCAR EL QUIMICO: " + e.getMessage());
 		}
 		return this.getLis();
@@ -62,7 +62,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	@Override
 	public Quimico buscado(int id) {
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_quimicos qui WHERE qui.qui_estado!='V' AND qui.qui_id=?");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -71,19 +71,43 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 						rst.getDate("fecha_mod"), rst.getInt("qui_id"), rst.getString("qui_quimico"),
 						rst.getString("qui_CPC"), rst.getString("qui_estado"), rst.getString("qui_nombreC")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER EL QUIMICO: " + e.getMessage());
 		}
-		return null;
+		return new Quimico();
 	}
 
+	public boolean existe(String quimico, String CPC){
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst1 = cn.prepareStatement("SELECT * FROM public.tbl_quimicos qui WHERE qui.qui_quimico =?");
+			pst1.setString(1, quimico);
+			if(pst1.executeQuery().next()){
+				cn.close();
+				return true;
+			}else{
+				PreparedStatement pst2 = cn.prepareStatement("SELECT * FROM public.tbl_quimicos qui WHERE qui.\"qui_CPC\" = ?");
+				pst2.setString(1, CPC);
+				if(pst2.executeQuery().next()){
+					cn.close();
+					return true;
+				}
+			}
+			cn.close();
+			return  false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	@Override
 	public Quimico buscado(String bus) {
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_quimicos qui WHERE qui.qui_estado!='V' AND qui.qui_quimico=?");
 			pst.setString(1, bus);
 			ResultSet rst = pst.executeQuery();
@@ -91,11 +115,13 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 				this.setObj(new Quimico(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("qui_id"), rst.getString("qui_quimico"),
 						rst.getString("qui_CPC"), rst.getString("qui_estado"), rst.getString("qui_nombreC")));
+			}else{
+				return new Quimico();
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER EL QUIMICO: " + e.getMessage());
 		}
 		return new Quimico();
@@ -105,7 +131,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	@Override
 	public boolean guardar(Quimico nuevo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -131,7 +157,7 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	@Override
 	public boolean borrar(int id, int idusu) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -154,11 +180,11 @@ public class QuimicoMod extends UtilitarioMod<Quimico> implements Serializable {
 	@Override
 	public boolean actualizar(Quimico actual) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
-					"UPDATE public.tbl_quimicos SET \"qui_CPC\"=?, fecha_mod=?, \"usu_id_UltMod\"=?, \"qui_nombreC\"=? WHERE qui_id=?");
+					"UPDATE public.tbl_quimicos SET \"qui_CPC\"=?, fecha_mod=?, \"usu_id_UltMod\"=?, \"qui_nombreC\"=?, qui_estado='D' WHERE qui_id=?");
 			pst.setString(1, actual.getQui_CPC());
 			pst.setDate(2, Date.valueOf(LocalDate.now()));
 			pst.setInt(3, actual.getUsu_id_UltMod());

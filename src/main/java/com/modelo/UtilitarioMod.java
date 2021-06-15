@@ -6,10 +6,14 @@ import java.util.List;
 
 public class UtilitarioMod<T> implements Serializable,Peticiones<T> {
 	private static final long serialVersionUID = -9213506424687712430L;
-	private List<T> lis = new ArrayList<T>();
+	private final List<T> lis = new ArrayList<T>();
 	private T obj;
-	private Conexion cn = new Conexion();
+	private final Conexion cn;
 	private boolean fue;
+
+	public UtilitarioMod() {
+		this.cn = new Conexion();
+	}
 	@Override
 	public List<T> todos() {
 		// TODO Auto-generated method stub

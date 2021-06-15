@@ -21,7 +21,7 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class IndexControlador implements Serializable {
 
-	UsuarioMod modus = new UsuarioMod();
+	private final UsuarioMod modus = new UsuarioMod();
 	private String usuario = "", contra = "";
 
 	public void ingresar() {

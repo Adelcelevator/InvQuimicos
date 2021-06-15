@@ -5,7 +5,9 @@
  */
 package com.jsf;
 
+import com.modelo.DescQuimicosMod;
 import com.modelo.QuimicoMod;
+import com.objetos.DescripcionQuimico;
 import com.objetos.Quimico;
 import com.objetos.Usuario;
 import java.io.Serializable;
@@ -26,9 +28,12 @@ public class QuimicoControlador implements Serializable {
 	private final QuimicoMod modqui = new QuimicoMod();
 	private Quimico quimi = new Quimico();
 	private final static Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-	private String buscador;
-	public List<Quimico> lista = new ArrayList<Quimico>();
-
+	private String buscador,buscadorDesc;
+	private List<Quimico> lista = new ArrayList<Quimico>();
+	private List<DescripcionQuimico> listadesc = new ArrayList<DescripcionQuimico>();
+	private final DescQuimicosMod modquidesc = new DescQuimicosMod();
+			
+			
 	private void todo() {
 		this.lista.clear();
 		this.lista = this.modqui.todos();
@@ -36,29 +41,43 @@ public class QuimicoControlador implements Serializable {
 
 	public void seleccionar(Quimico qui) {
 		this.quimi = qui;
+		this.listadesc = modquidesc.todos(qui.getQui_id());
+		System.out.println(this.quimi.getQui_id());
+	}
+
+	public void actualizar() {
+		try {
+			if (this.modqui.actualizar(this.quimi)) {
+				UtilitarioControlador.informativo("SE ACTUALIZO CON EXITO");
+				this.limpiar();
+				this.todo();
+			} else {
+				UtilitarioControlador.advertencia("NO SE PUDO ACTUALIZAR");
+			}
+
+		} catch (Exception e) {
+			UtilitarioControlador.error("OCURRIO UN ERROR: " + e.getMessage());
+		}
 	}
 
 	public void guardar() {
 		try {
-			Quimico aux = modqui.buscado(this.quimi.getQui_quimico());
-			this.quimi.setQui_id(aux.getQui_id());
-			this.quimi.setUsu_id_UltMod(aux.getUsu_id_UltMod());
-			if (0 == this.quimi.getQui_id()) {
-				this.quimi.setUsu_id_UltMod(usu.getUsu_id());
-				if (modqui.guardar(this.quimi)) {
-					UtilitarioControlador.informativo("SE GUARDO CON EXITO EL QUIMICO");
-					this.limpiar();
-					this.todo();
-				} else {
-					UtilitarioControlador.advertencia("NO SE PUDO GUARDAR EL QUIMICO");
-				}
+			if (this.quimi.getQui_CPC().equals("") || this.quimi.getQui_nombreC().equals("") || this.quimi.getQui_quimico().equals("")) {
+				UtilitarioControlador.advertencia("Existen Campos Vacios");
 			} else {
-				if (this.modqui.actualizar(this.quimi)) {
-					UtilitarioControlador.informativo("SE ACTUALIZO CON EXITO");
-					this.limpiar();
-					this.todo();
+				this.quimi.setUsu_id_UltMod(usu.getUsu_id());
+				if (modqui.existe(this.quimi.getQui_quimico(), this.quimi.getQui_CPC())) {
+					UtilitarioControlador.informativo("EL QUIMICO O EL CPC YA EXISTEN EN LA BASE");
 				} else {
-					UtilitarioControlador.advertencia("NO SE PUDO ACTUALIZAR");
+					if (modqui.guardar(this.quimi)) {
+						UtilitarioControlador.informativo("QUIMICO GUARDADO CON EXITO");
+						this.limpiar();
+						this.todo();
+					} else {
+						UtilitarioControlador.advertencia("Existio un problema al ingresar el quimico");
+						this.limpiar();
+						this.todo();
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -119,6 +138,22 @@ public class QuimicoControlador implements Serializable {
 
 	public void setLista(List<Quimico> lista) {
 		this.lista = lista;
+	}
+
+	public String getBuscadorDesc() {
+		return buscadorDesc;
+	}
+
+	public void setBuscadorDesc(String buscadorDesc) {
+		this.buscadorDesc = buscadorDesc;
+	}
+
+	public List<DescripcionQuimico> getListadesc() {
+		return listadesc;
+	}
+
+	public void setListadesc(List<DescripcionQuimico> listadesc) {
+		this.listadesc = listadesc;
 	}
 
 }

@@ -18,7 +18,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	public List<Compra> todos() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
 							"SELECT * FROM public.tbl_compras com where com.com_est!='A' ORDER BY com.\"com_numFac\"")
 					.executeQuery();
@@ -29,10 +29,10 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 								rst.getDouble("com_valorT"), rst.getDouble("com_valorIm"), rst.getDate("com_fecha"),
 								rst.getString("com_est")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODAS LAS COMPRAS: " + e.getMessage());
 		}
 		return this.getLis();
@@ -42,7 +42,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	public List<Compra> historial() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement("SELECT * FROM public.tbl_compras com ORDER BY com.\"com_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
@@ -52,10 +52,10 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 								rst.getDouble("com_valorT"), rst.getDouble("com_valorIm"), rst.getDate("com_fecha"),
 								rst.getString("com_est")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER EL HISTORIAL DE COMPRAS: " + e.getMessage());
 		}
 		return this.getLis();
@@ -65,7 +65,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	public List<Compra> buscando(int id) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_compras com where com.com_est!='A' AND com.\"com_numFac\"::TEXT LIKE ? ORDER BY com.\"com_numFac\"");
 			pst.setString(1, "%" + id + "%");
 			ResultSet rst = pst.executeQuery();
@@ -76,10 +76,10 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 								rst.getDouble("com_valorT"), rst.getDouble("com_valorIm"), rst.getDate("com_fecha"),
 								rst.getString("com_est")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL BUSCAR LAS COMPRAS: " + e.getMessage());
 		}
 		return this.getLis();
@@ -88,7 +88,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	@Override
 	public Compra buscado(int id) {
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_compras com where com.com_est!='A' AND com.\"com_numFac\"=? ORDER BY com.\"com_numFac\"");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -98,10 +98,10 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 						rst.getDouble("com_valorT"), rst.getDouble("com_valorIm"), rst.getDate("com_fecha"),
 						rst.getString("com_est")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL LA COMPRA: " + e.getMessage());
 		}
 		return null;
@@ -111,7 +111,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	@Override
 	public boolean guardar(Compra nuevo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -124,7 +124,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 			pst.setDate(6, Date.valueOf(LocalDate.now()));
 			pst.setInt(7, nuevo.getUsu_id_UltMod());
 			pst.setDate(8, nuevo.getCom_fecha());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -139,7 +139,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	@Override
 	public boolean borrar(int id, int idusu) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -147,7 +147,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 			pst.setDate(1, Date.valueOf(LocalDate.now()));
 			pst.setInt(2, idusu);
 			pst.setInt(3, id);
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -162,7 +162,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	@Override
 	public boolean actualizar(Compra actual) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -175,7 +175,7 @@ public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 			pst.setDate(6, Date.valueOf(LocalDate.now()));
 			pst.setInt(7, actual.getUsu_id_UltMod());
 			pst.setInt(8, actual.getCom_id());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

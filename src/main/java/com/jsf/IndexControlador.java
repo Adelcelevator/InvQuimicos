@@ -20,21 +20,24 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "index")
 @SessionScoped
 public class IndexControlador implements Serializable {
-
+	private static final long serialVersionUID = 2237173281169220126L;
 	private final UsuarioMod modus = new UsuarioMod();
 	private String usuario = "", contra = "";
 
 	public void ingresar() {
 		try {
 			if (this.usuario.equals("") || this.contra.equals("")) {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CAMPOS VACIOS"));
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CAMPOS VACIOS"));
 			} else {
 				Usuario usu = modus.buscado(usuario);
 				if (usu == null) {
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "NO EXISTE EL USUARIO"));
+					FacesContext.getCurrentInstance().addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "NO EXISTE EL USUARIO"));
 				} else {
 					if (!usu.getUsu_contra().equals(contra)) {
-						FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CONTRASEÑA INCORRECTA"));
+						FacesContext.getCurrentInstance().addMessage(null,
+								new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CONTRASEÑA INCORRECTA"));
 					} else {
 						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usu);
 						FacesContext.getCurrentInstance().getExternalContext().redirect("Protegidos/inv.quimicos");

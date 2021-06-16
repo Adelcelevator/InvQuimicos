@@ -8,12 +8,8 @@ public class UtilitarioMod<T> implements Serializable,Peticiones<T> {
 	private static final long serialVersionUID = -9213506424687712430L;
 	private final List<T> lis = new ArrayList<T>();
 	private T obj;
-	private final Conexion cn;
 	private boolean fue;
 
-	public UtilitarioMod() {
-		this.cn = new Conexion();
-	}
 	@Override
 	public List<T> todos() {
 		// TODO Auto-generated method stub
@@ -77,9 +73,6 @@ public class UtilitarioMod<T> implements Serializable,Peticiones<T> {
 	}
 	public void setObj(T obj) {
 		this.obj = obj;
-	}
-	public Conexion getCn() {
-		return cn;
 	}
 	public boolean isFue() {
 		return fue;

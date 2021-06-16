@@ -19,7 +19,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 	public List<Usuario> todos() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar().prepareStatement(
+			ResultSet rst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_usuarios usu WHERE usu.usu_estado != 'I' ORDER BY usu.usu_id")
 					.executeQuery();
 			while (rst.next()) {
@@ -28,10 +28,10 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 						rst.getString("usu_telefono"), rst.getString("usu_direccion"), rst.getString("usu_estado"),
 						rst.getDate("fecha_in"), rst.getDate("fecha_mod")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.err.println("ERROR AL TRAER TODOS LOS USUARIOS: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -41,7 +41,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 	@Override
 	public Usuario buscado(String bus) {
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_usuarios usu where usu.usu_usuario=?");
 			pst.setString(1, bus);
 			ResultSet rst = pst.executeQuery();
@@ -53,10 +53,10 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 			}else{
 				return new Usuario();
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.err.println("ERROR AL BUSCAR EL USUARIO " + bus + " : " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 	@Override
 	public boolean borrar(int id) throws Exception {
 
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		if (cn != null) {
 			cn.setAutoCommit(false);
 			try {
@@ -88,22 +88,22 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 		}
 		return false;
 	}
-
+//PETICIONES DE ESCRITURA
 	@Override
 	public boolean actualizar(Usuario actual) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		if (cn != null) {
 			cn.setAutoCommit(false);
 			try {
 				PreparedStatement pst = cn.prepareStatement(
 						"UPDATE public.tbl_usuarios SET usu_contra=?, usu_nombre=?, usu_apellido=?, usu_telefono=?, usu_direccion=?, usu_estado=?, tus_id=?, fecha_mod=? WHERE usu_id=?");
-				pst.setString(1, actual.getUsu_contra());
+				pst.setString(1, actual.getUsu_contra().toLowerCase());
 				pst.setString(2, actual.getUsu_nombre());
 				pst.setString(3, actual.getUsu_apellido());
 				pst.setString(4, actual.getUsu_telefono());
-				pst.setString(5, actual.getUsu_direccion());
-				pst.setString(6, actual.getUsu_estado());
+				pst.setString(5, actual.getUsu_direccion().toLowerCase());
+				pst.setString(6, actual.getUsu_estado().toLowerCase());
 				pst.setInt(7, actual.getTus_id());
 				pst.setDate(8, java.sql.Date.valueOf(LocalDate.now()));
 				pst.setInt(9, actual.getUsu_id());
@@ -125,18 +125,18 @@ public class UsuarioMod extends UtilitarioMod<Usuario> implements Serializable {
 	@Override
 	public boolean guardar(Usuario nuevo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		if (cn != null) {
 			cn.setAutoCommit(false);
 			try {
 				PreparedStatement pst = cn.prepareStatement(
 						"INSERT INTO public.tbl_usuarios(usu_id, usu_usuario, usu_contra, usu_nombre, usu_apellido, usu_telefono, usu_direccion, tus_id, fecha_in, fecha_mod, usu_estado) VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-				pst.setString(1, nuevo.getUsu_usuario());
-				pst.setString(2, nuevo.getUsu_contra());
+				pst.setString(1, nuevo.getUsu_usuario().toLowerCase());
+				pst.setString(2, nuevo.getUsu_contra().toLowerCase());
 				pst.setString(3, nuevo.getUsu_nombre());
 				pst.setString(4, nuevo.getUsu_apellido());
-				pst.setString(5, nuevo.getUsu_telefono());
-				pst.setString(6, nuevo.getUsu_direccion());
+				pst.setString(5, nuevo.getUsu_telefono().toLowerCase());
+				pst.setString(6, nuevo.getUsu_direccion().toLowerCase());
 				pst.setInt(7, nuevo.getTus_id());
 				pst.setDate(8, Date.valueOf(LocalDate.now()));
 				pst.setDate(9, Date.valueOf(LocalDate.now()));

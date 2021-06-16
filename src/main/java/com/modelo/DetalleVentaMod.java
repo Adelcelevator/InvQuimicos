@@ -9,13 +9,15 @@ import java.util.List;
 import com.objetos.DetalleVenta;
 
 public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Serializable {
+
 	private static final long serialVersionUID = -9093700486569151670L;
+
 	// Consulta de Lectura
 	@Override
 	public List<DetalleVenta> todos(int id) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar()
+			PreparedStatement pst = Conexion.conectar()
 					.prepareStatement("SELECT * FROM public.tbl_detalle_venta WHERE ven_id=?");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -24,10 +26,10 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 						new DetalleVenta(rst.getInt("ven_id"), rst.getInt("inv_id"), rst.getInt("detalle_cantidad"),
 								rst.getDouble("detalle_valorTv"), rst.getDouble("detalle_valorU")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER EL DETALLE DE LA VENTA CON ID " + id + ": " + e.getMessage());
 		}
 		return this.getLis();
@@ -37,7 +39,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 	@Override
 	public boolean guardar(DetalleVenta nuevo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -47,7 +49,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 			pst.setDouble(3, nuevo.getDetalle_valorTv());
 			pst.setInt(4, nuevo.getDetalle_cantidad());
 			pst.setDouble(5, nuevo.getDetalle_valorU());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -61,7 +63,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 
 	public boolean actualizar(DetalleVenta actual, DetalleVenta viejo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -73,7 +75,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 			pst.setDouble(5, actual.getDetalle_valorU());
 			pst.setInt(6, actual.getVen_id());
 			pst.setInt(7, actual.getInv_id());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -87,14 +89,14 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 
 	public boolean borrar(DetalleVenta actual) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn
 					.prepareStatement("DELETE FROM public.tbl_detalle_venta WHERE ven_id =? AND inv_id =?;");
 			pst.setInt(1, actual.getVen_id());
 			pst.setInt(2, actual.getInv_id());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

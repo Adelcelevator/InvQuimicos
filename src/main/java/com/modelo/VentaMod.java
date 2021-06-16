@@ -18,7 +18,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	public List<Venta> todos() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
 							"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
@@ -28,10 +28,10 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODAS LAS FACTURAS: "+e.getMessage());
 		}
 		return this.getLis();
@@ -41,7 +41,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	public List<Venta> historial() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement("SELECT * FROM public.tbl_ventas ven where ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
@@ -50,10 +50,10 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER EL HISTORIAL DE FACTURAS: "+e.getMessage());
 		}
 		return this.getLis();
@@ -63,7 +63,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	public List<Venta> buscando(int id) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' AND ven.\"ven_numFac\"::TEXT LIKE ? ORDER BY ven.\"ven_numFac\"");
 			pst.setString(1, "%"+id+"%");
 			ResultSet rst = pst.executeQuery();
@@ -73,10 +73,10 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL BUSCAR FACTURAS: "+e.getMessage());
 		}
 		return this.getLis();
@@ -85,7 +85,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	@Override
 	public Venta buscado(int id) {
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' AND ven.\"ven_numFac\"=? ORDER BY ven.\"ven_numFac\"");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -95,10 +95,10 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL BUSCAR FACTURAS: "+e.getMessage());
 		}
 		return null;
@@ -108,7 +108,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	@Override
 	public boolean guardar(Venta nuevo) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement("INSERT INTO public.tbl_ventas(ven_id, \"ven_numFac\", \"ven_valorT\", \"ven_valorIm\", ven_descuento, cli_id, ven_estado, ven_fecha, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (default, ?, ?, ?, ?, ?, 'G', ?, ?, ?, ?);");
@@ -121,7 +121,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
 			pst.setDate(8, Date.valueOf(LocalDate.now()));
 			pst.setInt(9, nuevo.getUsu_id_UltMod());
-			this.setFue(pst.executeUpdate()==1?true:false);
+			this.setFue((pst.executeUpdate()==1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -136,14 +136,14 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	@Override
 	public boolean borrar(int id, int idusu) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement("UPDATE public.tbl_ventas SET ven_estado='A',fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
 			pst.setDate(1, Date.valueOf(LocalDate.now()));
 			pst.setInt(2, idusu);
 			pst.setInt(3, id);
-			this.setFue(pst.executeUpdate()==1?true:false);
+			this.setFue((pst.executeUpdate()==1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -158,7 +158,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 	@Override
 	public boolean actualizar(Venta actual) throws Exception {
 		this.setFue(false);
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement("UPDATE public.tbl_ventas SET \"ven_numFac\"=?, \"ven_valorT\"=?, \"ven_valorIm\"=?, ven_descuento=?, cli_id=?, ven_fecha=?,fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
@@ -171,7 +171,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
 			pst.setInt(8, actual.getUsu_id_UltMod());
 			pst.setInt(9, actual.getVen_id());
-			this.setFue(pst.executeUpdate()==1?true:false);
+			this.setFue((pst.executeUpdate()==1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

@@ -16,20 +16,24 @@ import javax.faces.context.FacesContext;
  */
 @SessionScoped
 public class UtilitarioControlador implements Serializable {
-	
-	public final static void mensaje(FacesMessage.Severity seve,String titulo,String mensaje){
+	private static final long serialVersionUID = 555260345240571896L;
+
+	public final static void mensaje(FacesMessage.Severity seve, String titulo, String mensaje) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(seve, titulo, mensaje));
 	}
-	
-	public final static void informativo(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "INFORMACION", mensaje.toUpperCase()));
+
+	public final static void informativo(String mensaje) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "INFORMACION", mensaje.toUpperCase()));
 	}
-	
-	public final static void advertencia(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", mensaje.toUpperCase()));
+
+	public final static void advertencia(String mensaje) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", mensaje.toUpperCase()));
 	}
-	
-	public final static void error(String mensaje){
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje.toUpperCase()));
+
+	public final static void error(String mensaje) {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje.toUpperCase()));
 	}
 }

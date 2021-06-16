@@ -17,7 +17,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 	public List<Inventario> todos() {
 		this.getLis().clear();
 		try {
-			ResultSet rst = this.getCn().conectar()
+			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
 							"SELECT * FROM public.tbl_inventario inv where inv.inv_id= inv.inv_id ORDER BY inv.qui_id;")
 					.executeQuery();
@@ -28,10 +28,10 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 								rst.getInt("qui_id"), rst.getInt("inv_desc"), rst.getDouble("inv_precioCU"),
 								rst.getDouble("inv_precioUI")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODO EL INVENTARIO :" + e.getMessage());
 		}
 		return this.getLis();
@@ -41,7 +41,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 	public List<Inventario> todos(int id) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_inventario inv where inv.inv_id= inv.inv_id AND inv.qui_id=? ORDER BY inv.inv_id;");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -52,21 +52,20 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 								rst.getInt("qui_id"), rst.getInt("inv_desc"), rst.getDouble("inv_precioCU"),
 								rst.getDouble("inv_precioUI")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODO EL INVENTARIO CON ID " + id + " :" + e.getMessage());
 		}
 		return this.getLis();
 	}
 
-//
 	@Override
 	public List<Inventario> buscando(String nombre) {
 		this.getLis().clear();
 		try {
-			PreparedStatement pst = this.getCn().conectar().prepareStatement(
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT inv.* FROM public.tbl_inventario inv, tbl_desc_quimi descq WHERE descq.qui_id = inv.qui_id AND inv.inv_id =inv.inv_id AND descq.desq_id=descq.desq_id AND descq.desq_desc LIKE ? ORDER BY inv.inv_id;");
 			pst.setString(1, "%" + nombre + "%");
 			ResultSet rst = pst.executeQuery();
@@ -77,10 +76,10 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 								rst.getInt("qui_id"), rst.getInt("inv_desc"), rst.getDouble("inv_precioCU"),
 								rst.getDouble("inv_precioUI")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODO EL INVENTARIO POR DESCRIPCION " + nombre + " :" + e.getMessage());
 		}
 		return this.getLis();
@@ -89,7 +88,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 	@Override
 	public Inventario buscado(int id) {
 		try {
-			PreparedStatement pst = this.getCn().conectar()
+			PreparedStatement pst = Conexion.conectar()
 					.prepareStatement("SELECT * FROM public.tbl_inventario inv where inv.inv_id=?;");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
@@ -99,10 +98,10 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 								rst.getInt("inv_id"), rst.getInt("inv_cantidad"), rst.getInt("qui_id"),
 								rst.getInt("inv_desc"), rst.getDouble("inv_precioCU"), rst.getDouble("inv_precioUI")));
 			}
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
-			this.getCn().desconectar();
+			Conexion.desconectar();
 			System.out.println("ERROR AL TRAER TODO EL INVENTARIO CON ID " + id + " :" + e.getMessage());
 		}
 		return this.getObj();
@@ -112,7 +111,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 
 	@Override
 	public boolean guardar(Inventario nuevo) throws Exception {
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -125,7 +124,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 			pst.setDate(6, Date.valueOf(LocalDate.now()));
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
 			pst.setInt(8, nuevo.getUsu_id_UltMod());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
@@ -139,7 +138,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 
 	@Override
 	public boolean actualizar(Inventario actual) throws Exception {
-		Connection cn = this.getCn().conectar();
+		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
@@ -150,7 +149,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 			pst.setDate(4, Date.valueOf(LocalDate.now()));
 			pst.setInt(5, actual.getUsu_id_UltMod());
 			pst.setInt(6, actual.getInv_id());
-			this.setFue(pst.executeUpdate() == 1 ? true : false);
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

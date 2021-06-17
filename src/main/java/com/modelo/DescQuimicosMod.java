@@ -103,11 +103,11 @@ public class DescQuimicosMod extends UtilitarioMod<DescripcionQuimico> implement
 		return null;
 	}
 
-	@Override
-	public DescripcionQuimico buscado(String bus) {
+	public DescripcionQuimico buscado(String bus, int id) {
 		try {
-			PreparedStatement pst = Conexion.conectar().prepareStatement("SELECT * FROM public.tbl_desc_quimi descq WHERE descq.desq_desc= ?;");
+			PreparedStatement pst = Conexion.conectar().prepareStatement("SELECT * FROM public.tbl_desc_quimi descq WHERE descq.desq_desc =? and descq.qui_id=?;");
 			pst.setString(1, bus);
+			pst.setInt(2, id);
 			ResultSet rst = pst.executeQuery();
 			if(rst.next()){
 				this.setObj(new DescripcionQuimico(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"),

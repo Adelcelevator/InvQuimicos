@@ -25,7 +25,6 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "quimico")
 @SessionScoped
 public class QuimicoControlador implements Serializable {
-	
 	private final QuimicoMod modqui = new QuimicoMod();
 	private final DescQuimicosMod modquidesc = new DescQuimicosMod();
 	
@@ -107,11 +106,13 @@ public class QuimicoControlador implements Serializable {
 							&& this.descqui.getDesq_infla().equals(aux.getDesq_infla())
 							&& this.descqui.getDesq_color().equals(aux.getDesq_color())) {
 						UtilitarioControlador.informativo("YA EXISTE LA DESCRIPCION");
+						this.limpiar_desc();
 					} else {
 						this.descqui.setUsu_id_UltMod(usu.getUsu_id());
 						this.descqui.setQui_id(this.quimi.getQui_id());
 						if (modquidesc.guardar(this.descqui)) {
 							UtilitarioControlador.informativo("SE GUARDO CON EXITO");
+							this.limpiar_desc();
 							this.seleccionar(this.quimi);
 						} else {
 							UtilitarioControlador.advertencia("NO SE GUARDO LA DESCRIPCION");

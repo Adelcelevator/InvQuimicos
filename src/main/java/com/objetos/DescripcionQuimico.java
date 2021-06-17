@@ -27,11 +27,11 @@ public class DescripcionQuimico extends Auditoria implements Serializable {
 	}
 
 	public String getDesq_desc() {
-		return desq_desc;
+		return desq_desc.toLowerCase();
 	}
 
 	public void setDesq_desc(String desq_desc) {
-		this.desq_desc = desq_desc;
+		this.desq_desc = desq_desc.toLowerCase();
 	}
 
 	public String getDesq_estm() {
@@ -39,23 +39,23 @@ public class DescripcionQuimico extends Auditoria implements Serializable {
 	}
 
 	public void setDesq_estm(String desq_estm) {
-		this.desq_estm = desq_estm;
+		this.desq_estm = desq_estm.toLowerCase();
 	}
 
 	public String getDesq_color() {
-		return desq_color;
+		return desq_color.toLowerCase();
 	}
 
 	public void setDesq_color(String desq_color) {
-		this.desq_color = desq_color;
+		this.desq_color = desq_color.toLowerCase();
 	}
 
 	public String getDesq_umedida() {
-		return desq_umedida;
+		return desq_umedida.toLowerCase();
 	}
 
 	public void setDesq_umedida(String desq_umedida) {
-		this.desq_umedida = desq_umedida;
+		this.desq_umedida = desq_umedida.toLowerCase();
 	}
 
 	public String getDesq_infla() {
@@ -63,7 +63,7 @@ public class DescripcionQuimico extends Auditoria implements Serializable {
 	}
 
 	public void setDesq_infla(String desq_infla) {
-		this.desq_infla = desq_infla;
+		this.desq_infla = desq_infla.toLowerCase();
 	}
 
 	public DescripcionQuimico(int usu_id_UltMod, Date fecha_in, Date fecha_mod, int desq_id, int qui_id,
@@ -71,11 +71,11 @@ public class DescripcionQuimico extends Auditoria implements Serializable {
 		super(usu_id_UltMod, fecha_in, fecha_mod);
 		this.desq_id = desq_id;
 		this.qui_id = qui_id;
-		this.desq_desc = desq_desc;
-		this.desq_estm = desq_estm;
-		this.desq_color = desq_color;
-		this.desq_umedida = desq_umedida;
-		this.desq_infla = desq_infla;
+		this.desq_desc = desq_desc.toLowerCase();
+		this.desq_estm = desq_estm.toLowerCase();
+		this.desq_color = desq_color.toLowerCase();
+		this.desq_umedida = desq_umedida.toLowerCase();
+		this.desq_infla = desq_infla.toLowerCase();
 	}
 
 	public DescripcionQuimico() {

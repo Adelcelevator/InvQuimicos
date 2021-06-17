@@ -18,26 +18,26 @@ public class TipoUso extends Auditoria implements Serializable {
 	}
 
 	public String getTuso_uso() {
-		return tuso_uso;
+		return tuso_uso.toLowerCase();
 	}
 
 	public void setTuso_uso(String tuso_uso) {
-		this.tuso_uso = tuso_uso;
+		this.tuso_uso = tuso_uso.toLowerCase();
 	}
 
 	public String getTuso_est() {
-		return tuso_est;
+		return tuso_est.toLowerCase();
 	}
 
 	public void setTuso_est(String tuso_est) {
-		this.tuso_est = tuso_est;
+		this.tuso_est = tuso_est.toLowerCase();
 	}
 
 	public TipoUso(int usu_id_UltMod, Date fecha_in, Date fecha_mod, int tuso_id, String tuso_uso, String tuso_est) {
 		super(usu_id_UltMod, fecha_in, fecha_mod);
 		this.tuso_id = tuso_id;
-		this.tuso_uso = tuso_uso;
-		this.tuso_est = tuso_est;
+		this.tuso_uso = tuso_uso.toLowerCase();
+		this.tuso_est = tuso_est.toLowerCase();
 	}
 
 	public TipoUso() {

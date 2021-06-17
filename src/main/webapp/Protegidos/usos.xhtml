@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<h:head>
+		<title>TODO supply a title</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</h:head>
+	<h:body>
+		<ui:composition template="../Template/template.xhtml">
+			<ui:define name="cuerpo">
+				<h:form id="frm_tblusos">
+					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
+					<h:inputText id="txt_buscador" value="#{usos.buscador}" pt:placeholder="Tipo de Uso" size="25">
+						<f:ajax execute="frm_tblusos:txt_buscador" listener="#{usos.buscar()}" event="keyup" render="frm_tblusos:tbl_usos" />
+					</h:inputText>&#8239;&#8239;
+					<h:commandLink class="btn btn-primary">
+						<i class="pi pi-plus"></i>
+						<f:ajax event="click" onevent="PF('uso_guardar').show()"/>
+					</h:commandLink>
+					<p:growl showDetail="true" life="3000" sticky="true"/>
+					<!-- 
+					***********************************
+					*	Inicio Tabla de Usos		  *
+					***********************************
+					-->
+					<p:dataTable id="tbl_usos" var="uso" value="#{usos.listuso}" rows="5" paginator="true">
+						<p:column headerText="ID">
+							<h:outputLabel value="#{uso.tuso_id}" />
+						</p:column>
+						<p:column headerText="Uso">
+							<h:outputLabel value="#{uso.tuso_uso}" />
+						</p:column>
+						<p:column headerText="Estado">
+							<h:outputLabel value="#{uso.tuso_est}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							<center>
+								<h:commandLink class="btn btn-success" id="btn_edit">
+									<i class="pi pi-check-square"></i>
+									<f:ajax execute="btn_edit" event="click"
+											listener="#{quimico.seleccionar(quim)}" render="@form" />
+								</h:commandLink>
+							</center>
+						</p:column>
+					</p:dataTable>
+					<br/>
+					<br/>
+					<!-- 
+					***********************************
+					*	Fin Tabla de Usos			  *
+					***********************************
+					-->
+					<!-- 
+					***********************************
+					*	Inicio Tabla de Uso Quimico   *
+					***********************************
+					-->
+					<h:outputLabel rendered="#{! (usos.uso.tuso_id==0)}"  value="Quimicos que Tienen el Uso: #{usos.uso.tuso_uso}"/>
+					&#8239;&#8239;<h:commandLink rendered="#{! (usos.uso.tuso_id==0)}" class="btn btn-primary">
+						<i class="pi pi-plus"></i>
+						<f:ajax event="click" onevent="PF('agregar_desc').show()"/>
+					</h:commandLink>
+					<p:dataTable rendered="#{! (usos.uso.tuso_id==0)}" id="tbl_descq" var="usoq" value="#{usos.listusoq}" rows="5" paginator="true">
+						<p:column headerText="Uso">
+							<h:outputLabel value="#{usos.uso.tuso_uso}" />
+						</p:column>
+						<p:column headerText="ID Quimico">
+							<h:outputLabel value="#{usoq.qui_id}" />
+						</p:column>
+						<p:column headerText="Nombre Comercial | Quimico">
+							<h:outputLabel value="#{usos.nombreq(usoq.qui_id)}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<!-- 
+				***********************************
+				*	Fin Tabla de Quimico Uso	  *
+				***********************************
+				-->
+				<!-- 
+				***********************************
+				*	Empieza Agregar Uso			  *
+				***********************************
+				-->
+				<p:dialog header="Agregar Tipo de Uso" closable="false" closeOnEscape="true" onHide="#{usos.limpiar()}" widgetVar="uso_guardar" minHeight="40" width="400" showEffect="fade" modal="true">
+					<h:form id="agregarUso">
+						<table>
+							<tr>
+								<td>
+									<h:outputLabel value="Uso: "/>&#8239;
+								</td>
+								<td>
+									&#8239;<h:inputText pt:placeholder="Tipo de Uso" value="#{usos.uso.tuso_uso}"/>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<br/>
+						<h:commandButton class="btn btn-success" value="Guardar">
+							<f:ajax execute="@form" event="click"
+									listener="#{usos.guardar()}"
+									rendered="frm_tblusos" onevent="PF('uso_guardar').hide()"/>
+						</h:commandButton>&#8239;&#8239;
+						<h:commandButton class="btn btn-danger" value="Salir">
+							<f:ajax execute="@form" event="click"
+									rendered="frm_tblausos" listener="#{usos.limpiar()}" onevent="PF('uso_guardar').hide()"/>
+						</h:commandButton>
+					</h:form>
+				</p:dialog>
+				<!-- 
+				***********************************
+				*	Fin Agregar Descripcion		  *
+				***********************************
+				-->
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

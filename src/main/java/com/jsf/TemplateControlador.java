@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.jsf;
 
 import com.objetos.Usuario;
@@ -11,16 +6,13 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.context.SessionMap;
 
-/**
- *
- * @author panchito
- */
 @ManagedBean(name = "template")
-@SessionMap
+@SessionScoped
 public class TemplateControlador implements Serializable {
+
 	private static final long serialVersionUID = 2173326729984611492L;
 	private static Usuario usuariolog;
 

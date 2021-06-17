@@ -11,6 +11,7 @@ import java.util.List;
 import com.objetos.TipoUso;
 
 public class TipoUsoMod extends UtilitarioMod<TipoUso> implements Serializable {
+
 	private static final long serialVersionUID = 6339099347842658534L;
 
 //PETICIONES DE LECTURA
@@ -35,15 +36,59 @@ public class TipoUsoMod extends UtilitarioMod<TipoUso> implements Serializable {
 	}
 
 	@Override
+	public List<TipoUso> buscando(String nombre) {
+		this.getLis().clear();
+		try {
+			PreparedStatement pst = Conexion.conectar()
+					.prepareStatement("SELECT * FROM public.tbl_tipo_uso tuso WHERE tuso.tuso_est!='D' AND tuso.tuso_uso LIKE ?;");
+			pst.setString(1, "%"+nombre+"%");
+			ResultSet rst = pst.executeQuery();
+			while (rst.next()) {
+				this.getLis()
+						.add(new TipoUso(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"), rst.getDate("fecha_mod"),
+								rst.getInt("tuso_id"), rst.getString("tuso_uso"), rst.getString("tuso_est")));
+			}
+			Conexion.desconectar();
+			return this.getLis();
+		} catch (Exception e) {
+			System.out.println("ERROR AL TRAER LOS TIPOS DE USO: " + e.getMessage());
+		}
+		return this.getLis();
+	}
+
+	@Override
 	public TipoUso buscado(int id) {
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
 					"SELECT * FROM public.tbl_tipo_uso tuso WHERE tuso.tuso_est!='D' AND tuso.tuso_id=?;");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
-			while (rst.next()) {
+			if (rst.next()) {
 				this.setObj(new TipoUso(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"), rst.getDate("fecha_mod"),
 						rst.getInt("tuso_id"), rst.getString("tuso_uso"), rst.getString("tuso_est")));
+			}else{
+				this.setObj(new TipoUso());
+			}
+			Conexion.desconectar();
+			return this.getObj();
+		} catch (Exception e) {
+			System.out.println("ERROR AL TRAER EL TIPO INDICADO: " + e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	public TipoUso buscado(String bus) {
+		try {
+			PreparedStatement pst = Conexion.conectar().prepareStatement(
+					"SELECT * FROM public.tbl_tipo_uso tuso WHERE tuso.tuso_est!='D' AND tuso.tuso_uso= ?;");
+			pst.setString(1, bus);
+			ResultSet rst = pst.executeQuery();
+			if (rst.next()) {
+				this.setObj(new TipoUso(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"), rst.getDate("fecha_mod"),
+						rst.getInt("tuso_id"), rst.getString("tuso_uso"), rst.getString("tuso_est")));
+			}else{
+				this.setObj(new TipoUso());
 			}
 			Conexion.desconectar();
 			return this.getObj();

@@ -24,127 +24,127 @@ and open the template in the editor.
 		<link rel="stylesheet" href="/InvQuimicos/resources/template/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"/>
     </h:head>
     <h:body>
+		<!-- ============================================================== -->
+		<!-- main wrapper -->
+		<!-- ============================================================== -->
+		<div class="dashboard-main-wrapper">
 			<!-- ============================================================== -->
-			<!-- main wrapper -->
+			<!-- navbar -->
 			<!-- ============================================================== -->
-			<div class="dashboard-main-wrapper">
-				<!-- ============================================================== -->
-				<!-- navbar -->
-				<!-- ============================================================== -->
-				<div class="dashboard-header">
-					<nav class="navbar navbar-expand-lg bg-white fixed-top">
-						<a class="navbar-brand" href="index.html">InvQuimicos</a>
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<div class="dashboard-header">
+				<nav class="navbar navbar-expand-lg bg-white fixed-top">
+					<a class="navbar-brand" href="index.html">InvQuimicos</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse " id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto navbar-right-top">
+							<li class="nav-item dropdown nav-user">
+								<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/InvQuimicos/resources/template/assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"/></a>
+								<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+									<div class="nav-user-info">
+										<h5 class="mb-0 text-white nav-user-name"><h:form><p:outputLabel class="mb-0 text-white nav-user-name"  value="#{template.nombre()}"/></h:form></h5>
+									</div>
+									<h:form><h:commandLink action="#{template.cerrar()}" class="dropdown-item"><i class="fas fa-power-off mr-2"></i> Cerrar Sesion</h:commandLink></h:form>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+			<!-- ============================================================== -->
+			<!-- end navbar -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- left sidebar -->
+			<!-- ============================================================== -->
+			<div class="nav-left-sidebar sidebar-dark">
+				<div class="menu-list">
+					<nav class="navbar navbar-expand-lg navbar-light">
+						<a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
-						<div class="collapse navbar-collapse " id="navbarSupportedContent">
-							<ul class="navbar-nav ml-auto navbar-right-top">
-								<li class="nav-item dropdown nav-user">
-									<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/InvQuimicos/resources/template/assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"/></a>
-									<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
-										<div class="nav-user-info">
-											<h5 class="mb-0 text-white nav-user-name"><h:form><p:outputLabel class="mb-0 text-white nav-user-name"  value="#{template.nombre()}"/></h:form></h5>
-										</div>
-										<h:form><h:commandLink action="#{template.cerrar()}" class="dropdown-item"><i class="fas fa-power-off mr-2"></i> Cerrar Sesion</h:commandLink></h:form>
+						<div class="collapse navbar-collapse" id="navbarNav">
+							<ul class="navbar-nav flex-column">
+								<li class="nav-divider">
+									Menu
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Inventario <span class="badge badge-success">6</span></a>
+									<div id="submenu-1" class="collapse submenu" style="">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Inventario</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Compras</a>
+									<div id="submenu-2" class="collapse submenu" style="">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Compra</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Ventas</a>
+									<div id="submenu-3" class="collapse submenu" style="">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Generar Cotización</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Venta</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Químicos</a>
+									<div id="submenu-4" class="collapse submenu" style="">
+										<ul class="nav flex-column">
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Todos los Químicos <span class="badge badge-secondary">New</span></a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Químico</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Detalle para un Químico</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar uso de Químico</a>
+											</li>
+										</ul>
 									</div>
 								</li>
 							</ul>
 						</div>
 					</nav>
 				</div>
-				<!-- ============================================================== -->
-				<!-- end navbar -->
-				<!-- ============================================================== -->
-				<!-- ============================================================== -->
-				<!-- left sidebar -->
-				<!-- ============================================================== -->
-				<div class="nav-left-sidebar sidebar-dark">
-					<div class="menu-list">
-						<nav class="navbar navbar-expand-lg navbar-light">
-							<a class="d-xl-none d-lg-none" href="#">Dashboard</a>
-							<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-								<span class="navbar-toggler-icon"></span>
-							</button>
-							<div class="collapse navbar-collapse" id="navbarNav">
-								<ul class="navbar-nav flex-column">
-									<li class="nav-divider">
-										Menu
-									</li>
-									<li class="nav-item ">
-										<a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Inventario <span class="badge badge-success">6</span></a>
-										<div id="submenu-1" class="collapse submenu" style="">
-											<ul class="nav flex-column">
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Inventario</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Compras</a>
-										<div id="submenu-2" class="collapse submenu" style="">
-											<ul class="nav flex-column">
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Compra</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Ventas</a>
-										<div id="submenu-3" class="collapse submenu" style="">
-											<ul class="nav flex-column">
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Generar Cotización</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Venta</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Químicos</a>
-										<div id="submenu-4" class="collapse submenu" style="">
-											<ul class="nav flex-column">
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Todos los Químicos <span class="badge badge-secondary">New</span></a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Químico</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Detalle para un Químico</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar uso de Químico</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</nav>
-					</div>
-				</div>
-				<!-- ============================================================== -->
-				<!-- end left sidebar -->
-				<!-- ============================================================== -->
-				<!-- ============================================================== -->
-				<!-- wrapper  -->
-				<!-- ============================================================== -->
-		<div class="dashboard-wrapper">
-			<div class="container-md" style="padding: 5vw">
-				<ui:insert name="cuerpo">
-					<center>mmmm..... Algo ha ido mal :'v</center>
-				</ui:insert>
 			</div>
+			<!-- ============================================================== -->
+			<!-- end left sidebar -->
+			<!-- ============================================================== -->
+			<!-- ============================================================== -->
+			<!-- wrapper  -->
+			<!-- ============================================================== -->
+			<div class="dashboard-wrapper">
+				<div class="container-md" style="padding: 5vw">
+					<ui:insert name="cuerpo">
+						<center>mmmm..... Algo ha ido mal :'v</center>
+					</ui:insert>
+				</div>
 				<!-- ============================================================== -->
 				<!-- footer -->
 				<!-- ============================================================== -->
@@ -167,10 +167,10 @@ and open the template in the editor.
 				<!-- ============================================================== -->
 				<!-- end footer -->
 				<!-- ============================================================== -->
-		</div>
-		<!-- ============================================================== -->
-		<!-- end wrapper-->
-		<!-- ============================================================== -->
+			</div>
+			<!-- ============================================================== -->
+			<!-- end wrapper-->
+			<!-- ============================================================== -->
 		</div>
 		<!-- ============================================================== -->
 		<!-- end main wrapper  -->

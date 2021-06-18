@@ -48,7 +48,7 @@ and open the template in the editor.
 								<h:commandLink class="btn btn-success" id="btn_edit">
 									<i class="pi pi-check-square"></i>
 									<f:ajax execute="btn_edit" event="click"
-											listener="#{quimico.seleccionar(quim)}" render="@form" />
+											listener="#{usos.seleccionar(uso)}" render="@form  unirUsoQ" />
 								</h:commandLink>
 							</center>
 						</p:column>
@@ -65,10 +65,11 @@ and open the template in the editor.
 					*	Inicio Tabla de Uso Quimico   *
 					***********************************
 					-->
-					<h:outputLabel rendered="#{! (usos.uso.tuso_id==0)}"  value="Quimicos que Tienen el Uso: #{usos.uso.tuso_uso}"/>
-					&#8239;&#8239;<h:commandLink rendered="#{! (usos.uso.tuso_id==0)}" class="btn btn-primary">
+					<h:outputLabel rendered="#{! (usos.uso.tuso_id==0)}"  value="Quimicos que pueden ser usados como: #{usos.uso.tuso_uso}"/>
+					&#8239;&#8239;
+					<h:commandLink rendered="#{! (usos.uso.tuso_id==0)}" class="btn btn-primary">
 						<i class="pi pi-plus"></i>
-						<f:ajax event="click" onevent="PF('agregar_desc').show()"/>
+						<f:ajax event="click" onevent="PF('unir_uso').show()"/>
 					</h:commandLink>
 					<p:dataTable rendered="#{! (usos.uso.tuso_id==0)}" id="tbl_descq" var="usoq" value="#{usos.listusoq}" rows="5" paginator="true">
 						<p:column headerText="Uso">
@@ -109,17 +110,57 @@ and open the template in the editor.
 						<h:commandButton class="btn btn-success" value="Guardar">
 							<f:ajax execute="@form" event="click"
 									listener="#{usos.guardar()}"
-									rendered="frm_tblusos" onevent="PF('uso_guardar').hide()"/>
+									onevent="PF('uso_guardar').hide()" render="frm_tblusos"/>
 						</h:commandButton>&#8239;&#8239;
 						<h:commandButton class="btn btn-danger" value="Salir">
 							<f:ajax execute="@form" event="click"
-									rendered="frm_tblausos" listener="#{usos.limpiar()}" onevent="PF('uso_guardar').hide()"/>
+									listener="#{usos.limpiar()}" onevent="PF('uso_guardar').hide()" rendered="frm_tblusos"/>
 						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 
 				***********************************
 				*	Fin Agregar Descripcion		  *
+				***********************************
+				-->
+				<!-- 
+				***********************************
+				*	Empieza Unir Uso Quimico	  *
+				***********************************
+				-->
+				<p:dialog header="Unir Tipo de Uso y Quimico" closable="false" 
+						  closeOnEscape="true" onHide="#{usos.limpiar()}" 
+						  widgetVar="unir_uso" minHeight="40" width="400" 
+						  showEffect="fade" modal="true">
+					<h:form id="unirUsoQ">
+						<table>
+							<tr>
+								<td>
+									<h:outputLabel value="Uso: #{usos.uso.tuso_uso}"/>
+								</td>
+								<td>
+									<h:selectManyListbox value="#{usos.quimicosUso}">
+										<f:selectItems var="quim" value="#{usos.quimicos()}"/>
+									</h:selectManyListbox>
+								</td>
+							</tr>
+						</table>
+						<br/>
+						<br/>
+						<h:commandButton class="btn btn-success" value="Guardar">
+							<f:ajax execute="@form" event="click"
+									listener="#{usos.guardar_uso()}"
+									onevent="PF('unir_uso').hide()" render="frm_tblusos"/>
+						</h:commandButton>&#8239;&#8239;
+						<h:commandButton class="btn btn-danger" value="Salir">
+							<f:ajax execute="@form" event="click"
+									listener="#{usos.limpiar()}" onevent="PF('unir_uso').hide()" rendered="frm_tblusos"/>
+						</h:commandButton>
+					</h:form>
+				</p:dialog>
+				<!-- 
+				***********************************
+				*	Fin Unir Uso Quimico		  *
 				***********************************
 				-->
 			</ui:define>

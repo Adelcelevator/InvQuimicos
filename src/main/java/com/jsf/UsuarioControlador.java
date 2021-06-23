@@ -17,6 +17,7 @@ import javax.faces.bean.SessionScoped;
  *
  * @author panchito
  */
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "usuario")
 @SessionScoped
 public class UsuarioControlador implements Serializable {

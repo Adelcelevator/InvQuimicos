@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
  *
  * @author panchito
  */
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "quimico")
 @SessionScoped
 public class QuimicoControlador implements Serializable {

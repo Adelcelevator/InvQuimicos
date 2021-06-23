@@ -7,13 +7,14 @@ package com.jsf;
 
 import com.modelo.QuimicoMod;
 import com.modelo.TipoUsoMod;
+import com.modelo.UsoQuimicoMod;
 import com.objetos.TipoUso;
 import com.objetos.UsoQuimico;
 import com.objetos.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -23,33 +24,37 @@ import javax.faces.context.FacesContext;
  *
  * @author panchito
  */
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "usos")
 @SessionScoped
 public class UsosControlador implements Serializable {
-	
+
+	private static final long serialVersionUID = -3102420725961614548L;
+	private final UsoQuimicoMod modusq = new UsoQuimicoMod();
+	QuimicoMod modqui = new QuimicoMod();
 	private List<TipoUso> listuso = new ArrayList<TipoUso>();
 	private List<UsoQuimico> listusoq = new ArrayList<UsoQuimico>();
 	private final TipoUsoMod modtuso = new TipoUsoMod();
 	private String buscador;
 	private String[] quimicosUso;
 	private TipoUso uso = new TipoUso();
-	private static final Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
-	
+	private static final Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+			.get("usuario");
+
 	public void todo() {
 		this.listuso.clear();
 		this.listuso = this.modtuso.todos();
 	}
-	
+
 	public void buscar() {
 		this.listuso = modtuso.buscando(buscador);
-		
+
 	}
-	
+
 	public String nombreq(int id) {
-		QuimicoMod modqui = new QuimicoMod();
-		return modqui.buscado(id).getQui_nombreC() + " | " + modqui.buscado(id).getQui_quimico();
+		return this.modqui.buscado(id).getQui_nombreC() + " | " + modqui.buscado(id).getQui_quimico();
 	}
-	
+
 	public void guardar() {
 		this.uso.setUsu_id_UltMod(usu.getUsu_id());
 		try {
@@ -64,102 +69,99 @@ public class UsosControlador implements Serializable {
 				} else {
 					UtilitarioControlador.advertencia("No se guardo el uso");
 				}
-			}			
+			}
 		} catch (Exception e) {
 			UtilitarioControlador.error("ERROR AL GUARDAR TIPO DE USO: " + e.getMessage());
 		}
 	}
-	
+
 	public void guardar_uso() {
-		/*this.uso.setUsu_id_UltMod(usu.getUsu_id());
 		try {
-			TipoUso aux = modtuso.buscado(this.uso.getTuso_uso());
-			if (aux.getTuso_id() != 0) {
-				UtilitarioControlador.informativo("Ya Existe el Tipo de Uso");
-				this.limpiar();
-			} else {
-				if (modtuso.guardar(uso)) {
-					UtilitarioControlador.informativo("Se guardo el tipo \n de uso con exito");
-					this.limpiar();
-				}else{
-					UtilitarioControlador.advertencia("No se guardo el uso");
+			int[] idsqui = new int[this.quimicosUso.length];
+			for (int i = 0; i < this.quimicosUso.length; i++) {
+				idsqui[i] = this.modqui.buscado(quimicosUso[i]).getQui_id();
+			}
+			for (int id : idsqui) {
+				if (this.modusq.buscado(this.uso.getTuso_id(), id).getUsu_id_UltMod() == 0) {
+					this.modusq.guardar(new UsoQuimico(usu.getUsu_id(), null, null, this.uso.getTuso_id(), id));
 				}
-			}			
-		} catch (Exception e) {
-			UtilitarioControlador.error("ERROR AL GUARDAR TIPO DE USO: " + e.getMessage());
-		}*/
+			}
+			UtilitarioControlador.informativo("Se Guardo de Forma exitosa");
+		} catch (Exception ex) {
+			UtilitarioControlador.error("OCURRIO UN ERROR AL GUARDAR LOS QUIMICOS");
+		}
 	}
-	
+
 	public void limpiar() {
 		uso = new TipoUso();
 		this.todo();
 	}
-	
+
 	public void seleccionar(TipoUso us) {
 		this.uso = us;
+		this.listusoq = this.modusq.todos(us.getTuso_id());
 	}
-	
+
 	public List<String> quimicos() {
 		QuimicoMod modqui = new QuimicoMod();
-		List<String> esto = new ArrayList<String>();
-		modqui.todos().stream().forEach((este) -> {
-			esto.add(este.getQui_quimico());
-		});
+		List<String> esto = new ArrayList<>();
+		modqui.todos().stream().forEach((st) -> esto.add(st.getQui_quimico()));
+		Collections.sort(esto);
 		return esto;
 	}
 
 	/*
-
-	Constructor
-	
+	 * 
+	 * Constructor
+	 * 
 	 */
 	public UsosControlador() {
-		todo();
+		this.todo();
 	}
 
 	/*
-	
-	GETTERS Y SETTERS
-	
+	 * 
+	 * GETTERS Y SETTERS
+	 * 
 	 */
 	public String getBuscador() {
 		return buscador;
 	}
-	
+
 	public void setBuscador(String buscador) {
 		this.buscador = buscador;
 	}
-	
+
 	public List<TipoUso> getListuso() {
 		return listuso;
 	}
-	
+
 	public void setListuso(List<TipoUso> listuso) {
 		this.listuso = listuso;
 	}
-	
+
 	public TipoUso getUso() {
 		return uso;
 	}
-	
+
 	public void setUso(TipoUso uso) {
 		this.uso = uso;
 	}
-	
+
 	public List<UsoQuimico> getListusoq() {
 		return listusoq;
 	}
-	
+
 	public void setListusoq(List<UsoQuimico> listusoq) {
 		this.listusoq = listusoq;
 	}
-	
+
 	public String[] getQuimicosUso() {
 		return quimicosUso;
 	}
-	
+
 	public void setQuimicosUso(String[] quimicosUso) {
 		this.quimicosUso = quimicosUso;
 	}
-	
+
 }

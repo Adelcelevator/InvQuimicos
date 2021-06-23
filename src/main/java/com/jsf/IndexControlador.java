@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
  *
  * @author panchito
  */
+@SuppressWarnings("deprecation")
 @ManagedBean(name = "index")
 @SessionScoped
 public class IndexControlador implements Serializable {

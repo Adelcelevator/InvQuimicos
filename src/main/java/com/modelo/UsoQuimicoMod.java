@@ -58,20 +58,19 @@ public class UsoQuimicoMod extends UtilitarioMod<UsoQuimico> implements Serializ
 		return null;
 	}
 //PETICIONES DE ESCRITURA
-	public boolean guardar(int uso, int[] quimicos, int usu) throws Exception {
+	@Override
+	public boolean guardar(UsoQuimico nuevo) throws Exception {
 		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
-			for (int qui : quimicos) {
-				PreparedStatement pst = cn.prepareStatement("INSERT INTO public.tbl_uso_quimicos(tuso_id, qui_id, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (?, ?, ?, ?, ?);");
-				pst.setInt(1, uso);
-				pst.setInt(2, qui);
-				pst.setDate(3, Date.valueOf(LocalDate.now()));
-				pst.setDate(4, Date.valueOf(LocalDate.now()));
-				pst.setInt(5, usu);
-				this.setFue((pst.executeUpdate() == 1));
-
-			}
+			PreparedStatement pst = cn.prepareStatement(
+					"INSERT INTO public.tbl_uso_quimicos(tuso_id, qui_id, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (?, ?, ?, ?, ?);");
+			pst.setInt(1, nuevo.getTuso_id());
+			pst.setInt(2, nuevo.getQui_id());
+			pst.setDate(3, Date.valueOf(LocalDate.now()));
+			pst.setDate(4, Date.valueOf(LocalDate.now()));
+			pst.setInt(5, nuevo.getUsu_id_UltMod());
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();

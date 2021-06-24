@@ -87,6 +87,7 @@ public class UsosControlador implements Serializable {
 				}
 			}
 			UtilitarioControlador.informativo("Se Guardo de Forma exitosa");
+			this.seleccionar(this.uso);
 		} catch (Exception ex) {
 			UtilitarioControlador.error("OCURRIO UN ERROR AL GUARDAR LOS QUIMICOS");
 		}

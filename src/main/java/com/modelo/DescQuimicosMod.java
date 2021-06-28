@@ -125,6 +125,28 @@ public class DescQuimicosMod extends UtilitarioMod<DescripcionQuimico> implement
 		return null;
 	}
 
+	@Override
+	public DescripcionQuimico buscado(String bus) {
+		try {
+			PreparedStatement pst = Conexion.conectar().prepareStatement("SELECT * FROM public.tbl_desc_quimi descq WHERE descq.desq_desc =?;");
+			pst.setString(1, bus);
+			ResultSet rst = pst.executeQuery();
+			if(rst.next()){
+				this.setObj(new DescripcionQuimico(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"),
+						rst.getDate("fecha_mod"), rst.getInt("desq_id"), rst.getInt("qui_id"),
+						rst.getString("desq_desc"), rst.getString("desq_estm"), rst.getString("desq_color"),
+						rst.getString("desq_umedida"), rst.getString("desq_infla")));
+			}else{
+				return new DescripcionQuimico();
+			}
+			Conexion.desconectar();
+			return this.getObj();
+		} catch (Exception e) {
+			System.out.println("ERROR AL TRAER LA DESCRIPCION: "+e.getMessage());
+		}
+		return null;
+	}
+
 //PETICIONES DE ESCRITURA
 	@Override
 	public boolean guardar(DescripcionQuimico nuevo) throws Exception {

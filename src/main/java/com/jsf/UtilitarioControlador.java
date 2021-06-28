@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 @SuppressWarnings("deprecation")
 @SessionScoped
 public class UtilitarioControlador implements Serializable {
+
 	private static final long serialVersionUID = 555260345240571896L;
 
 	public final static void mensaje(FacesMessage.Severity seve, String titulo, String mensaje) {
@@ -37,11 +38,12 @@ public class UtilitarioControlador implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje.toUpperCase()));
 	}
-	public final static void redirigir(String direcion){
+
+	public final static void redirigir(String direcion) {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(direcion);
 		} catch (Exception e) {
-			error("Ocurrio un error al redirigir: "+e.getMessage());
+			error("Ocurrio un error al redirigir: " + e.getMessage());
 		}
 	}
 }

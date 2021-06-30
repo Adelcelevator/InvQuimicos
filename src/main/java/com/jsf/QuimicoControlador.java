@@ -9,14 +9,12 @@ import com.modelo.DescQuimicosMod;
 import com.modelo.QuimicoMod;
 import com.objetos.DescripcionQuimico;
 import com.objetos.Quimico;
-import com.objetos.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
@@ -24,7 +22,7 @@ import javax.faces.context.FacesContext;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "quimico")
-@SessionScoped
+@ViewScoped
 public class QuimicoControlador implements Serializable {
 	private final QuimicoMod modqui = new QuimicoMod();
 	private final DescQuimicosMod modquidesc = new DescQuimicosMod();
@@ -32,15 +30,13 @@ public class QuimicoControlador implements Serializable {
 	private Quimico quimi = new Quimico();
 	private DescripcionQuimico descqui = new DescripcionQuimico();
 	
-	private final static Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-			.get("usuario");
 	private static final long serialVersionUID = 4064848968085852173L;
 	
 	private String buscador, buscadorDesc;
 	private List<String> estados = Arrays.asList("", "Solido", "Liquido", "Gaseoso", "Plasma");
 	private List<String> sino = Arrays.asList("", "Si", "No");
-	private List<Quimico> lista = new ArrayList<Quimico>();
-	private List<DescripcionQuimico> listadesc = new ArrayList<DescripcionQuimico>();
+	private List<Quimico> lista = new ArrayList<>();
+	private List<DescripcionQuimico> listadesc = new ArrayList<>();
 	
 	private void todo() {
 		this.lista.clear();
@@ -73,7 +69,7 @@ public class QuimicoControlador implements Serializable {
 					|| this.quimi.getQui_quimico().equals("")) {
 				UtilitarioControlador.advertencia("Existen Campos Vacios");
 			} else {
-				this.quimi.setUsu_id_UltMod(usu.getUsu_id());
+				this.quimi.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 				if (modqui.existe(this.quimi.getQui_quimico(), this.quimi.getQui_CPC())) {
 					UtilitarioControlador.informativo("EL QUIMICO O EL CPC YA EXISTEN EN LA BASE");
 				} else {
@@ -109,7 +105,7 @@ public class QuimicoControlador implements Serializable {
 						UtilitarioControlador.informativo("YA EXISTE LA DESCRIPCION");
 						this.limpiar_desc();
 					} else {
-						this.descqui.setUsu_id_UltMod(usu.getUsu_id());
+						this.descqui.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 						this.descqui.setQui_id(this.quimi.getQui_id());
 						if (modquidesc.guardar(this.descqui)) {
 							UtilitarioControlador.informativo("SE GUARDO CON EXITO");

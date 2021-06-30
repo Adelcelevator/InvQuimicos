@@ -8,10 +8,8 @@ package com.jsf;
 import com.modelo.UsuarioMod;
 import com.objetos.Usuario;
 import java.io.Serializable;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
@@ -19,7 +17,7 @@ import javax.faces.context.FacesContext;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "index")
-@SessionScoped
+@ViewScoped
 public class IndexControlador implements Serializable {
 	private static final long serialVersionUID = 2237173281169220126L;
 	private final UsuarioMod modus = new UsuarioMod();
@@ -28,20 +26,17 @@ public class IndexControlador implements Serializable {
 	public void ingresar() {
 		try {
 			if (this.usuario.equals("") || this.contra.equals("")) {
-				FacesContext.getCurrentInstance().addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CAMPOS VACIOS"));
+				UtilitarioControlador.advertencia("Campos Vacios");
 			} else {
 				Usuario usu = modus.buscado(usuario);
 				if (usu == null) {
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "NO EXISTE EL USUARIO"));
+					UtilitarioControlador.advertencia("No Existe el Usuario");
 				} else {
 					if (!usu.getUsu_contra().equals(contra)) {
-						FacesContext.getCurrentInstance().addMessage(null,
-								new FacesMessage(FacesMessage.SEVERITY_WARN, "ADVERTENCIA", "CONTRASEÑA INCORRECTA"));
+						UtilitarioControlador.advertencia("Contraseña Equivocada");
 					} else {
-						FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", usu);
-						FacesContext.getCurrentInstance().getExternalContext().redirect("Protegidos/inv.quimicos");
+						UtilitarioControlador.guardar("usuario", usu);
+						UtilitarioControlador.redirigir("Protegidos/inv.quimicos");
 					}
 				}
 			}

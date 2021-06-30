@@ -10,14 +10,12 @@ import com.modelo.TipoUsoMod;
 import com.modelo.UsoQuimicoMod;
 import com.objetos.TipoUso;
 import com.objetos.UsoQuimico;
-import com.objetos.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
@@ -25,20 +23,18 @@ import javax.faces.context.FacesContext;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "usos")
-@SessionScoped
+@ViewScoped
 public class UsosControlador implements Serializable {
 
 	private static final long serialVersionUID = -3102420725961614548L;
 	private final UsoQuimicoMod modusq = new UsoQuimicoMod();
 	QuimicoMod modqui = new QuimicoMod();
-	private List<TipoUso> listuso = new ArrayList<TipoUso>();
-	private List<UsoQuimico> listusoq = new ArrayList<UsoQuimico>();
+	private List<TipoUso> listuso = new ArrayList<>();
+	private List<UsoQuimico> listusoq = new ArrayList<>();
 	private final TipoUsoMod modtuso = new TipoUsoMod();
 	private String buscador;
 	private String[] quimicosUso;
 	private TipoUso uso = new TipoUso();
-	private static final Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
-			.get("usuario");
 
 	public void todo() {
 		this.listuso.clear();
@@ -55,7 +51,7 @@ public class UsosControlador implements Serializable {
 	}
 
 	public void guardar() {
-		this.uso.setUsu_id_UltMod(usu.getUsu_id());
+		this.uso.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 		try {
 			TipoUso aux = modtuso.buscado(this.uso.getTuso_uso());
 			if (aux.getTuso_id() != 0) {
@@ -82,7 +78,7 @@ public class UsosControlador implements Serializable {
 			}
 			for (int id : idsqui) {
 				if (this.modusq.buscado(this.uso.getTuso_id(), id).getUsu_id_UltMod() == 0) {
-					this.modusq.guardar(new UsoQuimico(usu.getUsu_id(), null, null, this.uso.getTuso_id(), id));
+					this.modusq.guardar(new UsoQuimico(UtilitarioControlador.getUsu().getUsu_id(), null, null, this.uso.getTuso_id(), id));
 				}
 			}
 			UtilitarioControlador.informativo("Se Guardo de Forma exitosa");
@@ -103,9 +99,8 @@ public class UsosControlador implements Serializable {
 	}
 
 	public List<String> quimicos() {
-		QuimicoMod modqui = new QuimicoMod();
 		List<String> esto = new ArrayList<>();
-		modqui.todos().stream().forEach((st) -> esto.add(st.getQui_quimico()));
+		this.modqui.todos().stream().forEach((st) -> esto.add(st.getQui_quimico()));
 		Collections.sort(esto);
 		return esto;
 	}

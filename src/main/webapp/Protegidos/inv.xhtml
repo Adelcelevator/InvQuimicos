@@ -101,7 +101,7 @@ and open the template in the editor.
 							<tr>
 								<td style="text-align: right !important">Cantidad:&#8239;</td>
 								<td>
-									<h:inputText pt:placeholder="Cantidad" validatorMessage="No es un Numero">
+									<h:inputText pt:type="number" pt:placeholder="Cantidad" validatorMessage="No es un Numero">
 										<f:validateRegex pattern="\\d*" />
 									</h:inputText>
 								</td>
@@ -112,7 +112,7 @@ and open the template in the editor.
 							<tr>
 								<td style="text-align: right !important">Precio de Compra Unitario:&#8239;</td>
 								<td>
-									<h:inputText pt:placeholder="Precio de Compra Unitario">
+									<h:inputText pt:type="number" pt:placeholder="Precio de Compra Unitario">
 										<f:validateRegex pattern="\\d*"/>
 									</h:inputText>
 								</td>
@@ -132,6 +132,7 @@ and open the template in the editor.
 						<br/>
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
 							<f:ajax execute="@form" event="click" render="@form"
+									listener="#{inventario.guardarInv()}"
 									onevent="PF('agregar_inv').hide()"/>
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 

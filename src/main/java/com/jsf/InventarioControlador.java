@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 
 /**
  *
@@ -22,7 +22,7 @@ import javax.faces.bean.SessionScoped;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "inventario")
-@SessionScoped
+@ViewScoped
 public class InventarioControlador implements Serializable {
 
 	private static final long serialVersionUID = -2388548534275774612L;
@@ -31,17 +31,20 @@ public class InventarioControlador implements Serializable {
 	private Quimico quimico = new Quimico();
 	private DescripcionQuimico desq = new DescripcionQuimico();
 	private List<String> desc;
+	private Inventario inv = new Inventario();
+	
 	public void buscar() {
 
 	}
 
 	public void seleccionar(Inventario inv) {
-
+		this.inv= inv;
 	}
 
 	public void seleccionarQuimi() {
 		QuimicoMod quimi = new QuimicoMod();
 		this.quimico = quimi.buscado(this.quimico.getQui_quimico());
+		this.inv.setQui_id(this.quimico.getQui_id());
 		DescQuimicosMod desqmod = new DescQuimicosMod();
 	   List<String> esta = new ArrayList<>();
 		desqmod.todos(this.quimico.getQui_id()).stream().forEach((s)->{
@@ -51,7 +54,7 @@ public class InventarioControlador implements Serializable {
 	}
 
 	public List<String> quimicos() {
-		List<String> esto = new ArrayList<String>();
+		List<String> esto = new ArrayList<>();
 		QuimicoMod quimi = new QuimicoMod();
 		esto.add("");
 		quimi.todos().stream().forEach((s) -> {
@@ -60,6 +63,11 @@ public class InventarioControlador implements Serializable {
 		return esto;
 	}
 
+	public void guardarInv(){
+		this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+		System.out.println("ID USUARIO: "+this.inv.getUsu_id_UltMod());
+	}
+	
 	/*
 
 	Getters y Setters

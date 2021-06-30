@@ -10,6 +10,7 @@ import com.modelo.QuimicoMod;
 import com.objetos.DescripcionQuimico;
 import com.objetos.Inventario;
 import com.objetos.Quimico;
+import com.objetos.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +33,13 @@ public class InventarioControlador implements Serializable {
 	private DescripcionQuimico desq = new DescripcionQuimico();
 	private List<String> desc;
 	private Inventario inv = new Inventario();
-	
+
 	public void buscar() {
 
 	}
 
 	public void seleccionar(Inventario inv) {
-		this.inv= inv;
+		this.inv = inv;
 	}
 
 	public void seleccionarQuimi() {
@@ -46,9 +47,9 @@ public class InventarioControlador implements Serializable {
 		this.quimico = quimi.buscado(this.quimico.getQui_quimico());
 		this.inv.setQui_id(this.quimico.getQui_id());
 		DescQuimicosMod desqmod = new DescQuimicosMod();
-	   List<String> esta = new ArrayList<>();
-		desqmod.todos(this.quimico.getQui_id()).stream().forEach((s)->{
-		esta.add(s.getDesq_desc());
+		List<String> esta = new ArrayList<>();
+		desqmod.todos(this.quimico.getQui_id()).stream().forEach((s) -> {
+			esta.add(s.getDesq_desc());
 		});
 		this.setDesc(esta);
 	}
@@ -63,11 +64,11 @@ public class InventarioControlador implements Serializable {
 		return esto;
 	}
 
-	public void guardarInv(){
+	public void guardarInv() {
 		this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-		System.out.println("ID USUARIO: "+this.inv.getUsu_id_UltMod());
+		System.out.println("ID USUARIO: " + this.inv.getUsu_id_UltMod());
 	}
-	
+
 	/*
 
 	Getters y Setters

@@ -20,7 +20,6 @@ import javax.faces.context.FacesContext;
 public class UtilitarioControlador implements Serializable {
 
 	private static final long serialVersionUID = 555260345240571896L;
-	private final static Usuario usu = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	
 	public final static void mensaje(FacesMessage.Severity seve, String titulo, String mensaje) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(seve, titulo, mensaje));
@@ -54,7 +53,7 @@ public class UtilitarioControlador implements Serializable {
 	}
 	
 	public static Usuario getUsu() {
-		return usu;
+		return (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
 	
 	public final static void vamonos(){

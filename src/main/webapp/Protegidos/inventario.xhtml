@@ -25,7 +25,7 @@ and open the template in the editor.
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-plus"></i>
-						<f:ajax event="click" onevent="PF('agregar_inv').show()"/>
+						<f:ajax event="click" onevent="PF('inv_add').show()"/>
 					</h:commandLink>
 					<p:growl id="esto" showDetail="true" life="3000"/>
 					<!-- 
@@ -53,9 +53,7 @@ and open the template in the editor.
 							<center><h:commandLink pt:header="Editar" class="btn btn-primary" id="btn_editar">
 									<i class="pi pi-pencil"></i>
 									<f:ajax execute="btn_editar" event="click"
-											listener="#{inventario.seleccionar(inv)}" 
-											onevent="PF('qui_editar').show()"
-											render="editarQ"/>
+											listener="#{inventario.seleccionar(inv)}"/>
 								</h:commandLink></center>
 						</p:column>
 					</p:dataTable>
@@ -63,6 +61,58 @@ and open the template in the editor.
 				<!-- 
 				***********************************
 				*	Fin Tabla de Inventario		  *
+				***********************************
+				-->
+				<!-- 
+				***********************************
+				*	Empieza agregar Inventario	  *
+				***********************************
+				-->
+				<p:dialog header="Agregar Descripcion" closable="false" closeOnEscape="true" onHide="#{quimico.limpiar_desc()}" widgetVar="inv_add" minHeight="40" width="600" showEffect="fade" modal="true">
+					<h:form id="agregarInv">
+						<table id="tbedit">
+							<tr>
+								<td style="text-align: right !important">
+									Quimico:&#8239;
+								</td>
+								<td>
+									<h:selectOneMenu id="quimico" value="#{inventario.quimico.qui_quimico}">
+										<f:selectItems value="#{inventario.quimicos()}" />
+										<f:ajax
+											execute="agregarInv:quimico"
+											event="change"
+											listener="#{inventario.seleccionarQuimi()}"
+											render="agregarInv:descq"/>
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">
+									Descripcion:&#8239;
+								</td>
+								<td>
+									<h:selectOneMenu id="descq" value="#{inventario.desc2}">
+										<f:selectItems var="des" value="#{inventario.desc}">
+											<f:selectItem itemValue="#{des}" itemLabel="#{des}" />
+										</f:selectItems>
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel id="es" value=""/></td>
+							</tr>
+						</table>
+						<br/>
+						<br/>
+						<h:commandButton action="#{inventario.seleccionarDesc()}" value="prueba"/>
+					</h:form>
+				</p:dialog>
+				<!-- 
+				***********************************
+				*	Fin agregar Inventario		  *
 				***********************************
 				-->
 			</ui:define>

@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -22,7 +22,7 @@ import javax.faces.view.ViewScoped;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "inventario")
-@ViewScoped
+@SessionScoped
 public class InventarioControlador implements Serializable {
 
 	private static final long serialVersionUID = -2388548534275774612L;
@@ -32,7 +32,7 @@ public class InventarioControlador implements Serializable {
 	private DescripcionQuimico desq = new DescripcionQuimico();
 	private List<String> desc = new ArrayList<>();
 	private Inventario inv = new Inventario();
-	private String desc2="";
+	private String desc2 = "";
 
 	public void buscar() {
 
@@ -54,10 +54,10 @@ public class InventarioControlador implements Serializable {
 		});
 		this.setDesc(esta);
 	}
-	
+
 	public void seleccionarDesc() {
-		System.out.println("ESADS: "+desc2);
-		System.out.println("esto x2 "+desc2);
+		System.out.println("ESADS: " + desc2);
+		System.out.println("esto x2 " + desc2);
 	}
 
 	public List<String> quimicos() {
@@ -73,7 +73,7 @@ public class InventarioControlador implements Serializable {
 	public void guardarInv() {
 		this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 		System.out.println("ID USUARIO: " + this.inv.getUsu_id_UltMod());
-		System.out.println("desc: "+desc2);
+		System.out.println("desc: " + desc2);
 	}
 
 	/*

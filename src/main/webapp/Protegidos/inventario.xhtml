@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+		<ui:composition template="../Template/template.xhtml">
+			<ui:define name="cuerpo">
+				<h:form id="frm_tablainv">
+					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
+					<h:inputText id="txt_buscador" value="#{inventario.buscador}" pt:placeholder="Descripcion, Quimico" size="25">
+						<f:ajax execute="frm_tablainv:txt_buscador" listener="#{inventario.buscar()}" event="keyup" render="frm_tablainv:tbl_inv" />
+					</h:inputText>&#8239;&#8239;
+					<h:commandLink class="btn btn-primary">
+						<i class="pi pi-plus"></i>
+						<f:ajax event="click" onevent="PF('agregar_inv').show()"/>
+					</h:commandLink>
+					<p:growl id="esto" showDetail="true" life="3000"/>
+					<!-- 
+					***********************************
+					*	Inicio Tabla de Inventario	  *
+					***********************************
+					-->
+					<p:dataTable id="tbl_inv" var="inv" value="#{inventario.lista}" rows="10" paginator="true">
+						<p:column headerText="Quimico">
+							<h:outputLabel value="#{inv.qui_id}" />
+						</p:column>
+						<p:column headerText="Descripcion">
+							<h:outputLabel value="#{inv.inv_desc}" />
+						</p:column>
+						<p:column headerText="Existencia">
+							<h:outputLabel value="#{inv.inv_cantidad}" />
+						</p:column>
+						<p:column headerText="Precio Unitario Compra">
+							<h:outputLabel value="#{inv.inv_precioCU}" />
+						</p:column>
+						<p:column headerText="Precio Unitario Inventario">
+							<h:outputLabel value="#{inv.inv_precioUI}" />
+						</p:column>
+						<p:column headerText="Opcion">
+							<center><h:commandLink pt:header="Editar" class="btn btn-primary" id="btn_editar">
+									<i class="pi pi-pencil"></i>
+									<f:ajax execute="btn_editar" event="click"
+											listener="#{inventario.seleccionar(inv)}" 
+											onevent="PF('qui_editar').show()"
+											render="editarQ"/>
+								</h:commandLink></center>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+				<!-- 
+				***********************************
+				*	Fin Tabla de Inventario		  *
+				***********************************
+				-->
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

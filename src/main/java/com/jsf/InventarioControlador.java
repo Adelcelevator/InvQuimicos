@@ -10,7 +10,6 @@ import com.modelo.QuimicoMod;
 import com.objetos.DescripcionQuimico;
 import com.objetos.Inventario;
 import com.objetos.Quimico;
-import com.objetos.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,9 @@ public class InventarioControlador implements Serializable {
 	private List<Inventario> lista;
 	private Quimico quimico = new Quimico();
 	private DescripcionQuimico desq = new DescripcionQuimico();
-	private List<String> desc;
+	private List<String> desc = new ArrayList<>();
 	private Inventario inv = new Inventario();
+	private String desc2="";
 
 	public void buscar() {
 
@@ -48,10 +48,16 @@ public class InventarioControlador implements Serializable {
 		this.inv.setQui_id(this.quimico.getQui_id());
 		DescQuimicosMod desqmod = new DescQuimicosMod();
 		List<String> esta = new ArrayList<>();
+		esta.add("");
 		desqmod.todos(this.quimico.getQui_id()).stream().forEach((s) -> {
 			esta.add(s.getDesq_desc());
 		});
 		this.setDesc(esta);
+	}
+	
+	public void seleccionarDesc() {
+		System.out.println("ESADS: "+desc2);
+		System.out.println("esto x2 "+desc2);
 	}
 
 	public List<String> quimicos() {
@@ -67,6 +73,7 @@ public class InventarioControlador implements Serializable {
 	public void guardarInv() {
 		this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 		System.out.println("ID USUARIO: " + this.inv.getUsu_id_UltMod());
+		System.out.println("desc: "+desc2);
 	}
 
 	/*
@@ -112,6 +119,22 @@ public class InventarioControlador implements Serializable {
 
 	public void setDesq(DescripcionQuimico desq) {
 		this.desq = desq;
+	}
+
+	public Inventario getInv() {
+		return inv;
+	}
+
+	public void setInv(Inventario inv) {
+		this.inv = inv;
+	}
+
+	public String getDesc2() {
+		return desc2;
+	}
+
+	public void setDesc2(String desc2) {
+		this.desc2 = desc2;
 	}
 
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -22,7 +22,7 @@ import javax.faces.view.ViewScoped;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "quimico")
-@ViewScoped
+@SessionScoped
 public class QuimicoControlador implements Serializable {
 	private final QuimicoMod modqui = new QuimicoMod();
 	private final DescQuimicosMod modquidesc = new DescQuimicosMod();

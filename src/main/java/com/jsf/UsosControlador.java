@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -23,7 +23,7 @@ import javax.faces.view.ViewScoped;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "usos")
-@ViewScoped
+@SessionScoped
 public class UsosControlador implements Serializable {
 
 	private static final long serialVersionUID = -3102420725961614548L;

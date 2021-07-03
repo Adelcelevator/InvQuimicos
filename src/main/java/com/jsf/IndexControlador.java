@@ -9,7 +9,7 @@ import com.modelo.UsuarioMod;
 import com.objetos.Usuario;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -17,7 +17,7 @@ import javax.faces.view.ViewScoped;
  */
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "index")
-@ViewScoped
+@SessionScoped
 public class IndexControlador implements Serializable {
 	private static final long serialVersionUID = 2237173281169220126L;
 	private final UsuarioMod modus = new UsuarioMod();

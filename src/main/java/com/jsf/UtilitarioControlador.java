@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
 public class UtilitarioControlador implements Serializable {
 
 	private static final long serialVersionUID = 555260345240571896L;
-	
+
 	public final static void mensaje(FacesMessage.Severity seve, String titulo, String mensaje) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(seve, titulo, mensaje));
 	}

@@ -72,4 +72,9 @@ public class Inventario extends Auditoria implements Serializable {
 		this(0, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()), 0, 0, 0, 0, 0, 0);
 	}
 
+	@Override
+	public String toString() {
+		return "Inventario{" + "inv_id=" + inv_id + ", inv_cantidad=" + inv_cantidad + ", qui_id=" + qui_id + ", inv_desc=" + inv_desc + ", inv_precioCU=" + inv_precioCU + ", inv_precioUI=" + inv_precioUI + '}';
+	}
+
 }

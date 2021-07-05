@@ -6,6 +6,7 @@
 package com.jsf;
 
 import com.modelo.DescQuimicosMod;
+import com.modelo.InventarioMod;
 import com.modelo.QuimicoMod;
 import com.objetos.DescripcionQuimico;
 import com.objetos.Inventario;
@@ -26,16 +27,21 @@ import javax.faces.bean.SessionScoped;
 public class InventarioControlador implements Serializable {
 
 	private static final long serialVersionUID = -2388548534275774612L;
-	private String buscador;
-	private List<Inventario> lista;
-	private Quimico quimico = new Quimico();
-	private DescripcionQuimico desq = new DescripcionQuimico();
-	private List<String> desc = new ArrayList<>();
+	private final InventarioMod modinv = new InventarioMod();
+	private String buscador, precioCU, precioUI, existencias;
+	private List<Inventario> lista= new ArrayList<>();
+	private List<DescripcionQuimico> desc = new ArrayList<>();
 	private Inventario inv = new Inventario();
-	private String desc2 = "";
+	private final DescQuimicosMod desqmod = new DescQuimicosMod();
+	private final QuimicoMod modqui = new QuimicoMod();
 
 	public void buscar() {
+		this.lista.clear();
+		this.setLista(this.modinv.buscando(buscador));
+	}
 
+	public final void todo() {
+		this.setLista(this.modinv.todos());
 	}
 
 	public void seleccionar(Inventario inv) {
@@ -43,37 +49,60 @@ public class InventarioControlador implements Serializable {
 	}
 
 	public void seleccionarQuimi() {
-		QuimicoMod quimi = new QuimicoMod();
-		this.quimico = quimi.buscado(this.quimico.getQui_quimico());
-		this.inv.setQui_id(this.quimico.getQui_id());
-		DescQuimicosMod desqmod = new DescQuimicosMod();
-		List<String> esta = new ArrayList<>();
-		esta.add("");
-		desqmod.todos(this.quimico.getQui_id()).stream().forEach((s) -> {
-			esta.add(s.getDesq_desc());
-		});
+		List<DescripcionQuimico> esta = new ArrayList<>();
+		esta.add(new DescripcionQuimico());
+		esta.addAll(this.desqmod.todos(this.inv.getQui_id()));
 		this.setDesc(esta);
 	}
 
-	public void seleccionarDesc() {
-		System.out.println("ESADS: " + desc2);
-		System.out.println("esto x2 " + desc2);
-	}
-
-	public List<String> quimicos() {
-		List<String> esto = new ArrayList<>();
-		QuimicoMod quimi = new QuimicoMod();
-		esto.add("");
-		quimi.todos().stream().forEach((s) -> {
-			esto.add(s.getQui_quimico());
-		});
+	public List<Quimico> quimicos() {
+		List<Quimico> esto = new ArrayList<>();
+		esto.add(new Quimico());
+		esto.addAll(this.modqui.todos());
 		return esto;
 	}
 
 	public void guardarInv() {
-		this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-		System.out.println("ID USUARIO: " + this.inv.getUsu_id_UltMod());
-		System.out.println("desc: " + desc2);
+		if (!this.modinv.buscado(this.inv.getQui_id(), this.inv.getInv_desc()).equals(new Inventario())) {
+			UtilitarioControlador.advertencia("ya existe en el inventario");
+			this.limpiar();
+		} else {
+			try {
+				this.inv.setInv_precioCU(Double.parseDouble(precioCU));
+				this.inv.setInv_precioUI(Double.parseDouble(precioUI));
+				this.inv.setInv_cantidad(Integer.parseInt(existencias));
+				this.inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+				if (this.modinv.guardar(this.inv)) {
+					UtilitarioControlador.informativo("Guardado con exito");
+					this.limpiar();
+				} else {
+					UtilitarioControlador.advertencia("Error al Guardar");
+				}
+			} catch (Exception e) {
+				UtilitarioControlador.error("No ingresar letras en los precios o cantidades. \n y utilizar el punto como separador de dolares y monedas");
+			}
+		}
+	}
+
+	public void limpiar() {
+		this.todo();
+		this.inv = new Inventario();
+		this.setPrecioCU("");
+		this.setPrecioUI("");
+		this.desc.clear();
+		this.setExistencias("");
+	}
+
+	public String nomQui(int id) {
+		return this.modqui.buscado(id).getQui_quimico();
+	}
+
+	public String nomDesc(int id) {
+		return this.desqmod.buscado(id).getDesq_desc();
+	}
+
+	public String uniMed(int id, int cantidad) {
+		return cantidad + " " + this.desqmod.buscado(id).getDesq_umedida();
 	}
 
 	/*
@@ -97,28 +126,12 @@ public class InventarioControlador implements Serializable {
 		this.lista = lista;
 	}
 
-	public Quimico getQuimico() {
-		return quimico;
-	}
-
-	public void setQuimico(Quimico quimico) {
-		this.quimico = quimico;
-	}
-
-	public List<String> getDesc() {
+	public List<DescripcionQuimico> getDesc() {
 		return desc;
 	}
 
-	public void setDesc(List<String> desc) {
+	public void setDesc(List<DescripcionQuimico> desc) {
 		this.desc = desc;
-	}
-
-	public DescripcionQuimico getDesq() {
-		return desq;
-	}
-
-	public void setDesq(DescripcionQuimico desq) {
-		this.desq = desq;
 	}
 
 	public Inventario getInv() {
@@ -129,12 +142,31 @@ public class InventarioControlador implements Serializable {
 		this.inv = inv;
 	}
 
-	public String getDesc2() {
-		return desc2;
+	public String getPrecioCU() {
+		return precioCU;
 	}
 
-	public void setDesc2(String desc2) {
-		this.desc2 = desc2;
+	public void setPrecioCU(String precioCU) {
+		this.precioCU = precioCU;
 	}
 
+	public String getPrecioUI() {
+		return precioUI;
+	}
+
+	public void setPrecioUI(String precioUI) {
+		this.precioUI = precioUI;
+	}
+
+	public InventarioControlador() {
+		this.todo();
+	}
+
+	public String getExistencias() {
+		return existencias;
+	}
+
+	public void setExistencias(String existencias) {
+		this.existencias = existencias;
+	}
 }

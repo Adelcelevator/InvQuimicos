@@ -20,7 +20,7 @@ and open the template in the editor.
 			<ui:define name="cuerpo">
 				<h:form id="frm_tablainv">
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-					<h:inputText id="txt_buscador" value="#{inventario.buscador}" pt:placeholder="Descripcion, Quimico" size="25">
+					<h:inputText id="txt_buscador" value="#{inventario.buscador}" pt:placeholder="Descripcion de Quimico" size="25">
 						<f:ajax execute="frm_tablainv:txt_buscador" listener="#{inventario.buscar()}" event="keyup" render="frm_tablainv:tbl_inv" />
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
@@ -35,26 +35,19 @@ and open the template in the editor.
 					-->
 					<p:dataTable id="tbl_inv" var="inv" value="#{inventario.lista}" rows="10" paginator="true">
 						<p:column headerText="Quimico">
-							<h:outputLabel value="#{inv.qui_id}" />
+							<h:outputLabel value="#{inventario.nomQui(inv.qui_id)}" />
 						</p:column>
 						<p:column headerText="Descripcion">
-							<h:outputLabel value="#{inv.inv_desc}" />
+							<h:outputLabel value="#{inventario.nomDesc(inv.inv_desc)}" />
 						</p:column>
 						<p:column headerText="Existencia">
-							<h:outputLabel value="#{inv.inv_cantidad}" />
+							<h:outputLabel value="#{inventario.uniMed(inv.inv_desc, inv.inv_cantidad)}" />
 						</p:column>
 						<p:column headerText="Precio Unitario Compra">
-							<h:outputLabel value="#{inv.inv_precioCU}" />
+							<h:outputLabel value="$#{inv.inv_precioCU}" />
 						</p:column>
 						<p:column headerText="Precio Unitario Inventario">
-							<h:outputLabel value="#{inv.inv_precioUI}" />
-						</p:column>
-						<p:column headerText="Opcion">
-							<center><h:commandLink pt:header="Editar" class="btn btn-primary" id="btn_editar">
-									<i class="pi pi-pencil"></i>
-									<f:ajax execute="btn_editar" event="click"
-											listener="#{inventario.seleccionar(inv)}"/>
-								</h:commandLink></center>
+							<h:outputLabel value="$#{inv.inv_precioUI}" />
 						</p:column>
 					</p:dataTable>
 				</h:form>
@@ -68,16 +61,19 @@ and open the template in the editor.
 				*	Empieza agregar Inventario	  *
 				***********************************
 				-->
-				<p:dialog header="Agregar Descripcion" closable="false" closeOnEscape="true" onHide="#{quimico.limpiar_desc()}" widgetVar="inv_add" minHeight="40" width="600" showEffect="fade" modal="true">
+				<p:dialog header="Agregar Inventario" closable="false" closeOnEscape="true" onHide="#{inventario.limpiar()}" widgetVar="inv_add" minHeight="40" width="600" showEffect="fade" modal="true">
 					<h:form id="agregarInv">
-						<table id="tbedit">
+						<table id="tbagregar">
 							<tr>
 								<td style="text-align: right !important">
 									Quimico:&#8239;
 								</td>
 								<td>
-									<h:selectOneMenu id="quimico" value="#{inventario.quimico.qui_quimico}">
-										<f:selectItems value="#{inventario.quimicos()}" />
+									<h:selectOneMenu id="quimico" value="#{inventario.inv.qui_id}">
+										<f:selectItems itemLabel="#{quim.qui_quimico}" 
+													   itemValue="#{quim.qui_id}" 
+													   var="quim"  
+													   value="#{inventario.quimicos()}"/>
 										<f:ajax
 											execute="agregarInv:quimico"
 											event="change"
@@ -94,20 +90,56 @@ and open the template in the editor.
 									Descripcion:&#8239;
 								</td>
 								<td>
-									<h:selectOneMenu id="descq" value="#{inventario.desc2}">
-										<f:selectItems var="des" value="#{inventario.desc}">
-											<f:selectItem itemValue="#{des}" itemLabel="#{des}" />
-										</f:selectItems>
+									<h:selectOneMenu id="descq" value="#{inventario.inv.inv_desc}">
+										<f:selectItems var="des" 
+													   itemValue="#{des.desq_id}" 
+													   itemLabel="#{des.desq_desc}" 
+													   value="#{inventario.desc}"/>
 									</h:selectOneMenu>
 								</td>
 							</tr>
 							<tr>
-								<td><h:outputLabel id="es" value=""/></td>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">
+									Precio de Compra Unitario:&#8239;
+								</td>
+								<td>
+									<h:inputText size="30" pt:placeholder="Precio de Compra Unitario" value="#{inventario.precioCU}"/>
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">
+									Precio de Inventario Unitario:&#8239;
+								</td>
+								<td>
+									<h:inputText size="30" pt:placeholder="Precio de Inventario Unitario" value="#{inventario.precioUI}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">
+									Existencias:&#8239;
+								</td>
+								<td>
+									<h:inputText size="30" pt:placeholder="Existencias" value="#{inventario.existencias}" />
+								</td>
 							</tr>
 						</table>
 						<br/>
 						<br/>
-						<h:commandButton action="#{inventario.seleccionarDesc()}" value="prueba"/>
+						<h:commandButton class="btn btn-primary" value="Guardar">
+							<f:ajax execute="@form" event="click" listener="#{inventario.guardarInv()}" onevent="PF('inv_add').hide()" render="frm_tablainv agregarInv"/>
+						</h:commandButton>&#8239;&#8239;
+						<h:commandButton class="btn btn-danger" value="Salir">
+							<f:ajax execute="@form" event="click" listener="#{inventario.limpiar()}" onevent="PF('inv_add').hide()" render="frm_tablainv agregarInv"/>
+						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 

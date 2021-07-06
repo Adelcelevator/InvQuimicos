@@ -22,6 +22,9 @@ and open the template in the editor.
 				<h:form id="frm_tablausu">
 					<p:growl showDetail="true" life="3000" sticky="true"/>
 					<p:dataTable var="usu" value="#{usuario.todos()}">
+						<f:facet name="header">
+							Usuarios
+						</f:facet>
 						<p:column headerText="ID">
 							<h:outputLabel value="#{usu.usu_id}"/>
 						</p:column>

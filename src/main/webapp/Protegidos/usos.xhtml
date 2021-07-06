@@ -34,6 +34,9 @@ and open the template in the editor.
 					***********************************
 					-->
 					<p:dataTable id="tbl_usos" var="uso" value="#{usos.listuso}" rows="5" paginator="true">
+						<f:facet name="header">
+							Usos de Quimicos
+						</f:facet>
 						<p:column headerText="ID">
 							<h:outputLabel value="#{uso.tuso_id}" />
 						</p:column>
@@ -72,6 +75,9 @@ and open the template in the editor.
 						<f:ajax event="click" onevent="PF('unir_uso').show()"/>
 					</h:commandLink>
 					<p:dataTable rendered="#{! (usos.uso.tuso_id==0)}" id="tbl_descq" var="usoq" value="#{usos.listusoq}" rows="5" paginator="true">
+						<f:facet name="header">
+							Quimicos que tienen por uso
+						</f:facet>
 						<p:column headerText="Uso">
 							<h:outputLabel value="#{usos.uso.tuso_uso}" />
 						</p:column>

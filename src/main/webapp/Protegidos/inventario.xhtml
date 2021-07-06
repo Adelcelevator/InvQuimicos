@@ -34,6 +34,9 @@ and open the template in the editor.
 					***********************************
 					-->
 					<p:dataTable id="tbl_inv" var="inv" value="#{inventario.lista}" rows="10" paginator="true">
+						<f:facet name="header">
+							Inventario
+						</f:facet>
 						<p:column headerText="Quimico">
 							<h:outputLabel value="#{inventario.nomQui(inv.qui_id)}" />
 						</p:column>

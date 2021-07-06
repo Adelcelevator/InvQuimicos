@@ -18,10 +18,10 @@ and open the template in the editor.
 	<h:body>
 		<ui:composition template="../Template/template.xhtml">
 			<ui:define name="cuerpo">
-				<h:form id="frm_tablaquimi">
+				<h:form id="frm_proveedor">
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-					<h:inputText id="txt_buscador" value="#{quimico.buscador}" pt:placeholder="Quimico, CPC, Nombre Comercial" size="25">
-						<f:ajax execute="frm_tablaquimi:txt_buscador" listener="#{quimico.buscar()}" event="keyup" render="frm_tablaquimi:tbl_quimi" />
+					<h:inputText id="txt_buscador" value="#{proveedor.buscador}" pt:placeholder="Proveedor" size="25">
+						<f:ajax execute="frm_tablaquimi:txt_buscador" listener="#{proveedor.buscar()}" event="keyup" render="frm_tablaquimi:tbl_quimi" />
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-plus"></i>
@@ -33,35 +33,38 @@ and open the template in the editor.
 					*	Inicio Tabla de Quimicos	  *
 					***********************************
 					-->
-					<p:dataTable id="tbl_quimi" var="quim" value="#{quimico.lista}" rows="5" paginator="true">
+					<p:dataTable id="tbl_prov" var="prov" value="#{proveedor.lista}" rows="5" paginator="true">
 						<f:facet name="header">
-							Quimicos
+							Proveedores
 						</f:facet>
-						<p:column headerText="ID">
-							<h:outputLabel value="#{quim.qui_id}" />
+						<p:column headerText="RUC">
+							<h:outputLabel value="#{prov.ruc}" />
 						</p:column>
 						<p:column headerText="Nombre Comercial">
-							<h:outputLabel value="#{quim.qui_nombreC}" />
+							<h:outputLabel value="#{prov.nombreC}" />
 						</p:column>
-						<p:column headerText="Quimico">
-							<h:outputLabel value="#{quim.qui_quimico}" />
+						<p:column headerText="Representante">
+							<h:outputLabel value="#{prov.representante}" />
 						</p:column>
-						<p:column headerText="CPC">
-							<h:outputLabel value="#{quim.qui_CPC}" />
+						<p:column headerText="Pais">
+							<h:outputLabel value="#{prov.pais}" />
 						</p:column>
-						<p:column headerText="Estado">
-							<h:outputLabel value="#{quim.qui_estado}" />
+						<p:column headerText="Direccion">
+							<h:outputLabel value="#{prov.dire}" />
+						</p:column>
+						<p:column headerText="Telefono">
+							<h:outputLabel value="#{prov.telefono}" />
 						</p:column>
 						<p:column headerText="Opciones">
 							<h:commandLink class="btn btn-success" id="btn_edit">
 								<i class="pi pi-check-square"></i>
 								<f:ajax execute="btn_edit" event="click"
-										listener="#{quimico.seleccionar(quim)}" render="@form" />
+										listener="#{proveedor.seleccionar(prov)}" render="@form" />
 							</h:commandLink>&#8239;
 							<h:commandLink class="btn btn-primary" id="btn_editar">
 								<i class="pi pi-pencil"></i>
 								<f:ajax execute="btn_editar" event="click"
-										listener="#{quimico.seleccionar(quim)}" 
+										listener="#{proveedor.seleccionar(prov)}" 
 										onevent="PF('qui_editar').show()"
 										render="editarQ"/>
 							</h:commandLink><br/>
@@ -69,7 +72,7 @@ and open the template in the editor.
 							<center><h:commandLink class="btn btn-danger" id="btn_borrar">
 									<i class="pi pi-trash"></i>
 									<f:ajax execute="btn_borrar" event="click"
-											listener="#{quimico.borrar(quim.qui_id)}" render="frm_tablaquimi" />
+											listener="#{proveedor.borrar(prov.id)}" render="frm_tablaquimi" />
 								</h:commandLink></center>
 						</p:column>
 					</p:dataTable>

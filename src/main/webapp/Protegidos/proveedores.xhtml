@@ -21,16 +21,16 @@ and open the template in the editor.
 				<h:form id="frm_proveedor">
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
 					<h:inputText id="txt_buscador" value="#{proveedor.buscador}" pt:placeholder="Proveedor" size="25">
-						<f:ajax execute="frm_tablaquimi:txt_buscador" listener="#{proveedor.buscar()}" event="keyup" render="frm_tablaquimi:tbl_quimi" />
+						<f:ajax execute="frm_proveedor:txt_buscador" listener="#{proveedor.buscar()}" event="keyup" render="frm_proveedor:tbl_prov" />
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-plus"></i>
-						<f:ajax event="click" onevent="PF('qui_guardar').show()"/>
+						<f:ajax event="click" onevent="PF('agregar_prov').show()"/>
 					</h:commandLink>
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
 					<!-- 
 					***********************************
-					*	Inicio Tabla de Quimicos	  *
+					*	Inicio Tabla de Proveedores	  *
 					***********************************
 					-->
 					<p:dataTable id="tbl_prov" var="prov" value="#{proveedor.lista}" rows="5" paginator="true">
@@ -65,234 +65,199 @@ and open the template in the editor.
 								<i class="pi pi-pencil"></i>
 								<f:ajax execute="btn_editar" event="click"
 										listener="#{proveedor.seleccionar(prov)}" 
-										onevent="PF('qui_editar').show()"
+										onevent="PF('editar_prov').show()"
 										render="editarQ"/>
 							</h:commandLink><br/>
 							<br/>
 							<center><h:commandLink class="btn btn-danger" id="btn_borrar">
 									<i class="pi pi-trash"></i>
 									<f:ajax execute="btn_borrar" event="click"
-											listener="#{proveedor.borrar(prov.id)}" render="frm_tablaquimi" />
+											listener="#{proveedor.borrar(prov.pro_id)}" render="frm_proveedor" />
 								</h:commandLink></center>
 						</p:column>
 					</p:dataTable>
-					<br/>
-					<br/>
-					<!-- 
-					***********************************
-					*	Fin Tabla de Quimicos		  *
-					***********************************
-					-->
-					<!-- 
-					***********************************
-					*	Inicio Tabla de Descripciones *
-					***********************************
-					-->
-					<h:outputLabel rendered="#{! (quimico.quimi.qui_id==0)}"  value="Descripciones del Quimico: #{quimico.quimi.qui_quimico}"/>
-					&#8239;&#8239;<h:commandLink rendered="#{! (quimico.quimi.qui_id==0)}" class="btn btn-primary">
-						<i class="pi pi-plus"></i>
-						<f:ajax event="click" onevent="PF('agregar_desc').show()"/>
-					</h:commandLink>
-					<p:dataTable rendered="#{! (quimico.quimi.qui_id==0)}" id="tbl_descq" var="desq" value="#{quimico.listadesc}" rows="5" paginator="true">
-						<f:facet name="header">
-							Descripcion del Quimico
-						</f:facet>
-						<p:column headerText="ID">
-							<h:outputLabel value="#{desq.desq_id}" />
-						</p:column>
-						<p:column headerText="Descripcion">
-							<h:outputLabel value="#{desq.desq_desc}" />
-						</p:column>
-						<p:column headerText="Estado de Materia">
-							<h:outputLabel value="#{desq.desq_estm}" />
-						</p:column>
-						<p:column headerText="Unidad de Medida">
-							<h:outputLabel value="#{desq.desq_umedida}" />
-						</p:column>
-						<p:column headerText="Inflamable">
-							<h:outputLabel value="#{desq.desq_infla}" />
-						</p:column>
-						<p:column headerText="Color">
-							<h:outputLabel value="#{desq.desq_color}" />
-						</p:column>
-					</p:dataTable>
 				</h:form>
+				<br/>
+				<br/>
 				<!-- 
 				***********************************
-				*	Fin Tabla de Descripciones	  *
+				*	Fin Tabla de Proveedores	  *
 				***********************************
 				-->
 				<!-- 
 				***********************************
-				*	Empieza Agregar Descripcion   *
+				*	Empieza Agregar Proveedor     *
 				***********************************
 				-->
-				<p:dialog header="Agregar Descripcion" closable="false" closeOnEscape="true" onHide="#{quimico.limpiar_desc()}" widgetVar="agregar_desc" minHeight="40" width="400" showEffect="fade" modal="true">
-					<h:form id="agregarDesc">
-						<table id="tbedit">
+				<p:dialog header="Agregar Proveedor" closable="false" closeOnEscape="true" onHide="#{proveedor.limpiar()}" widgetVar="agregar_prov" minHeight="40" width="400" showEffect="fade" modal="true">
+					<h:form id="agregarProv">
+						<table id="tbag">
 							<tr>
-								<td style="text-align: right !important">Descripcion:&#8239;</td>
-								<td><h:inputText pt:placeholder="Descripcion" value="#{quimico.descqui.desq_desc}" /></td>
-							</tr>
-							<tr>
-								<td><h:outputLabel value=""/></td>
-							</tr>
-							<tr>
-								<td style="text-align: right !important">Estado de la Materia:&#8239;</td>
+								<td style="text-align: right !important">
+									Ruc:&#8239;
+								</td>
 								<td>
-									<h:selectOneMenu value="#{quimico.descqui.desq_estm}">
-										<f:selectItems value="#{quimico.estados}"/>
-									</h:selectOneMenu>
+									<h:inputText pt:placeholder="RUC" value="#{proveedor.prov.ruc}" />
 								</td>
 							</tr>
 							<tr>
 								<td><h:outputLabel value=""/></td>
 							</tr>
 							<tr>
-								<td style="text-align: right !important">Unidad de Medida:&#8239;</td>
+								<td style="text-align: right !important">
+									Nombre Comercial:&#8239;
+								</td>
 								<td>
-									<h:inputText pt:placeholder="Unidad de Medida"
-												 value="#{quimico.descqui.desq_umedida}" />
+									<h:inputText pt:placeholder="Nombre Comercial" value="#{proveedor.prov.nombreC}" />
 								</td>
 							</tr>
 							<tr>
 								<td><h:outputLabel value=""/></td>
 							</tr>
 							<tr>
-								<td style="text-align: right !important">Inflamable:&#8239;</td>
+								<td style="text-align: right !important">
+									Representante:&#8239;
+								</td>
 								<td>
-									<h:selectOneMenu value="#{quimico.descqui.desq_infla}">
-										<f:selectItems value="#{quimico.sino}"/>
-									</h:selectOneMenu>
+									<h:inputText pt:placeholder="Representante"
+												 value="#{proveedor.prov.representante}" />
 								</td>
 							</tr>
 							<tr>
 								<td><h:outputLabel value=""/></td>
 							</tr>
 							<tr>
-								<td style="text-align: right !important">Color:&#8239;</td>
+								<td style="text-align: right !important">Pais:&#8239;</td>
 								<td>
-									<h:inputText pt:placeholder="Color"
-												 value="#{quimico.descqui.desq_color}" />
+									<h:inputText pt:placeholder="Pais"
+												 value="#{proveedor.prov.pais}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">Direccion:&#8239;</td>
+								<td>
+									<h:inputText pt:placeholder="Direccion"
+												 value="#{proveedor.prov.dire}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">Telefono:&#8239;</td>
+								<td>
+									<h:inputText pt:placeholder="Telefono"
+												 value="#{proveedor.prov.telefono}" />
 								</td>
 							</tr>
 						</table>
 						<br/>
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('agregar_desc').hide()"
-									listener="#{quimico.guardar_descripcion()}" />
+							<f:ajax execute="@form" event="click" render="agregarProv frm_proveedor"
+									onevent="PF('agregar_prov').hide()"
+									listener="#{proveedor.guardar()}" />
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('agregar_desc').hide()"
-									listener="#{quimico.limpiar_desc()}" />
+							<f:ajax execute="@form" event="click" render="agregarProv frm_proveedor"
+									onevent="PF('agregar_prov').hide()"
+									listener="#{proveedor.limpiar()}" />
 						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 
 				***********************************
-				*	Fin Agregar Descripcion		  *
+				*	Fin Agregar Proveedor		  *
 				***********************************
 				-->
 				<!-- 
 				***********************************
-				*	Empieza Editar Quimico		  *
+				*	Empieza Editar Proveedor	  *
 				***********************************
 				-->
-				<p:dialog header="Editar Quimico" closable="false" closeOnEscape="true" onHide="#{quimico.limpiar_qui()}" widgetVar="qui_editar" minHeight="40" width="400" showEffect="fade" modal="true">
-					<h:form id="editarQ">
+				<p:dialog header="Editar Proveedor" closable="false" closeOnEscape="true" onHide="#{proveedor.limpiar()}" widgetVar="editar_prov" minHeight="40" width="400" showEffect="fade" modal="true">
+					<h:form id="editarProv">
 						<table id="tbedit">
 							<tr>
-								<td style="text-align: right !important">Nombre Comercial:</td>
-								<td><h:outputLabel value="#{quimico.quimi.qui_nombreC}" />
+								<td style="text-align: right !important">
+									Ruc:&#8239;
 								</td>
-								<td><h:inputText pt:placeholder="Nombre Comercial" value="#{quimico.quimi.qui_nombreC}" /></td>
+								<td>
+									<h:inputText pt:placeholder="RUC" value="#{proveedor.prov.ruc}" />
+								</td>
 							</tr>
 							<tr>
 								<td><h:outputLabel value=""/></td>
 							</tr>
 							<tr>
-								<td style="text-align: right !important">Quimico:</td>
-								<td><h:outputLabel value="#{quimico.quimi.qui_quimico}" />
+								<td style="text-align: right !important">
+									Nombre Comercial:&#8239;
 								</td>
-								<td><h:inputText pt:placeholder="Quimico"
-												 disabled="#{!(quimico.quimi.qui_quimico.length()==0)}"
-												 value="#{quimico.quimi.qui_quimico}" /></td>
+								<td>
+									<h:inputText pt:placeholder="Nombre Comercial" value="#{proveedor.prov.nombreC}" />
+								</td>
 							</tr>
 							<tr>
 								<td><h:outputLabel value=""/></td>
 							</tr>
 							<tr>
-								<td style="text-align: right !important">CPC:</td>
-								<td><h:outputLabel value="#{quimico.quimi.qui_CPC}" /></td>
-								<td><h:inputText pt:placeholder="CPC"
-												 value="#{quimico.quimi.qui_CPC}" /></td>
+								<td style="text-align: right !important">
+									Representante:&#8239;
+								</td>
+								<td>
+									<h:inputText pt:placeholder="Representante"
+												 value="#{proveedor.prov.representante}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">Pais:&#8239;</td>
+								<td>
+									<h:inputText pt:placeholder="Pais"
+												 value="#{proveedor.prov.pais}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">Direccion:&#8239;</td>
+								<td>
+									<h:inputText pt:placeholder="Direccion"
+												 value="#{proveedor.prov.dire}" />
+								</td>
+							</tr>
+							<tr>
+								<td><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
+								<td style="text-align: right !important">Telefono:&#8239;</td>
+								<td>
+									<h:inputText pt:placeholder="Telefono"
+												 value="#{proveedor.prov.telefono}" />
+								</td>
 							</tr>
 						</table>
 						<br/>
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('qui_editar').hide()"
-									listener="#{quimico.actualizar()}" />
+							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"
+									onevent="PF('editar_prov').hide()"
+									listener="#{proveedor.guardar()}" />
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('qui_editar').hide()"
-									listener="#{quimico.limpiar_qui()}" />
+							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"
+									onevent="PF('editar_prov').hide()"
+									listener="#{proveedor.limpiar()}" />
 						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 
 				***********************************
-				*	Fin Editar Quimico		  *
-				***********************************
-				-->
-				<!-- 
-				***********************************
-				*	Empieza Guardar Quimico		  *
-				***********************************
-				-->
-				<p:dialog header="Nuevo Quimico" closable="false" closeOnEscape="true" onHide="#{quimico.limpiar_qui()}" widgetVar="qui_guardar" minHeight="40" width="400" showEffect="fade" modal="true">
-					<h:form id="guardarQ">
-						<table id="tbguardar">
-							<tr>
-								<td style="text-align: right !important">Nombre Comercial:</td>
-								<td><h:inputText pt:placeholder="Nombre Comercial" value="#{quimico.quimi.qui_nombreC}" /></td>
-							</tr>
-							<tr>
-								<td><h:outputLabel value=""/></td>
-							</tr>
-							<tr>
-								<td style="text-align: right !important">Quimico:</td>
-								<td><h:inputText pt:placeholder="Quimico" disabled="#{!(quimico.quimi.qui_quimico.length()==0)}"
-												 value="#{quimico.quimi.qui_quimico}" /></td>
-							</tr>
-							<tr>
-								<td><h:outputLabel value=""/></td>
-							</tr>
-							<tr>
-								<td style="text-align: right !important">CPC:</td>
-								<td><h:inputText pt:placeholder="CPC"
-												 value="#{quimico.quimi.qui_CPC}" /></td>
-							</tr>
-						</table>
-						<br/>
-						<h:commandButton id="btn_guardar" class="btn btn-primary" value="Guardar Cambios">
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('qui_qui_guardar').hide()"
-									listener="#{quimico.guardar()}" />
-						</h:commandButton>&#8239;
-						<h:commandButton id="btn_limpiar" class="btn btn-success" value="Salir"> 
-							<f:ajax execute="@form" event="click" render="frm_tablaquimi"
-									onevent="PF('qui_qui_guardar').hide()"
-									listener="#{quimico.limpiar_qui()}" />
-						</h:commandButton>
-					</h:form>
-				</p:dialog>
-				<!-- 
-				***********************************
-				*	Fin Guardar Quimico			  *
+				*	Fin Editar Proveedor		  *
 				***********************************
 				-->
 			</ui:define>

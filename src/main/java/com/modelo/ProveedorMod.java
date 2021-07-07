@@ -19,7 +19,7 @@ public class ProveedorMod extends UtilitarioMod<Proveedor> implements Serializab
 		this.getLis().clear();
 		try {
 			ResultSet rst = Conexion.conectar().prepareStatement(
-					"SELECT * FROM public.public.public.tbl_proveedores pro where pro.pro_est!='I' ORDER BY pro.\"pro_nombreC\"")
+					"SELECT * FROM public.tbl_proveedores pro where pro.pro_est!='I' ORDER BY pro.\"pro_nombreC\"")
 					.executeQuery();
 			while (rst.next()) {
 				this.getLis().add(new Proveedor(rst.getInt("usu_id_UltMod"), rst.getDate("fecha_in"),
@@ -117,10 +117,11 @@ public class ProveedorMod extends UtilitarioMod<Proveedor> implements Serializab
 			pst.setString(3, nuevo.getDire());
 			pst.setString(4, nuevo.getRepresentante());
 			pst.setString(5, nuevo.getPais());
-			pst.setDate(6, Date.valueOf(LocalDate.now()));
+			pst.setString(6, "A");
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
-			pst.setInt(8, nuevo.getUsu_id_UltMod());
-			pst.setString(9, nuevo.getNombreC());
+			pst.setDate(8, Date.valueOf(LocalDate.now()));
+			pst.setInt(9, nuevo.getUsu_id_UltMod());
+			pst.setString(10, nuevo.getNombreC());
 			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();

@@ -5,56 +5,57 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class Institucion extends Auditoria implements Serializable {
+
 	private static final long serialVersionUID = -1638065153921018732L;
 	private String ruc, telefono, dire, representante, pais, est, nombreC;
 
 	public String getRuc() {
-        return ruc;
-    }
+		return ruc;
+	}
 
-    public void setRuc(String ruc) {
-        this.ruc = ruc;
-    }
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
 
-    public String getTelefono() {
-        return telefono;
-    }
+	public String getTelefono() {
+		return telefono;
+	}
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
 
-    public String getDire() {
-        return dire;
-    }
+	public String getDire() {
+		return dire;
+	}
 
-    public void setDire(String dire) {
-        this.dire = dire;
-    }
+	public void setDire(String dire) {
+		this.dire = dire;
+	}
 
-    public String getRepresentante() {
-        return representante;
-    }
+	public String getRepresentante() {
+		return representante;
+	}
 
-    public void setRepresentante(String representante) {
-        this.representante = representante;
-    }
+	public void setRepresentante(String representante) {
+		this.representante = representante;
+	}
 
-    public String getPais() {
-        return pais;
-    }
+	public String getPais() {
+		return pais;
+	}
 
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
 
-    public String getEst() {
-        return est;
-    }
+	public String getEst() {
+		return est;
+	}
 
-    public void setEst(String est) {
-        this.est = est;
-    }
+	public void setEst(String est) {
+		this.est = est;
+	}
 
 	public String getNombreC() {
 		return nombreC;
@@ -77,7 +78,12 @@ public class Institucion extends Auditoria implements Serializable {
 	}
 
 	public Institucion() {
-		this(0,Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()),"","","","","", "", "");
+		this(0, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()), "", "", "", "", "", "", "");
 	}
 
+	public boolean hasEmptyFields() {
+		return this.equals(new Institucion()) || this.dire.equals("") || this.nombreC.equals("")
+				|| this.pais.equals("") || this.representante.equals("")
+				|| this.ruc.equals("") || this.telefono.equals("");
+	}
 }

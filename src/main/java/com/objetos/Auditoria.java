@@ -13,7 +13,7 @@ public class Auditoria implements Serializable {
         return usu_id_UltMod;
     }
 
-    public void setUsu_id_UltMod(int usu_id_UltMod) {
+	public void setUsu_id_UltMod(int usu_id_UltMod) {
         this.usu_id_UltMod = usu_id_UltMod;
     }
 
@@ -42,4 +42,5 @@ public class Auditoria implements Serializable {
 	public Auditoria() {
 		this(0,Date.valueOf(LocalDate.now()),Date.valueOf(LocalDate.now()));
 	}
+	
 }

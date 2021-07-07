@@ -5,6 +5,7 @@
  */
 package com.jsf;
 
+import com.modelo.ProveedorMod;
 import com.objetos.Proveedor;
 import java.io.Serializable;
 import java.util.List;
@@ -23,23 +24,64 @@ public class ProveedorControlador implements Serializable {
 	private static final long serialVersionUID = -8404778928087984105L;
 	private String buscador;
 	private List<Proveedor> lista;
+	private Proveedor prov = new Proveedor();
+	private final ProveedorMod modprov = new ProveedorMod();
 
-	public void buscar(){
-		
+	public void todo() {
+		this.setLista(modprov.todos());
 	}
-	
-	public void seleccionar(Proveedor pro){
-		
+
+	public void buscar() {
+
 	}
-	
-	
-	public void borrar(int id){
-		
+
+	public void seleccionar(Proveedor pro) {
+
 	}
+
+	public void borrar(int id) {
+
+	}
+
+	public void limpiar() {
+		this.todo();
+		this.setProv(new Proveedor());
+	}
+
+	public void guardar() {
+		this.prov.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+		try {
+			if (this.prov.hasEmptyFields()) {
+				UtilitarioControlador.advertencia("Existen Campos Vacios");
+			} else {
+				if (this.prov.getPais().equals("ecuador") || this.prov.getPais().equals("Ecuador")) {
+					if (UtilitarioControlador.validaRuc(this.prov.getRuc())) {
+						if (this.modprov.guardar(this.prov)) {
+							UtilitarioControlador.informativo("Se registro con exito");
+							limpiar();
+						} else {
+							UtilitarioControlador.advertencia("No se pudo guardar");
+						}
+					} else {
+						UtilitarioControlador.advertencia("El RUC no es valido");
+					}
+				} else {
+					if (this.modprov.guardar(this.prov)) {
+						UtilitarioControlador.informativo("Se registro con exito");
+						limpiar();
+					} else {
+						UtilitarioControlador.advertencia("No se pudo guardar");
+					}
+				}
+			}
+		} catch (Exception e) {
+			UtilitarioControlador.error("Ocurrio un error: " + e.getMessage());
+		}
+	}
+
 	/*
-	Getters y Setters
-	*/
-
+	 * Getters y Setters
+	 */
 	public String getBuscador() {
 		return buscador;
 	}
@@ -56,4 +98,15 @@ public class ProveedorControlador implements Serializable {
 		this.lista = lista;
 	}
 
+	public Proveedor getProv() {
+		return prov;
+	}
+
+	public void setProv(Proveedor prov) {
+		this.prov = prov;
+	}
+
+	public ProveedorControlador() {
+		this.todo();
+	}
 }

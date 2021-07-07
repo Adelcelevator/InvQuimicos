@@ -21,7 +21,7 @@ public class Venta extends Auditoria implements Serializable {
         this.ven_fecha = ven_fecha;
         this.setFecha_in(fecha_in);
         this.setFecha_mod(fecha_mod);
-        this.setUsu_id_UltMod(usu_id_UltMod);
+		this.setUsu_id_UltMod(usu_id_UltMod);
     }
 
     public Venta() {

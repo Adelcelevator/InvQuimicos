@@ -40,29 +40,63 @@ public class UtilitarioControlador implements Serializable {
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", mensaje.toUpperCase()));
 	}
 
-	public final static void redirigir(String direcion) throws Exception{
-			FacesContext.getCurrentInstance().getExternalContext().redirect(direcion);
+	public final static void redirigir(String direcion) throws Exception {
+		FacesContext.getCurrentInstance().getExternalContext().redirect(direcion);
 	}
-	
-	public final static void guardar(String clave,Object valor){
+
+	public final static void guardar(String clave, Object valor) {
 		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(clave, valor);
 	}
-	
-	public final static Object sacar(String clave){
+
+	public final static Object sacar(String clave) {
 		return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(clave);
 	}
-	
+
 	public static Usuario getUsu() {
 		return (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
 	}
-	
-	public final static void vamonos(){
+
+	public final static void vamonos() {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
 			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/InvQuimicos");
 		} catch (Exception e) {
 			System.out.println("ERROR AL CERRAR LA SESION");
+		}
+	}
+
+	public final static Boolean validaRuc(String ruc) {
+		try {
+			Double.parseDouble(ruc);
+			int[] ci = new int[ruc.length()];
+			int suma = 0;
+			for (int i = 0; i < ruc.length(); i++) {
+				ci[i] = Integer.parseInt(String.valueOf(ruc.charAt(i)));
+			}
+			ci[0] = ci[0] * 2;
+			ci[1] = ci[1] * 1;
+			ci[2] = ci[2] * 2;
+			ci[3] = ci[3] * 1;
+			ci[4] = ci[4] * 2;
+			ci[5] = ci[5] * 1;
+			ci[6] = ci[6] * 2;
+			ci[7] = ci[7] * 1;
+			ci[8] = ci[8] * 2;
+			for (int i = 0; i < 9; i++) {
+				if (ci[i] >= 10) {
+					ci[i] = ci[i] - 9;
+				}
+				suma = suma + ci[i];
+			}
+			int dv = (suma + (10 - (suma % 10))) - suma;
+			dv = dv == 10 ? 0 : dv;
+			if (dv == ci[9]) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }

@@ -23,6 +23,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Protegidos/inventario.quimicos</welcome-file>
+        <welcome-file>Protegidos/proveedores.quimicos</welcome-file>
     </welcome-file-list>
 </web-app>

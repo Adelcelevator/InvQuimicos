@@ -25,4 +25,12 @@ public class Cliente extends Institucion implements Serializable {
 	public Cliente() {
 		this(0, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()), "", "", "", "", "", "", "", 0);
 	}
+
+	@Override
+	public String toString() {
+		return "Cliente [cli_id=" + cli_id + ", getRuc()=" + getRuc() + ", getTelefono()=" + getTelefono()
+				+ ", getDire()=" + getDire() + ", getRepresentante()=" + getRepresentante() + ", getPais()=" + getPais()
+				+ ", getEst()=" + getEst() + ", getNombreC()=" + getNombreC() + "]";
+	}
+
 }

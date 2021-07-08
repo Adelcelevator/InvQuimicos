@@ -163,16 +163,14 @@ public class ProveedorMod extends UtilitarioMod<Proveedor> implements Serializab
 		cn.setAutoCommit(false);
 		try {
 			PreparedStatement pst = cn.prepareStatement(
-					"UPDATE public.tbl_proveedores SET pro_ruc=?, pro_telefono=?, pro_dire=?, pro_representante=?, pro_pais=?, fecha_mod=?, \"usu_id_ultMod\"=?, \"pro_nombreC\"=? WHERE pro_id=?;");
-			pst.setString(1, actual.getRuc().toLowerCase());
-			pst.setString(2, actual.getTelefono().toLowerCase());
-			pst.setString(3, actual.getDire());
-			pst.setString(4, actual.getRepresentante());
-			pst.setString(5, actual.getPais());
-			pst.setDate(6, Date.valueOf(LocalDate.now()));
-			pst.setInt(7, actual.getUsu_id_UltMod());
-			pst.setString(8, actual.getNombreC());
-			pst.setInt(9, actual.getPro_id());
+					"UPDATE public.tbl_proveedores SET pro_telefono=?, pro_dire=?, pro_representante=?, fecha_mod=?, \"usu_id_UltMod\"=?, \"pro_nombreC\"=? WHERE pro_id=?;");
+			pst.setString(1, actual.getTelefono().toLowerCase());
+			pst.setString(2, actual.getDire());
+			pst.setString(3, actual.getRepresentante());
+			pst.setDate(4, Date.valueOf(LocalDate.now()));
+			pst.setInt(5, actual.getUsu_id_UltMod());
+			pst.setString(6, actual.getNombreC());
+			pst.setInt(7, actual.getPro_id());
 			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
@@ -181,7 +179,7 @@ public class ProveedorMod extends UtilitarioMod<Proveedor> implements Serializab
 			cn.rollback();
 			cn.close();
 			System.err
-					.println("ERROR AL ACTUALIZAR EL CLIENTE DE ID " + actual.getPro_id() + ": " + e.getMessage());
+					.println("ERROR AL ACTUALIZAR EL PROVEEDOR DE ID " + actual.getPro_id() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
 		return this.isFue();

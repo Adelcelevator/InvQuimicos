@@ -56,24 +56,30 @@ and open the template in the editor.
 							<h:outputLabel value="#{prov.telefono}" />
 						</p:column>
 						<p:column headerText="Opciones">
-							<h:commandLink class="btn btn-success" id="btn_edit">
-								<i class="pi pi-check-square"></i>
-								<f:ajax execute="btn_edit" event="click"
-										listener="#{proveedor.seleccionar(prov)}" render="@form" />
-							</h:commandLink>&#8239;
-							<h:commandLink class="btn btn-primary" id="btn_editar">
-								<i class="pi pi-pencil"></i>
-								<f:ajax execute="btn_editar" event="click"
-										listener="#{proveedor.seleccionar(prov)}" 
-										onevent="PF('editar_prov').show()"
-										render="editarQ"/>
-							</h:commandLink><br/>
-							<br/>
-							<center><h:commandLink class="btn btn-danger" id="btn_borrar">
+							<center>
+								<h:commandLink class="btn btn-success" id="btn_edit">
+									<i class="pi pi-check-square"></i>
+									<f:ajax execute="btn_edit" event="click"
+											listener="#{proveedor.seleccionar(prov)}" render="@form" />
+								</h:commandLink>
+								<br/>
+								<br/>
+								<h:commandLink class="btn btn-primary" id="btn_editar">
+									<i class="pi pi-pencil"></i>
+									<f:ajax execute="btn_editar" event="click"
+											listener="#{proveedor.seleccionar(prov)}" 
+											onevent="PF('editar_prov').show()"
+											render="editarProv"/>
+								</h:commandLink>
+								<br/>
+								<br/>
+								<h:commandLink class="btn btn-danger" id="btn_borrar">
 									<i class="pi pi-trash"></i>
 									<f:ajax execute="btn_borrar" event="click"
-											listener="#{proveedor.borrar(prov.pro_id)}" render="frm_proveedor" />
-								</h:commandLink></center>
+											listener="#{proveedor.borrar(prov.pro_id)}" 
+											render="frm_proveedor frm_proveedor:tbl_prov" />
+								</h:commandLink>
+							</center>
 						</p:column>
 					</p:dataTable>
 				</h:form>
@@ -94,7 +100,7 @@ and open the template in the editor.
 						<table id="tbag">
 							<tr>
 								<td style="text-align: right !important">
-									Ruc:&#8239;
+									RUC:&#8239;
 								</td>
 								<td>
 									<h:inputText pt:placeholder="RUC" value="#{proveedor.prov.ruc}" />
@@ -182,10 +188,10 @@ and open the template in the editor.
 						<table id="tbedit">
 							<tr>
 								<td style="text-align: right !important">
-									Ruc:&#8239;
+									RUC:&#8239;
 								</td>
 								<td>
-									<h:inputText pt:placeholder="RUC" value="#{proveedor.prov.ruc}" />
+									<h:outputLabel value="#{proveedor.prov.ruc}" />
 								</td>
 							</tr>
 							<tr>
@@ -217,8 +223,7 @@ and open the template in the editor.
 							<tr>
 								<td style="text-align: right !important">Pais:&#8239;</td>
 								<td>
-									<h:inputText pt:placeholder="Pais"
-												 value="#{proveedor.prov.pais}" />
+									<h:outputLabel value="#{proveedor.prov.pais}"/>
 								</td>
 							</tr>
 							<tr>
@@ -246,7 +251,7 @@ and open the template in the editor.
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
 							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"
 									onevent="PF('editar_prov').hide()"
-									listener="#{proveedor.guardar()}" />
+									listener="#{proveedor.editar()}" />
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 
 							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"

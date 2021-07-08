@@ -36,11 +36,34 @@ public class ProveedorControlador implements Serializable {
 	}
 
 	public void seleccionar(Proveedor pro) {
-
+		this.prov = pro;
 	}
 
 	public void borrar(int id) {
-
+		try {
+			if(this.modprov.borrar(id, UtilitarioControlador.getUsu().getUsu_id())){
+				UtilitarioControlador.informativo("Borrado con Exito");
+			}else{
+				UtilitarioControlador.advertencia("Existio un problema al eliminar");
+			}
+		} catch (Exception e) {
+			UtilitarioControlador.error("Existio un error al eliminar: "+e.getMessage());
+		}
+	}
+	
+	public void editar(){
+		this.prov.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+		try {
+			if (this.modprov.actualizar(this.prov)) {
+				UtilitarioControlador.informativo("Proveedor Actualizado con exito");
+				this.limpiar();
+			}else{
+				UtilitarioControlador.advertencia("Existio un problema al actualizar");
+				this.limpiar();
+			}
+		} catch (Exception e) {
+			UtilitarioControlador.error("Ocurrio un error al editar el proveedor"+e.getMessage());
+		}
 	}
 
 	public void limpiar() {

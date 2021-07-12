@@ -18,58 +18,58 @@ and open the template in the editor.
 	<h:body>
 		<ui:composition template="../Template/template.xhtml">
 			<ui:define name="cuerpo">
-				<h:form id="frm_proveedor">
+				<h:form id="frm_cliente">
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-					<h:inputText id="txt_buscador" value="#{proveedor.buscador}" pt:placeholder="Proveedor, RUC" size="25">
-						<f:ajax execute="frm_proveedor:txt_buscador" listener="#{proveedor.buscar()}" event="keyup" render="frm_proveedor:tbl_prov" />
+					<h:inputText id="txt_buscador" value="#{cliente.buscador}" pt:placeholder="Cliente, RUC" size="25">
+						<f:ajax execute="frm_cliente:txt_buscador" listener="#{cliente.buscar()}" event="keyup" render="frm_cliente:tbl_cli" />
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-plus"></i>
-						<f:ajax event="click" onevent="PF('agregar_prov').show()"/>
+						<f:ajax event="click" onevent="PF('agregar_cli').show()"/>
 					</h:commandLink>
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
 					<!-- 
 					***********************************
-					*	Inicio Tabla de Proveedores	  *
+					*	Inicio Tabla de Clientes	  *
 					***********************************
 					-->
-					<p:dataTable id="tbl_prov" var="prov" value="#{proveedor.lista}" rows="5" paginator="true">
+					<p:dataTable id="tbl_cli" var="cli" value="#{cliente.lista}" rows="5" paginator="true">
 						<f:facet name="header">
-							Proveedores
+							Clientes
 						</f:facet>
 						<p:column headerText="RUC">
-							<h:outputLabel value="#{prov.ruc}" />
+							<h:outputLabel value="#{cli.ruc}" />
 						</p:column>
 						<p:column headerText="Nombre Comercial">
-							<h:outputLabel value="#{prov.nombreC}" />
+							<h:outputLabel value="#{cli.nombreC}" />
 						</p:column>
 						<p:column headerText="Representante">
-							<h:outputLabel value="#{prov.representante}" />
+							<h:outputLabel value="#{cli.representante}" />
 						</p:column>
 						<p:column headerText="Pais">
-							<h:outputLabel value="#{prov.pais}" />
+							<h:outputLabel value="#{cli.pais}" />
 						</p:column>
 						<p:column headerText="Direccion">
-							<h:outputLabel value="#{prov.dire}" />
+							<h:outputLabel value="#{cli.dire}" />
 						</p:column>
 						<p:column headerText="Telefono">
-							<h:outputLabel value="#{prov.telefono}" />
+							<h:outputLabel value="#{cli.telefono}" />
 						</p:column>
 						<p:column headerText="Opciones">
 							<center>
 								<h:commandLink class="btn btn-primary" id="btn_editar">
 									<i class="pi pi-pencil"></i>
 									<f:ajax execute="btn_editar" event="click"
-											listener="#{proveedor.seleccionar(prov)}" 
-											onevent="PF('editar_prov').show()"
-											render="editarProv"/>
+											listener="#{cliente.seleccionar(cli)}" 
+											onevent="PF('editar_cli').show()"
+											render="editarCli"/>
 								</h:commandLink>
 								<br/>
 								<br/>
 								<h:commandLink class="btn btn-danger" id="btn_borrar">
 									<i class="pi pi-trash"></i>
 									<f:ajax execute="btn_borrar" event="click"
-											listener="#{proveedor.borrar(prov.pro_id)}" 
+											listener="#{cliente.borrar(cli.cli_id)}" 
 											render="@form" />
 								</h:commandLink>
 							</center>
@@ -80,23 +80,23 @@ and open the template in the editor.
 				<br/>
 				<!-- 
 				***********************************
-				*	Fin Tabla de Proveedores	  *
+				*	Fin Tabla de Clientes		  *
 				***********************************
 				-->
 				<!-- 
 				***********************************
-				*	Empieza Agregar Proveedor     *
+				*	Empieza Agregar Clientes      *
 				***********************************
 				-->
-				<p:dialog header="Agregar Proveedor" closable="false" closeOnEscape="true" onHide="#{proveedor.limpiar()}" widgetVar="agregar_prov" minHeight="40" width="400" showEffect="fade" modal="true">
-					<h:form id="agregarProv">
+				<p:dialog header="Agregar Cliente" closable="false" closeOnEscape="true" onHide="#{cliente.limpiar()}" widgetVar="agregar_cli" minHeight="40" width="400" showEffect="fade" modal="true">
+					<h:form id="agregarCli">
 						<table id="tbag">
 							<tr>
 								<td style="text-align: right !important">
 									RUC:&#8239;
 								</td>
 								<td>
-									<h:inputText pt:placeholder="RUC" value="#{proveedor.prov.ruc}" />
+									<h:inputText pt:placeholder="RUC" value="#{cliente.cli.ruc}" />
 								</td>
 							</tr>
 							<tr>
@@ -107,7 +107,7 @@ and open the template in the editor.
 									Nombre Comercial:&#8239;
 								</td>
 								<td>
-									<h:inputText pt:placeholder="Nombre Comercial" value="#{proveedor.prov.nombreC}" />
+									<h:inputText pt:placeholder="Nombre Comercial" value="#{cliente.cli.nombreC}" />
 								</td>
 							</tr>
 							<tr>
@@ -119,7 +119,7 @@ and open the template in the editor.
 								</td>
 								<td>
 									<h:inputText pt:placeholder="Representante"
-												 value="#{proveedor.prov.representante}" />
+												 value="#{cliente.cli.representante}" />
 								</td>
 							</tr>
 							<tr>
@@ -129,7 +129,7 @@ and open the template in the editor.
 								<td style="text-align: right !important">Pais:&#8239;</td>
 								<td>
 									<h:inputText pt:placeholder="Pais"
-												 value="#{proveedor.prov.pais}" />
+												 value="#{cliente.cli.pais}" />
 								</td>
 							</tr>
 							<tr>
@@ -139,7 +139,7 @@ and open the template in the editor.
 								<td style="text-align: right !important">Direccion:&#8239;</td>
 								<td>
 									<h:inputText pt:placeholder="Direccion"
-												 value="#{proveedor.prov.dire}" />
+												 value="#{cliente.cli.dire}" />
 								</td>
 							</tr>
 							<tr>
@@ -149,42 +149,42 @@ and open the template in the editor.
 								<td style="text-align: right !important">Telefono:&#8239;</td>
 								<td>
 									<h:inputText pt:placeholder="Telefono"
-												 value="#{proveedor.prov.telefono}" />
+												 value="#{cliente.cli.telefono}" />
 								</td>
 							</tr>
 						</table>
 						<br/>
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
-							<f:ajax execute="@form" event="click" render="agregarProv frm_proveedor"
-									onevent="PF('agregar_prov').hide()"
-									listener="#{proveedor.guardar()}" />
+							<f:ajax execute="@form" event="click" render="agregarCli frm_cliente"
+									onevent="PF('agregar_cli').hide()"
+									listener="#{cliente.guardar()}" />
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 
-							<f:ajax execute="@form" event="click" render="agregarProv frm_proveedor"
-									onevent="PF('agregar_prov').hide()"
-									listener="#{proveedor.limpiar()}" />
+							<f:ajax execute="@form" event="click" render="agregarCli frm_cliente"
+									onevent="PF('agregar_cli').hide()"
+									listener="#{cliente.limpiar()}" />
 						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 
 				***********************************
-				*	Fin Agregar Proveedor		  *
+				*	Fin Agregar Cliente		  *
 				***********************************
 				-->
 				<!-- 
 				***********************************
-				*	Empieza Editar Proveedor	  *
+				*	Empieza Editar Cliente	  *
 				***********************************
 				-->
-				<p:dialog header="Editar Proveedor" closable="false" closeOnEscape="true" onHide="#{proveedor.limpiar()}" widgetVar="editar_prov" minHeight="40" width="400" showEffect="fade" modal="true">
-					<h:form id="editarProv">
+				<p:dialog header="Editar Cliente" closable="false" closeOnEscape="true" onHide="#{cliente.limpiar()}" widgetVar="editar_cli" minHeight="40" width="400" showEffect="fade" modal="true">
+					<h:form id="editarCli">
 						<table id="tbedit">
 							<tr>
 								<td style="text-align: right !important">
 									RUC:&#8239;
 								</td>
 								<td>
-									<h:outputLabel value="#{proveedor.prov.ruc}" />
+									<h:outputLabel value="#{cliente.cli.ruc}" />
 								</td>
 							</tr>
 							<tr>
@@ -195,7 +195,7 @@ and open the template in the editor.
 									Nombre Comercial:&#8239;
 								</td>
 								<td>
-									<h:inputText pt:placeholder="Nombre Comercial" value="#{proveedor.prov.nombreC}" />
+									<h:inputText pt:placeholder="Nombre Comercial" value="#{cliente.cli.nombreC}" />
 								</td>
 							</tr>
 							<tr>
@@ -207,7 +207,7 @@ and open the template in the editor.
 								</td>
 								<td>
 									<h:inputText pt:placeholder="Representante"
-												 value="#{proveedor.prov.representante}" />
+												 value="#{cliente.cli.representante}" />
 								</td>
 							</tr>
 							<tr>
@@ -216,7 +216,7 @@ and open the template in the editor.
 							<tr>
 								<td style="text-align: right !important">Pais:&#8239;</td>
 								<td>
-									<h:outputLabel value="#{proveedor.prov.pais}"/>
+									<h:outputLabel value="#{cliente.cli.pais}"/>
 								</td>
 							</tr>
 							<tr>
@@ -226,7 +226,7 @@ and open the template in the editor.
 								<td style="text-align: right !important">Direccion:&#8239;</td>
 								<td>
 									<h:inputText pt:placeholder="Direccion"
-												 value="#{proveedor.prov.dire}" />
+												 value="#{cliente.cli.dire}" />
 								</td>
 							</tr>
 							<tr>
@@ -236,26 +236,26 @@ and open the template in the editor.
 								<td style="text-align: right !important">Telefono:&#8239;</td>
 								<td>
 									<h:inputText pt:placeholder="Telefono"
-												 value="#{proveedor.prov.telefono}" />
+												 value="#{cliente.cli.telefono}" />
 								</td>
 							</tr>
 						</table>
 						<br/>
 						<h:commandButton class="btn btn-primary" value="Guardar Cambios">
-							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"
-									onevent="PF('editar_prov').hide()"
-									listener="#{proveedor.editar()}" />
+							<f:ajax execute="@form" event="click" render="frm_cliente editarCli"
+									onevent="PF('editar_cli').hide()"
+									listener="#{cliente.editar()}" />
 						</h:commandButton>&#8239;
 						<h:commandButton class="btn btn-success" value="Salir"> 
-							<f:ajax execute="@form" event="click" render="frm_proveedor editarProv"
-									onevent="PF('editar_prov').hide()"
-									listener="#{proveedor.limpiar()}" />
+							<f:ajax execute="@form" event="click" render="frm_cliente editarCli"
+									onevent="PF('editar_cli').hide()"
+									listener="#{cliente.limpiar()}" />
 						</h:commandButton>
 					</h:form>
 				</p:dialog>
 				<!-- 
 				***********************************
-				*	Fin Editar Proveedor		  *
+				*	Fin Editar Cliente		  *
 				***********************************
 				-->
 			</ui:define>

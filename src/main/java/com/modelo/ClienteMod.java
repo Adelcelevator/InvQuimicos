@@ -67,7 +67,7 @@ public class ClienteMod extends UtilitarioMod<Cliente> implements Serializable {
 	public Cliente buscado(int id) {
 		try {
 			PreparedStatement pst = Conexion.conectar()
-					.prepareStatement("SELECT * from public.tbl_clientes cli WHERE cli.cli_id =? AND cli.cli_est!='I';");
+					.prepareStatement("SELECT * from public.tbl_clientes cli WHERE cli.cli_id =?;");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
 			if (rst.next()) {

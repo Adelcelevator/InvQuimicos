@@ -59,7 +59,7 @@ and open the template in the editor.
 								<h:commandLink class="btn btn-success" id="btn_seleccionar">
 									<i class="pi pi-check-square"></i>
 									<f:ajax execute="btn_seleccionar" event="click"
-											listener="#{venta.seleccionar(venta)}"
+											listener="#{venta.seleccionar(ven)}"
 											render="@form"/>
 								</h:commandLink>
 								<br/>
@@ -68,19 +68,54 @@ and open the template in the editor.
 									<i class="pi pi-trash"></i>
 									<f:ajax execute="btn_borrar" event="click"
 											listener="#{venta.archivar(ven.ven_id)}" 
-											render="@form" />
+											render="frm_venta:tbl_venta" />
 								</h:commandLink>
 							</center>
 						</p:column>
 					</p:dataTable>
+					<br/>
+					<br/>
+					<br/>
+					<!-- 
+					***********************************
+					*	Fin Tabla de Ventas			  *
+					***********************************
+					-->
+					<!-- 
+					***********************************
+					*	Inicio Detalle Venta		  *
+					***********************************
+					-->
+					<p:dataTable id="tbl_detven" rendered="#{!(venta.listadet.size()==0)}" var="det" value="#{venta.listadet}">
+						<f:facet name="header">
+							Venta ID: ${det.ven_id} 
+							<br/>
+							Factura #: ${venta.venta.ven_numFac}
+						</f:facet>
+						<p:column headerText="ID Inventario">
+							<h:outputLabel value="#{det.inv_id}" />
+						</p:column>
+						<p:column headerText="Cantidad">
+							<h:outputLabel value="#{det.detalle_cantidad}" />
+						</p:column>
+						<p:column headerText="Valor Unitario">
+							<h:outputLabel value="#{det.detalle_valorU}" />
+						</p:column>
+						<p:column headerText="Valor Total">
+							<h:outputLabel value="#{(det.detalle_cantidad*det.detalle_valorU)}" />
+						</p:column>
+						<f:facet name="footer">
+							Valor total: ${det.detalle_valorTv}
+						</f:facet>
+					</p:dataTable>
+					<!--
+					***********************************
+					*	Fin Detalle Venta			  *
+					***********************************
+					-->
 				</h:form>
 				<br/>
-				<br/>
-				<!-- 
-				***********************************
-				*	Fin Tabla de Ventas			  *
-				***********************************
-				-->
+				<br/>				
 			</ui:define>
 		</ui:composition>
 	</h:body>

@@ -6,9 +6,12 @@
 package com.jsf;
 
 import com.modelo.ClienteMod;
+import com.modelo.DetalleVentaMod;
 import com.modelo.VentaMod;
+import com.objetos.DetalleVenta;
 import com.objetos.Venta;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -24,6 +27,7 @@ public class VentaControlador implements Serializable {
 
 	private static final long serialVersionUID = 1231918322852835640L;
 	private List<Venta> lista;
+	private List<DetalleVenta> listadet = new ArrayList<>();
 	private Venta venta;
 	private String Buscador;
 	private final VentaMod modventa = new VentaMod();
@@ -41,8 +45,10 @@ public class VentaControlador implements Serializable {
 	return modcli.buscado(id).getNombreC();
 	}
 
-	public void Seleccionar(Venta ven) {
+	public void seleccionar(Venta ven) {
 		this.setVenta(ven);
+		DetalleVentaMod moddetven = new DetalleVentaMod();
+		this.setListadet(moddetven.todos(this.venta.getVen_id()));
 	}
 
 	public void archivar(int id){
@@ -86,5 +92,13 @@ public class VentaControlador implements Serializable {
 
 	public VentaControlador() {
 		this.todo();
+	}
+
+	public List<DetalleVenta> getListadet() {
+		return listadet;
+	}
+
+	public void setListadet(List<DetalleVenta> listadet) {
+		this.listadet = listadet;
 	}
 }

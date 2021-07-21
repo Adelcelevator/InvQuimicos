@@ -20,8 +20,8 @@ and open the template in the editor.
 			<ui:define name="cuerpo">
 				<h:form id="frm_venta">
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-					<h:inputText id="txt_buscador" value="#{venta.buscador}" pt:placeholder="Cliente, RUC" size="25">
-						<f:ajax execute="frm_venta:txt_buscador" listener="#{venta.buscar()}" event="keyup" render="frm_venta:tbl_venta" />
+					<h:inputText id="txt_buscador" value="#{venta.buscador}" pt:placeholder="Numero de Factura" size="25">
+						<f:ajax execute="frm_venta:txt_buscador" listener="#{venta.buscar()}" event="keyup" render="frm_venta:tbl_venta frm_venta:esto" />
 					</h:inputText>&#8239;&#8239;
 					<h:commandLink action="#{venta.agregar()}" class="btn btn-primary">
 						<i class="pi pi-plus"></i>
@@ -88,12 +88,12 @@ and open the template in the editor.
 					-->
 					<p:dataTable id="tbl_detven" rendered="#{!(venta.listadet.size()==0)}" var="det" value="#{venta.listadet}">
 						<f:facet name="header">
-							Venta ID: ${det.ven_id} 
+							Venta ID: ${venta.venta.ven_id} 
 							<br/>
 							Factura #: ${venta.venta.ven_numFac}
 						</f:facet>
 						<p:column headerText="ID Inventario">
-							<h:outputLabel value="#{det.inv_id}" />
+							<h:outputLabel value="#{venta.nomInv(det.inv_id)}" />
 						</p:column>
 						<p:column headerText="Cantidad">
 							<h:outputLabel value="#{det.detalle_cantidad}" />
@@ -105,7 +105,7 @@ and open the template in the editor.
 							<h:outputLabel value="#{(det.detalle_cantidad*det.detalle_valorU)}" />
 						</p:column>
 						<f:facet name="footer">
-							Valor total: ${det.detalle_valorTv}
+							Valor total: #{venta.venta.ven_valorT}
 						</f:facet>
 					</p:dataTable>
 					<!--

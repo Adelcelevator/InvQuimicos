@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Inventario extends Auditoria implements Serializable {
 	private static final long serialVersionUID = -3511856008205396656L;
-	private int inv_id, inv_cantidad, qui_id, inv_desc;
+	private int inv_id, inv_cantidad, qui_id, descq_id;
 	private double inv_precioCU, inv_precioUI;
 
 	public int getInv_id() {
@@ -33,12 +33,12 @@ public class Inventario extends Auditoria implements Serializable {
 		this.qui_id = qui_id;
 	}
 
-	public int getInv_desc() {
-		return inv_desc;
+	public int getDescq_id() {
+		return descq_id;
 	}
 
-	public void setInv_desc(int inv_desc) {
-		this.inv_desc = inv_desc;
+	public void setDescq_id(int inv_desc) {
+		this.descq_id = inv_desc;
 	}
 
 	public double getInv_precioCU() {
@@ -63,7 +63,7 @@ public class Inventario extends Auditoria implements Serializable {
 		this.inv_id = inv_id;
 		this.inv_cantidad = inv_cantidad;
 		this.qui_id = qui_id;
-		this.inv_desc = inv_desc;
+		this.descq_id = inv_desc;
 		this.inv_precioCU = inv_precioCU;
 		this.inv_precioUI = inv_precioUI;
 	}
@@ -74,7 +74,7 @@ public class Inventario extends Auditoria implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Inventario{" + "inv_id=" + inv_id + ", inv_cantidad=" + inv_cantidad + ", qui_id=" + qui_id + ", inv_desc=" + inv_desc + ", inv_precioCU=" + inv_precioCU + ", inv_precioUI=" + inv_precioUI + '}';
+		return "Inventario{" + "inv_id=" + inv_id + ", inv_cantidad=" + inv_cantidad + ", qui_id=" + qui_id + ", inv_desc=" + descq_id + ", inv_precioCU=" + inv_precioCU + ", inv_precioUI=" + inv_precioUI + '}';
 	}
 
 }

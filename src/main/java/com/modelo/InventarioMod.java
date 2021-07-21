@@ -140,7 +140,7 @@ public class InventarioMod extends UtilitarioMod<Inventario> implements Serializ
 		try {
 			PreparedStatement pst = cn.prepareStatement(
 					"INSERT INTO public.tbl_inventario(inv_id, descq_id, inv_cantidad, \"inv_precioCU\", \"inv_precioUI\", qui_id, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?);");
-			pst.setInt(1, nuevo.getInv_desc());
+			pst.setInt(1, nuevo.getDescq_id());
 			pst.setInt(2, nuevo.getInv_cantidad());
 			pst.setDouble(3, nuevo.getInv_precioCU());
 			pst.setDouble(4, nuevo.getInv_precioUI());

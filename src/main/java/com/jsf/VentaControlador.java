@@ -6,7 +6,9 @@
 package com.jsf;
 
 import com.modelo.ClienteMod;
+import com.modelo.DescQuimicosMod;
 import com.modelo.DetalleVentaMod;
+import com.modelo.InventarioMod;
 import com.modelo.VentaMod;
 import com.objetos.DetalleVenta;
 import com.objetos.Venta;
@@ -29,7 +31,7 @@ public class VentaControlador implements Serializable {
 	private List<Venta> lista;
 	private List<DetalleVenta> listadet = new ArrayList<>();
 	private Venta venta;
-	private String Buscador;
+	private String buscador;
 	private final VentaMod modventa = new VentaMod();
 
 	private void todo() {
@@ -37,12 +39,27 @@ public class VentaControlador implements Serializable {
 	}
 
 	public void buscar() {
+		try {
+			if (this.buscador.equals("")) {
+				this.todo();
+			} else {
+				this.setLista(modventa.buscando(Integer.parseInt(buscador)));
+			}
+		} catch (Exception e) {
+			UtilitarioControlador.advertencia("Solo ingresar numeros");
+			this.todo();
+		}
+	}
 
+	public String nomInv(int id) {
+		InventarioMod modinv = new InventarioMod();
+		DescQuimicosMod moddescq = new DescQuimicosMod();
+		return moddescq.buscado(modinv.buscado(id).getDescq_id()).getDesq_desc();
 	}
 
 	public String cliente(int id) {
-	ClienteMod modcli = new ClienteMod();
-	return modcli.buscado(id).getNombreC();
+		ClienteMod modcli = new ClienteMod();
+		return modcli.buscado(id).getNombreC();
 	}
 
 	public void seleccionar(Venta ven) {
@@ -51,8 +68,8 @@ public class VentaControlador implements Serializable {
 		this.setListadet(moddetven.todos(this.venta.getVen_id()));
 	}
 
-	public void archivar(int id){
-		
+	public void archivar(int id) {
+
 	}
 
 	public void agregar() {
@@ -83,11 +100,11 @@ public class VentaControlador implements Serializable {
 	}
 
 	public String getBuscador() {
-		return Buscador;
+		return buscador;
 	}
 
-	public void setBuscador(String Buscador) {
-		this.Buscador = Buscador;
+	public void setBuscador(String buscador) {
+		this.buscador = buscador;
 	}
 
 	public VentaControlador() {

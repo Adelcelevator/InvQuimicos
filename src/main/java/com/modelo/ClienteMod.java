@@ -44,7 +44,7 @@ public class ClienteMod extends UtilitarioMod<Cliente> implements Serializable {
 		this.getLis().clear();
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
-					"SELECT * from public.tbl_clientes cli WHERE cli.cli_est!='I' AND cli.cli_ruc LIKE ? OR cli.cli_representante LIKE ? ORDER BY cli.cli_id");
+					"SELECT * from public.tbl_clientes cli WHERE cli.cli_est!='I' AND cli.cli_ruc LIKE ? OR cli.cli_representante LIKE ? AND cli.cli_est!='I' ORDER BY cli.cli_id;");
 			pst.setString(1, "%" + nombre + "%");
 			pst.setString(2, "%" + nombre + "%");
 			ResultSet rst = pst.executeQuery();

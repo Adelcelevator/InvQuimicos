@@ -28,12 +28,13 @@ public class InventarioControlador implements Serializable {
 
 	private static final long serialVersionUID = -2388548534275774612L;
 	private final InventarioMod modinv = new InventarioMod();
-	private String buscador, precioCU, precioUI, existencias;
-	private List<Inventario> lista= new ArrayList<>();
-	private List<DescripcionQuimico> desc = new ArrayList<>();
-	private Inventario inv = new Inventario();
 	private final DescQuimicosMod desqmod = new DescQuimicosMod();
 	private final QuimicoMod modqui = new QuimicoMod();
+
+	private String buscador, precioCU, precioUI, existencias;
+	private List<Inventario> lista = new ArrayList<>();
+	private List<DescripcionQuimico> desc = new ArrayList<>();
+	private Inventario inv = new Inventario();
 
 	public void buscar() {
 		this.lista.clear();
@@ -63,7 +64,7 @@ public class InventarioControlador implements Serializable {
 	}
 
 	public void guardarInv() {
-		if (!this.modinv.buscado(this.inv.getQui_id(), this.inv.getInv_desc()).equals(new Inventario())) {
+		if (!this.modinv.buscado(this.inv.getQui_id(), this.inv.getDescq_id()).equals(new Inventario())) {
 			UtilitarioControlador.advertencia("ya existe en el inventario");
 			this.limpiar();
 		} else {

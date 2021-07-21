@@ -41,10 +41,10 @@ and open the template in the editor.
 							<h:outputLabel value="#{inventario.nomQui(inv.qui_id)}" />
 						</p:column>
 						<p:column headerText="Descripcion">
-							<h:outputLabel value="#{inventario.nomDesc(inv.inv_desc)}" />
+							<h:outputLabel value="#{inventario.nomDesc(inv.descq_id)}" />
 						</p:column>
 						<p:column headerText="Existencia">
-							<h:outputLabel value="#{inventario.uniMed(inv.inv_desc, inv.inv_cantidad)}" />
+							<h:outputLabel value="#{inventario.uniMed(inv.descq_id, inv.inv_cantidad)}" />
 						</p:column>
 						<p:column headerText="Precio Unitario Compra">
 							<h:outputLabel value="$#{inv.inv_precioCU}" />

@@ -19,6 +19,7 @@ and open the template in the editor.
 		<ui:composition template="../../Template/template.xhtml">
 			<ui:define name="cuerpo">
 				<h:form id="fac">
+					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
 					Seleccionar Cliente &#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-search"></i>
@@ -56,13 +57,17 @@ and open the template in the editor.
 								<h:outputLabel value="#{detven.inv_id}"/>
 							</p:column>
 							<p:column headerText="Cantidad">
-								<h:inputText value="#{detven.detalle_cantidad}"/>
+								<h:inputText id="can" value="#{detven.detalle_cantidad}">
+									<f:ajax execute="tbl_detven:can" 
+											onevent="#{agregarV.calcular(detven.inv_id)}" 
+											event="keyup" render="tbl_detven" />
+								</h:inputText>
 							</p:column>
 							<p:column headerText="Valor Unitario">
-								<h:inputText value="#{detven.detalle_valorU}"/>
+								<h:outputLabel value="#{detven.detalle_valorU}"/>
 							</p:column>
-							<p:column headerText="Valor Total">
-								<h:inputText value="#{detven.detalle_cantidad*detven.detalle_valorU}"/>
+							<p:column  headerText="Valor Total">
+								<h:outputLabel id="totalu" value="#{detven.detalle_valorTv}"/>
 							</p:column>
 						</p:dataTable>
 					</div>
@@ -139,7 +144,7 @@ and open the template in the editor.
 										<i class="pi pi-pencil"></i>
 										<f:ajax execute="btn_seleccionar" event="click"
 												listener="#{agregarV.seleccionarPro(inv)}" 
-												onevent="PF('selec_cli').hide()"
+												onevent="PF('selec_pro').hide()"
 												render="selecPro fac"/>
 									</h:commandLink>
 								</center>

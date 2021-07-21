@@ -31,7 +31,7 @@ public class AgregarVentaControlador implements Serializable {
 	private final ClienteMod modcli = new ClienteMod();
 	private final QuimicoMod modqui = new QuimicoMod();
 
-	private List<DetalleVenta> listadet;
+	private List<DetalleVenta> listadet = new ArrayList<>();
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
@@ -68,10 +68,38 @@ public class AgregarVentaControlador implements Serializable {
 		this.limpiar();
 	}
 
-	public void seleccionarPro(Inventario inv){
-		System.out.println("inv: "+inv.toString());
+	public void calcular(int id) {
+		this.listadet.stream().forEach((s) -> {
+			if (s.getInv_id() == id) {
+				int stock = this.modinv.buscado(s.getInv_id()).getInv_cantidad();
+				if ((stock - s.getDetalle_cantidad()) < 0) {
+					UtilitarioControlador.advertencia("La Cantidad Supera el Stock");
+					s.setDetalle_cantidad(stock);
+				}
+			}
+		});
 	}
-	
+
+	public void seleccionarPro(Inventario inv) {
+		this.limpiar();
+		if (this.listadet.isEmpty()) {
+			this.listadet.add(new DetalleVenta(0, inv.getInv_id(), 0, 0, inv.getInv_precioUI()));
+		} else {
+			boolean prueba = false;
+			for (int i = 0; i < this.listadet.size(); i++) {
+				if (this.listadet.get(i).getInv_id() == inv.getInv_id()) {
+					prueba = true;
+					i = this.listadet.size();
+				}
+			}
+			if (prueba) {
+				UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
+			} else {
+				this.listadet.add(new DetalleVenta(0, inv.getInv_id(), 0, 0, inv.getInv_precioUI()));
+			}
+		}
+	}
+
 	public void buscarC() {
 		if (buscador.isEmpty()) {
 			this.setListacli(modcli.todos());

@@ -7,9 +7,9 @@ public class DetalleVenta implements Serializable {
 	private int ven_id, inv_id, detalle_cantidad;
     private double detalle_valorTv, detalle_valorU;
 
-    public DetalleVenta(int ven_id, int qui_id, int detalle_cantidad, double detalle_valorTv, double detalle_valorU) {
+    public DetalleVenta(int ven_id, int inv_id, int detalle_cantidad, double detalle_valorTv, double detalle_valorU) {
         this.ven_id = ven_id;
-        this.inv_id = qui_id;
+        this.inv_id = inv_id;
         this.detalle_cantidad = detalle_cantidad;
         this.detalle_valorTv = detalle_valorTv;
         this.detalle_valorU = detalle_valorU;

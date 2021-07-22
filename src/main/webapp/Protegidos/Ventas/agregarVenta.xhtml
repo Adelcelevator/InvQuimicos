@@ -57,11 +57,7 @@ and open the template in the editor.
 								<h:outputLabel value="#{detven.inv_id}"/>
 							</p:column>
 							<p:column headerText="Cantidad">
-								<h:inputText id="can" value="#{detven.detalle_cantidad}">
-									<f:ajax execute="tbl_detven:can" 
-											onevent="#{agregarV.calcular(detven.inv_id)}" 
-											event="keyup" render="tbl_detven" />
-								</h:inputText>
+								<h:outputLabel value="#{detven.detalle_cantidad}"/>
 							</p:column>
 							<p:column headerText="Valor Unitario">
 								<h:outputLabel value="#{detven.detalle_valorU}"/>
@@ -122,7 +118,11 @@ and open the template in the editor.
 									event="keyup" render="selecPro:tbl_inv" />
 						</h:inputText>
 						<br/>
-						<p:dataTable id="tbl_inv" var="inv" value="#{agregarV.listaPro}" rows="3" paginator="true">
+						<br/>
+						<h:outputLabel style="font-size: 15pt !important;" value="Cantidad:" />&#8239;
+						<h:inputText id="cantidad" value="#{agregarV.cantidad}" pt:placeholder="Cantidad" size="26"/>
+						<br/>
+						<p:dataTable id="tbl_inv" var="inv" value="#{agregarV.listaPro}" rows="2" paginator="true">
 							<p:column headerText="Quimico">
 								<h:outputLabel value="#{agregarV.nomQui(inv.qui_id)}" />
 							</p:column>
@@ -142,7 +142,7 @@ and open the template in the editor.
 								<center>
 									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
 										<i class="pi pi-pencil"></i>
-										<f:ajax execute="btn_seleccionar" event="click"
+										<f:ajax execute="selecPro" event="click"
 												listener="#{agregarV.seleccionarPro(inv)}" 
 												onevent="PF('selec_pro').hide()"
 												render="selecPro fac"/>

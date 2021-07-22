@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "agregarV")
-@ViewScoped
+@SessionScoped
 public class AgregarVentaControlador implements Serializable {
 
 	private static final long serialVersionUID = -4092049211943161462L;
@@ -35,7 +35,7 @@ public class AgregarVentaControlador implements Serializable {
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
-	private String buscador;
+	private String buscador, cantidad="";
 	private Venta venta = new Venta();
 
 	public String hoy() {
@@ -60,6 +60,7 @@ public class AgregarVentaControlador implements Serializable {
 	public void limpiarF() {
 		this.limpiar();
 		this.cli = new Cliente();
+		this.cantidad = "";
 	}
 
 	public void seleccionarCli(Cliente se) {
@@ -69,33 +70,44 @@ public class AgregarVentaControlador implements Serializable {
 	}
 
 	public void calcular(int id) {
-		this.listadet.stream().forEach((s) -> {
-			if (s.getInv_id() == id) {
-				int stock = this.modinv.buscado(s.getInv_id()).getInv_cantidad();
-				if ((stock - s.getDetalle_cantidad()) < 0) {
-					UtilitarioControlador.advertencia("La Cantidad Supera el Stock");
-					s.setDetalle_cantidad(stock);
-				}
-			}
-		});
+		System.out.println("Le Apachurras a este : " + id);
 	}
 
 	public void seleccionarPro(Inventario inv) {
-		this.limpiar();
-		if (this.listadet.isEmpty()) {
-			this.listadet.add(new DetalleVenta(0, inv.getInv_id(), 0, 0, inv.getInv_precioUI()));
+		if (this.cantidad.isEmpty()) {
+			UtilitarioControlador.advertencia("Ingrese una cantidad");
 		} else {
-			boolean prueba = false;
-			for (int i = 0; i < this.listadet.size(); i++) {
-				if (this.listadet.get(i).getInv_id() == inv.getInv_id()) {
-					prueba = true;
-					i = this.listadet.size();
+			int aux;
+			try {
+				aux = Integer.parseInt(this.cantidad);
+				int stock = this.modinv.buscado(inv.getInv_id()).getInv_cantidad();
+				if ((stock - aux) < 0) {
+					UtilitarioControlador.advertencia("La Cantidad Supera el Stock");
+					this.cantidad="";
+					this.limpiar();
+				} else {
+					this.cantidad="";
+					this.limpiar();
+					if (this.listadet.isEmpty()) {
+						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, (inv.getInv_precioUI() * aux), inv.getInv_precioUI()));
+					} else {
+						boolean prueba = false;
+						for (int i = 0; i < this.listadet.size(); i++) {
+							if (this.listadet.get(i).getInv_id() == inv.getInv_id()) {
+								prueba = true;
+								i = this.listadet.size();
+							}
+						}
+						if (prueba) {
+							UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
+						} else {
+							this.listadet.add(new DetalleVenta(0, inv.getInv_id(), 0, 0, inv.getInv_precioUI()));
+						}
+					}
 				}
-			}
-			if (prueba) {
-				UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
-			} else {
-				this.listadet.add(new DetalleVenta(0, inv.getInv_id(), 0, 0, inv.getInv_precioUI()));
+			} catch (Exception e) {
+				this.limpiar();
+				UtilitarioControlador.error("En el campo cantidad ingrese solo numeros");
 			}
 		}
 	}
@@ -184,4 +196,13 @@ public class AgregarVentaControlador implements Serializable {
 	public void setListaPro(List<Inventario> listaPro) {
 		this.listaPro = listaPro;
 	}
+
+	public String getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(String cantidad) {
+		this.cantidad = cantidad;
+	}
+
 }

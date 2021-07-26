@@ -54,7 +54,7 @@ and open the template in the editor.
 						</h:commandLink>
 						<p:dataTable id="tbl_detven" var="detven" value="#{agregarV.listadet}">
 							<p:column headerText="Producto">
-								<h:outputLabel value="#{detven.inv_id}"/>
+								<h:outputLabel value="#{agregarV.nomFac(detven.inv_id)}"/>
 							</p:column>
 							<p:column headerText="Cantidad">
 								<h:outputLabel value="#{detven.detalle_cantidad}"/>
@@ -66,6 +66,34 @@ and open the template in the editor.
 								<h:outputLabel id="totalu" value="#{detven.detalle_valorTv}"/>
 							</p:column>
 						</p:dataTable>
+						<div style="text-align: right !important; margin-left: 70% !important;">
+							<table>
+								<tr>
+									<td>
+										<h:outputLabel value="Subtotal"/>
+									</td>
+									<td>
+										<h:outputLabel value="#{(agregarV.venta.ven_valorT-agregarV.venta.ven_valorIm)}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="Impuesto 12%"/>
+									</td>
+									<td>
+										<h:outputLabel value="#{agregarV.venta.ven_valorIm}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel value="Valor Total"/>
+									</td>
+									<td>
+										<h:outputLabel value="#{agregarV.venta.ven_valorT}"/>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</h:form>
 				<p:dialog header="Seleccionar Cliente" closable="false" closeOnEscape="true" onHide="#{agregarV.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">

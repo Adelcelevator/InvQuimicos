@@ -7,6 +7,8 @@ package com.jsf;
 
 import com.objetos.Usuario;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -98,5 +100,9 @@ public class UtilitarioControlador implements Serializable {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public final static double dosDeci(double valor){
+		return new BigDecimal(valor).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }

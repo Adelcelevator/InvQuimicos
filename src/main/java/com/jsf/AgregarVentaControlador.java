@@ -12,6 +12,8 @@ import com.objetos.Inventario;
 import com.objetos.Venta;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public class AgregarVentaControlador implements Serializable {
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
-	private String buscador, cantidad="";
+	private String buscador, cantidad = "";
 	private Venta venta = new Venta();
 
 	public String hoy() {
@@ -77,19 +79,19 @@ public class AgregarVentaControlador implements Serializable {
 		if (this.cantidad.isEmpty()) {
 			UtilitarioControlador.advertencia("Ingrese una cantidad");
 		} else {
-			int aux;
 			try {
-				aux = Integer.parseInt(this.cantidad);
+				int aux = Integer.parseInt(this.cantidad);
+				this.cantidad = "";
 				int stock = this.modinv.buscado(inv.getInv_id()).getInv_cantidad();
 				if ((stock - aux) < 0) {
 					UtilitarioControlador.advertencia("La Cantidad Supera el Stock");
-					this.cantidad="";
 					this.limpiar();
 				} else {
-					this.cantidad="";
 					this.limpiar();
 					if (this.listadet.isEmpty()) {
-						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, (inv.getInv_precioUI() * aux), inv.getInv_precioUI()));
+						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+						this.venta.setVen_valorT(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() + (inv.getInv_precioUI() * aux)));
+						this.venta.setVen_valorIm(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() * 0.12));
 					} else {
 						boolean prueba = false;
 						for (int i = 0; i < this.listadet.size(); i++) {
@@ -138,6 +140,10 @@ public class AgregarVentaControlador implements Serializable {
 		return this.moddescq.buscado(id).getDesq_desc();
 	}
 
+	public String nomFac(int id) {
+		return this.nomQui(this.modinv.buscado(id).getQui_id())+" | "+this.nomDesc(this.modinv.buscado(id).getDescq_id());
+	}
+	
 	public String uniMed(int id, int cantidad) {
 		return cantidad + " " + this.moddescq.buscado(id).getDesq_umedida();
 	}

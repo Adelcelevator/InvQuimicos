@@ -81,7 +81,7 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		}
 		return this.getLis();
 	}
-
+	
 	@Override
 	public Venta buscado(int id) {
 		try {
@@ -94,6 +94,8 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"), rst.getDouble("ven_descuento"),
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
+			}else{
+				return null;
 			}
 			Conexion.desconectar();
 			return this.getObj();

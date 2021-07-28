@@ -52,6 +52,7 @@ and open the template in the editor.
 							<i class="pi pi-plus"></i>
 							<f:ajax event="click" onevent="PF('selec_pro').show()"/>
 						</h:commandLink>
+						<br/>
 						<p:dataTable id="tbl_detven" var="detven" value="#{agregarV.listadet}">
 							<p:column headerText="Producto">
 								<h:outputLabel value="#{agregarV.nomFac(detven.inv_id)}"/>
@@ -73,7 +74,7 @@ and open the template in the editor.
 										<h:outputLabel value="Subtotal"/>
 									</td>
 									<td>
-										<h:outputLabel value="#{(agregarV.venta.ven_valorT-agregarV.venta.ven_valorIm)}"/>
+										<h:outputLabel value="#{(agregarV.venta.ven_subtotal)}"/>
 									</td>
 								</tr>
 								<tr>
@@ -93,6 +94,10 @@ and open the template in the editor.
 									</td>
 								</tr>
 							</table>
+
+							<h:commandLink class="btn btn-success" action="#{agregarV.guardar()}">
+								<i class="pi pi-save"></i>
+							</h:commandLink>
 						</div>
 					</div>
 				</h:form>
@@ -126,7 +131,7 @@ and open the template in the editor.
 							<p:column headerText="Opcion">
 								<center>
 									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
-										<i class="pi pi-pencil"></i>
+										<i class="pi pi-check"></i>
 										<f:ajax execute="btn_seleccionar" event="click"
 												listener="#{agregarV.seleccionarCli(cli)}" 
 												onevent="PF('selec_cli').hide()"
@@ -169,7 +174,7 @@ and open the template in the editor.
 							<p:column headerText="Opcion">
 								<center>
 									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
-										<i class="pi pi-pencil"></i>
+										<i class="pi pi-check"></i>
 										<f:ajax execute="selecPro" event="click"
 												listener="#{agregarV.seleccionarPro(inv)}" 
 												onevent="PF('selec_pro').hide()"

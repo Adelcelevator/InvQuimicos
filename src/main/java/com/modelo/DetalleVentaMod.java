@@ -34,7 +34,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 		}
 		return this.getLis();
 	}
-
+	
 	// Consulta de escritura
 	@Override
 	public boolean guardar(DetalleVenta nuevo) throws Exception {

@@ -118,7 +118,18 @@ public class AgregarVentaControlador implements Serializable {
 			}
 		}
 	}
-	
+	/*
+	Este es el metodo guardar y funciona de la siguiente manera:
+		1.- Se verifica que el numero de factura no haya sido ingresado con anterioridad.
+		2.- Se settea el id de usuario en el objeto venta
+		3.- Se evalua que no existan campos vacios
+		4.- Se registra la cabecera de la venta y/o el objeto venta
+		5.- Se iguala el objeto venta con el objeto venta traido desde la base de datos
+			identificado por el numero de factura
+		6.- Se recorre la lista del detalle de la venta para hacer su insercion en la base
+		7.- Se comprueba una vez mas que la cantidad no sea mayor a lo que hay en stock
+		8.- Se actualiza el inventario y se guarda el datalle de la venta
+	*/
 	public void guardar() {
 		try {
 			if (this.modven.buscado(this.venta.getVen_numFac()) == null) {
@@ -129,7 +140,6 @@ public class AgregarVentaControlador implements Serializable {
 					UtilitarioControlador.advertencia("Existio un Error al guardar la venta");
 				} else {
 					this.venta = modven.buscado(this.venta.getVen_numFac());
-					System.out.println("venta: " + this.venta);
 					for(DetalleVenta ndetven : this.listadet ){
 						ndetven.setVen_id(this.venta.getVen_id());
 						Inventario inv = this.modinv.buscado(ndetven.getInv_id());
@@ -139,9 +149,11 @@ public class AgregarVentaControlador implements Serializable {
 							inv.setInv_cantidad( (inv.getInv_cantidad()- ndetven.getDetalle_cantidad()));
 							inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 							this.modinv.actualizar(inv);
+							this.moddetven.guardar(ndetven);
 						}
-						this.moddetven.guardar(ndetven);
 					}
+					this.limpiarF();
+					UtilitarioControlador.redirigir("ventas.xhtml");
 				}
 			} else {
 				UtilitarioControlador.advertencia("Ya existe ese numero de factura");

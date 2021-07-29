@@ -110,9 +110,6 @@ public class Venta extends Auditoria implements Serializable {
 	}
 
 	public boolean hasEmptyFilds() {
-		if (this.equals(new Cliente()) || ven_numFac == 0 || cli_id == 0 || ven_valorT == 0 || this.ven_valorIm == 0) {
-
-		}
-		return false;
+		return this.equals(new Cliente()) || ven_numFac == 0 || cli_id == 0 || ven_valorT == 0 || this.ven_valorIm == 0;
 	}
 }

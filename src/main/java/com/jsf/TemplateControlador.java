@@ -38,7 +38,6 @@ public class TemplateControlador implements Serializable {
 		UtilitarioControlador.guardar("usuario", new Usuario(1, 1, "adel", "holamonica", "Eduardo", "Montenegro", "", "", "A",
 						Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now())));
 		usuariolog = (Usuario) UtilitarioControlador.sacar("usuario");
-
 	}
 
 	public static Usuario getUsuariolog() {

@@ -95,8 +95,12 @@ and open the template in the editor.
 								</tr>
 							</table>
 
-							<h:commandLink class="btn btn-success" action="#{agregarV.guardar()}">
+							<h:commandLink class="btn btn-success">
 								<i class="pi pi-save"></i>
+								<f:ajax execute="@form" 
+										event="click"
+										render="@form"
+										listener="#{agregarV.guardar()}"/>
 							</h:commandLink>
 						</div>
 					</div>

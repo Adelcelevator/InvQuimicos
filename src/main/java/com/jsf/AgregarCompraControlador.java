@@ -83,29 +83,23 @@ public class AgregarCompraControlador implements Serializable {
 			try {
 				int aux = Integer.parseInt(this.cantidad);
 				this.cantidad = "";
-				int stock = this.modinv.buscado(inv.getInv_id()).getInv_cantidad();
-				if ((stock - aux) < 0) {
-					UtilitarioControlador.advertencia("La Cantidad Supera el Stock");
-					this.limpiar();
+				this.limpiar();
+				if (this.listadet.isEmpty()) {
+					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+					this.valorF((inv.getInv_precioUI() * aux));
 				} else {
-					this.limpiar();
-					if (this.listadet.isEmpty()) {
+					boolean prueba = false;
+					for (int i = 0; i < this.listadet.size(); i++) {
+						if (this.listadet.get(i).getInv_id() == inv.getInv_id()) {
+							prueba = true;
+							i = this.listadet.size();
+						}
+					}
+					if (prueba) {
+						UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
+					} else {
 						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
 						this.valorF((inv.getInv_precioUI() * aux));
-					} else {
-						boolean prueba = false;
-						for (int i = 0; i < this.listadet.size(); i++) {
-							if (this.listadet.get(i).getInv_id() == inv.getInv_id()) {
-								prueba = true;
-								i = this.listadet.size();
-							}
-						}
-						if (prueba) {
-							UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
-						} else {
-							this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
-							this.valorF((inv.getInv_precioUI() * aux));
-						}
 					}
 				}
 			} catch (Exception e) {
@@ -122,15 +116,14 @@ public class AgregarCompraControlador implements Serializable {
 
 	/*
 	Este es el metodo guardar y funciona de la siguiente manera:
-		1.- Se verifica que el numero de factura no haya sido ingresado con anterioridad.
-		2.- Se settea el id de usuario en el objeto venta
+		1.- Se verifica que el numero de factura no haya sido ingresado con anterioridad por la misma entidad.
+		2.- Se settea el id de usuario en el objeto compra
 		3.- Se evalua que no existan campos vacios
-		4.- Se registra la cabecera de la venta y/o el objeto venta
-		5.- Se iguala el objeto venta con el objeto venta traido desde la base de datos
-			identificado por el numero de factura
+		4.- Se registra la cabecera de la compra y/o el objeto compra
+		5.- Se iguala el objeto compra con el objeto compra traido desde la base de datos
+			identificado por el numero de factura y el id de la entdad emisora
 		6.- Se recorre la lista del detalle de la venta para hacer su insercion en la base
-		7.- Se comprueba una vez mas que la cantidad no sea mayor a lo que hay en stock
-		8.- Se actualiza el inventario y se guarda el datalle de la venta
+		7.- Se actualiza el inventario y se guarda el datalle de la compra
 	 */
 	public void guardar() {
 		try {
@@ -145,14 +138,10 @@ public class AgregarCompraControlador implements Serializable {
 					for (DetalleCompra ndetven : this.listadet) {
 						ndetven.setCom_id(this.compra.getCom_id());
 						Inventario inv = this.modinv.buscado(ndetven.getInv_id());
-						if ((inv.getInv_cantidad() - ndetven.getDetalle_cantidad()) < 0) {
-							break;
-						} else {
-							inv.setInv_cantidad((inv.getInv_cantidad() - ndetven.getDetalle_cantidad()));
-							inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-							this.modinv.actualizar(inv);
-							this.moddetven.guardar(ndetven);
-						}
+						inv.setInv_cantidad((inv.getInv_cantidad() + ndetven.getDetalle_cantidad()));
+						inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+						this.modinv.actualizar(inv);
+						this.moddetven.guardar(ndetven);
 					}
 					this.limpiarF();
 					UtilitarioControlador.redirigir("ventas.xhtml");
@@ -172,7 +161,7 @@ public class AgregarCompraControlador implements Serializable {
 	}
 
 	private final void valorF(double cantidad) {
-		this.compra.setCom_valorT(UtilitarioControlador.dosDeci(this.compra.getCom_valorT()+ cantidad));
+		this.compra.setCom_valorT(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() + cantidad));
 		this.compra.setCom_valorIm(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() * 0.12));
 		this.compra.setCom_subtotal(UtilitarioControlador.dosDeci((this.compra.getCom_valorT() - this.compra.getCom_valorIm())));
 	}

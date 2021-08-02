@@ -1,46 +1,45 @@
 package com.jsf;
 
-import com.modelo.ClienteMod;
+import com.modelo.ProveedorMod;
 import com.modelo.DescQuimicosMod;
-import com.modelo.DetalleVentaMod;
+import com.modelo.DetalleCompraMod;
 import com.modelo.InventarioMod;
 import com.modelo.QuimicoMod;
-import com.modelo.VentaMod;
+import com.modelo.CompraMod;
 
-import com.objetos.Cliente;
+import com.objetos.Proveedor;
 import com.objetos.DescripcionQuimico;
-import com.objetos.DetalleVenta;
+import com.objetos.DetalleCompra;
 import com.objetos.Inventario;
-import com.objetos.Venta;
+import com.objetos.Compra;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 @SuppressWarnings("deprecation")
-@ManagedBean(name = "agregarV")
+@ManagedBean(name = "agregarC")
 @SessionScoped
-public class AgregarVentaControlador implements Serializable {
+public class AgregarCompraControlador implements Serializable {
 
-	private static final long serialVersionUID = -4092049211943161462L;
+	private static final long serialVersionUID = 4738204847680474435L;
 
 	private final InventarioMod modinv = new InventarioMod();
 	private final DescQuimicosMod moddescq = new DescQuimicosMod();
-	private final ClienteMod modcli = new ClienteMod();
+	private final ProveedorMod modprov = new ProveedorMod();
 	private final QuimicoMod modqui = new QuimicoMod();
-	private final VentaMod modven = new VentaMod();
-	private final DetalleVentaMod moddetven = new DetalleVentaMod();
+	private final CompraMod modcom = new CompraMod();
+	private final DetalleCompraMod moddetven = new DetalleCompraMod();
 
-	private List<DetalleVenta> listadet = new ArrayList<>();
-	private List<Cliente> listacli = modcli.todos();
+	private List<DetalleCompra> listadet = new ArrayList<>();
+	private List<Proveedor> listaprov = modprov.todos();
 	private List<Inventario> listaPro = modinv.todos();
-	private Cliente cli = new Cliente();
+	private Proveedor prov = new Proveedor();
 	private String buscador, cantidad = "";
-	private Venta venta = new Venta();
+	private Compra compra = new Compra();
 
 	public String hoy() {
 		return LocalDate.now().toString();
@@ -56,20 +55,20 @@ public class AgregarVentaControlador implements Serializable {
 
 	public void limpiar() {
 		this.buscador = "";
-		this.listacli = this.modcli.todos();
+		this.listaprov = this.modprov.todos();
 		this.listaPro = this.modinv.todos();
 	}
 
 	public void limpiarF() {
 		this.limpiar();
-		this.cli = new Cliente();
+		this.prov = new Proveedor();
 		this.cantidad = "";
-		this.venta = new Venta();
+		this.compra = new Compra();
 	}
 
-	public void seleccionarCli(Cliente se) {
-		this.cli = se;
-		this.venta.setCli_id(se.getCli_id());
+	public void seleccionarProv(Proveedor se) {
+		this.prov = se;
+		this.compra.setPro_id(se.getPro_id());
 		this.limpiar();
 	}
 
@@ -91,7 +90,7 @@ public class AgregarVentaControlador implements Serializable {
 				} else {
 					this.limpiar();
 					if (this.listadet.isEmpty()) {
-						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
 						this.valorF((inv.getInv_precioUI() * aux));
 					} else {
 						boolean prueba = false;
@@ -104,7 +103,7 @@ public class AgregarVentaControlador implements Serializable {
 						if (prueba) {
 							UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
 						} else {
-							this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+							this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
 							this.valorF((inv.getInv_precioUI() * aux));
 						}
 					}
@@ -116,9 +115,9 @@ public class AgregarVentaControlador implements Serializable {
 		}
 	}
 
-	public void eliminar(DetalleVenta detven) {
-		this.valorF(-detven.getDetalle_valorTv());
-		this.listadet.remove(detven);
+	public void eliminar(DetalleCompra detcom) {
+		this.valorF(-detcom.getDetalle_valorTc());
+		this.listadet.remove(detcom);
 	}
 
 	/*
@@ -135,16 +134,16 @@ public class AgregarVentaControlador implements Serializable {
 	 */
 	public void guardar() {
 		try {
-			if (this.modven.buscado(this.venta.getVen_numFac()) == null) {
-				this.venta.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-				if (this.cli.equals(new Cliente()) || this.venta.hasEmptyFilds() || this.listadet.isEmpty()) {
+			if (this.modcom.buscado(this.compra.getCom_numFac()) == null) {
+				this.compra.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+				if (this.prov.equals(new Proveedor()) || this.compra.hasEmptyFilds() || this.listadet.isEmpty()) {
 					UtilitarioControlador.advertencia("Existen campos vacios");
-				} else if (!this.modven.guardar(this.venta)) {
+				} else if (!this.modcom.guardar(this.compra)) {
 					UtilitarioControlador.advertencia("Existio un Error al guardar la venta");
 				} else {
-					this.venta = modven.buscado(this.venta.getVen_numFac());
-					for (DetalleVenta ndetven : this.listadet) {
-						ndetven.setVen_id(this.venta.getVen_id());
+					this.compra = modcom.buscado(this.compra.getCom_numFac());
+					for (DetalleCompra ndetven : this.listadet) {
+						ndetven.setCom_id(this.compra.getCom_id());
 						Inventario inv = this.modinv.buscado(ndetven.getInv_id());
 						if ((inv.getInv_cantidad() - ndetven.getDetalle_cantidad()) < 0) {
 							break;
@@ -172,17 +171,17 @@ public class AgregarVentaControlador implements Serializable {
 		}
 	}
 
-	private final void valorF(double cantidad){
-		this.venta.setVen_valorT(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() + cantidad));
-		this.venta.setVen_valorIm(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() * 0.12));
-		this.venta.setVen_subtotal(UtilitarioControlador.dosDeci((this.venta.getVen_valorT() - this.venta.getVen_valorIm())));
+	private final void valorF(double cantidad) {
+		this.compra.setCom_valorT(UtilitarioControlador.dosDeci(this.compra.getCom_valorT()+ cantidad));
+		this.compra.setCom_valorIm(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() * 0.12));
+		this.compra.setCom_subtotal(UtilitarioControlador.dosDeci((this.compra.getCom_valorT() - this.compra.getCom_valorIm())));
 	}
-	
+
 	public void buscarC() {
 		if (buscador.isEmpty()) {
-			this.setListacli(modcli.todos());
+			this.setListaprov(modprov.todos());
 		} else {
-			this.setListacli(this.modcli.buscando(buscador));
+			this.setListaprov(this.modprov.buscando(buscador));
 		}
 	}
 
@@ -215,32 +214,32 @@ public class AgregarVentaControlador implements Serializable {
 	/*
 	Getters Setters
 	 */
-	public List<DetalleVenta> getListadet() {
+	public List<DetalleCompra> getListadet() {
 		return listadet;
 	}
 
-	public void setListadet(List<DetalleVenta> listadet) {
+	public void setListadet(List<DetalleCompra> listadet) {
 		this.listadet = listadet;
 	}
 
-	public AgregarVentaControlador() {
+	public AgregarCompraControlador() {
 		this.productos();
 	}
 
-	public List<Cliente> getListacli() {
-		return listacli;
+	public List<Proveedor> getListaprov() {
+		return listaprov;
 	}
 
-	public void setListacli(List<Cliente> listacli) {
-		this.listacli = listacli;
+	public void setListaprov(List<Proveedor> listaprov) {
+		this.listaprov = listaprov;
 	}
 
-	public Cliente getCli() {
-		return cli;
+	public Proveedor getProv() {
+		return prov;
 	}
 
-	public void setCli(Cliente cli) {
-		this.cli = cli;
+	public void setProv(Proveedor prov) {
+		this.prov = prov;
 	}
 
 	public String getBuscador() {
@@ -251,12 +250,12 @@ public class AgregarVentaControlador implements Serializable {
 		this.buscador = buscador;
 	}
 
-	public Venta getVenta() {
-		return venta;
+	public Compra getCompra() {
+		return compra;
 	}
 
-	public void setVenta(Venta venta) {
-		this.venta = venta;
+	public void setCompra(Compra venta) {
+		this.compra = venta;
 	}
 
 	public List<Inventario> getListaPro() {

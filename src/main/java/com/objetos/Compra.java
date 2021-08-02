@@ -1,12 +1,15 @@
 package com.objetos;
 
+import com.jsf.UtilitarioControlador;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Compra extends Auditoria implements Serializable {
+
 	private static final long serialVersionUID = 5764746501108114218L;
 	private int com_id, com_numFac, pro_id;
-	private double com_valorT, com_valorIm;
+	private double com_valorT, com_valorIm, com_subtotal;
 	private Date com_fecha;
 	private String com_est;
 
@@ -59,6 +62,7 @@ public class Compra extends Auditoria implements Serializable {
 	}
 
 	public Compra() {
+		this(0, Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()), 0, 0, 0, 0, 0, Date.valueOf(LocalDate.now()), "");
 	}
 
 	public String getCom_est() {
@@ -67,6 +71,14 @@ public class Compra extends Auditoria implements Serializable {
 
 	public void setCom_est(String com_est) {
 		this.com_est = com_est;
+	}
+
+	public double getCom_subtotal() {
+		return com_subtotal;
+	}
+
+	public void setCom_subtotal(double com_subtotal) {
+		this.com_subtotal = com_subtotal;
 	}
 
 	public Compra(int usu_id_UltMod, Date fecha_in, Date fecha_mod, int com_id, int com_numFac, int pro_id,
@@ -79,11 +91,16 @@ public class Compra extends Auditoria implements Serializable {
 		this.com_valorIm = com_valorIm;
 		this.com_fecha = com_fecha;
 		this.com_est = com_est;
+		this.com_subtotal = UtilitarioControlador.dosDeci(this.com_valorT - this.com_valorIm);
 	}
 
 	@Override
 	public String toString() {
 		return "Compra{" + "com_id=" + com_id + ", com_numFac=" + com_numFac + ", pro_id=" + pro_id + ", com_valorT="
 				+ com_valorT + ", com_valorIm=" + com_valorIm + ", com_fecha=" + com_fecha + '}';
+	}
+
+	public boolean hasEmptyFilds() {
+		return this.equals(new Compra()) || this.com_numFac == 0 || this.pro_id == 0 || this.com_valorT == 0 || this.com_valorIm == 0;
 	}
 }

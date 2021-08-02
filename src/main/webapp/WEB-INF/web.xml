@@ -23,6 +23,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>Protegidos/Ventas/agregarVenta.quimicos</welcome-file>
+        <welcome-file>Protegidos/Compras/compras.quimicos</welcome-file>
     </welcome-file-list>
 </web-app>

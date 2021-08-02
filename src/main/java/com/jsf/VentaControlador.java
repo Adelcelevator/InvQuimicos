@@ -33,6 +33,7 @@ public class VentaControlador implements Serializable {
 	private Venta venta;
 	private String buscador;
 	private final VentaMod modventa = new VentaMod();
+	private  final ClienteMod modcli = new ClienteMod();
 
 	private void todo() {
 		this.setLista(modventa.todos());
@@ -58,7 +59,6 @@ public class VentaControlador implements Serializable {
 	}
 
 	public String cliente(int id) {
-		ClienteMod modcli = new ClienteMod();
 		return modcli.buscado(id).getNombreC();
 	}
 

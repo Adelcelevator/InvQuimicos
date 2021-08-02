@@ -34,13 +34,13 @@ and open the template in the editor.
 					-->
 					<p:dataTable id="tbl_compra" var="com" value="#{compra.lista}" rows="5" paginator="true">
 						<f:facet name="header">
-							Ventas
+							Compras
 						</f:facet>
 						<p:column headerText="Numero Factura">
 							<h:outputLabel value="#{com.com_numFac}" />
 						</p:column>
 						<p:column headerText="Cliente">
-							<h:outputLabel value="#{compra.cliente(com.cli_id)}" />
+							<h:outputLabel value="#{compra.proveedor(com.pro_id)}" />
 						</p:column>
 						<p:column headerText="Fecha">
 							<h:outputLabel value="#{com.com_fecha}" />
@@ -50,9 +50,6 @@ and open the template in the editor.
 						</p:column>
 						<p:column headerText="Valor Impuesto">
 							<h:outputLabel value="#{com.com_valorIm}" />
-						</p:column>
-						<p:column headerText="Descuento">
-							<h:outputLabel value="#{com.com_descuento}" />
 						</p:column>
 						<p:column headerText="Opciones">
 							<center>

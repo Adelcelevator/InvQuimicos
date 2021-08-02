@@ -159,10 +159,6 @@ public class InventarioControlador implements Serializable {
 		this.precioUI = precioUI;
 	}
 
-	public InventarioControlador() {
-		this.todo();
-	}
-
 	public String getExistencias() {
 		return existencias;
 	}

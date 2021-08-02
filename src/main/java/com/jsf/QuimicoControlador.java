@@ -38,7 +38,7 @@ public class QuimicoControlador implements Serializable {
 	private List<Quimico> lista = new ArrayList<>();
 	private List<DescripcionQuimico> listadesc = new ArrayList<>();
 	
-	private void todo() {
+	public void todo() {
 		this.lista.clear();
 		this.lista = this.modqui.todos();
 	}
@@ -172,11 +172,7 @@ public class QuimicoControlador implements Serializable {
 	public void setBuscador(String buscador) {
 		this.buscador = buscador;
 	}
-	
-	public QuimicoControlador() {
-		this.todo();
-	}
-	
+
 	public List<Quimico> getLista() {
 		return lista;
 	}

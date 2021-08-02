@@ -104,16 +104,6 @@ public class UsosControlador implements Serializable {
 		Collections.sort(esto);
 		return esto;
 	}
-
-	/*
-	 * 
-	 * Constructor
-	 * 
-	 */
-	public UsosControlador() {
-		this.todo();
-	}
-
 	/*
 	 * 
 	 * GETTERS Y SETTERS

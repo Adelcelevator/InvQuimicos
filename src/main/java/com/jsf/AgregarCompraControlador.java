@@ -144,18 +144,18 @@ public class AgregarCompraControlador implements Serializable {
 						this.moddetven.guardar(ndetven);
 					}
 					this.limpiarF();
-					UtilitarioControlador.redirigir("ventas.xhtml");
+					UtilitarioControlador.redirigir("compras.quimicos");
 				}
 			} else {
 				UtilitarioControlador.advertencia("Ya existe ese numero de factura");
 			}
 		} catch (Exception e) {
-			UtilitarioControlador.error("Existio un Error general");
+			System.out.println("Existio un error general al guardar la compra: " + e);
 			try {
-				UtilitarioControlador.redirigir("ventas.xhtml");
+				UtilitarioControlador.redirigir("compras.quimicos");
 				this.limpiarF();
 			} catch (Exception x) {
-
+				System.out.println("Existio un error general al redirigir: " + x);
 			}
 		}
 	}

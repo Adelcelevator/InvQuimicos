@@ -156,7 +156,7 @@ public class AgregarVentaControlador implements Serializable {
 						}
 					}
 					this.limpiarF();
-					UtilitarioControlador.redirigir("ventas.xhtml");
+					UtilitarioControlador.redirigir("ventas.quimicos");
 				}
 			} else {
 				UtilitarioControlador.advertencia("Ya existe ese numero de factura");
@@ -164,7 +164,7 @@ public class AgregarVentaControlador implements Serializable {
 		} catch (Exception e) {
 			UtilitarioControlador.error("Existio un Error general");
 			try {
-				UtilitarioControlador.redirigir("ventas.xhtml");
+				UtilitarioControlador.redirigir("ventas.quimicos");
 				this.limpiarF();
 			} catch (Exception x) {
 

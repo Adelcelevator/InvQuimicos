@@ -129,8 +129,4 @@ public class ProveedorControlador implements Serializable {
 	public void setProv(Proveedor prov) {
 		this.prov = prov;
 	}
-
-	public ProveedorControlador() {
-		this.todo();
-	}
 }

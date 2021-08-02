@@ -134,8 +134,4 @@ public class ClienteControlador implements Serializable {
 	public void setCli(Cliente cli) {
 		this.cli = cli;
 	}
-
-	public ClienteControlador() {
-		this.todo();
-	}
 }

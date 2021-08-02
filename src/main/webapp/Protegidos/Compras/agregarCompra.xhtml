@@ -20,7 +20,7 @@ and open the template in the editor.
 			<ui:define name="cuerpo">
 				<h:form id="fac">
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
-					Seleccionar Cliente &#8239;&#8239;
+					Seleccionar Proveedor &#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
 						<i class="pi pi-search"></i>
 						<f:ajax event="click" onevent="PF('selec_cli').show()"/>
@@ -114,10 +114,10 @@ and open the template in the editor.
 						</div>
 					</div>
 				</h:form>
-				<p:dialog header="Seleccionar Cliente" closable="false" closeOnEscape="true" onHide="#{agregarC.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">
+				<p:dialog header="Seleccionar Proveedor" closable="false" closeOnEscape="true" onHide="#{agregarC.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">
 					<h:form id="selecCli">
 						<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-						<h:inputText id="txt_buscador" value="#{agregarC.buscador}" pt:placeholder="Cliente, RUC" size="25">
+						<h:inputText id="txt_buscador" value="#{agregarC.buscador}" pt:placeholder="Proveedor, RUC" size="25">
 							<f:ajax execute="selecCli:txt_buscador" listener="#{agregarC.buscarC()}" 
 									event="keyup" render="selecCli:tbl_cli" />
 						</h:inputText>

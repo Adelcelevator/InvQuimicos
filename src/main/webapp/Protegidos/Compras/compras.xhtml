@@ -19,6 +19,7 @@ and open the template in the editor.
 		<ui:composition template="../../Template/template.xhtml">
 			<ui:define name="cuerpo">
 				<h:form id="frm_compra">
+					#{compra.todo()}
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
 					<h:inputText id="txt_buscador" value="#{compra.buscador}" pt:placeholder="Numero de Factura" size="25">
 						<f:ajax execute="frm_compra:txt_buscador" listener="#{compra.buscar()}" event="keyup" render="frm_compra:tbl_compra frm_compra:esto" />

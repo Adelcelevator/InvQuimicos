@@ -19,6 +19,7 @@ and open the template in the editor.
 		<ui:composition template="../Template/template.xhtml">
 			<ui:define name="cuerpo">
 				<h:form id="frm_tablainv">
+					#{inventario.todo()}
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
 					<h:inputText id="txt_buscador" value="#{inventario.buscador}" pt:placeholder="Descripcion de Quimico" size="25">
 						<f:ajax execute="frm_tablainv:txt_buscador" listener="#{inventario.buscar()}" event="keyup" render="frm_tablainv:tbl_inv" />

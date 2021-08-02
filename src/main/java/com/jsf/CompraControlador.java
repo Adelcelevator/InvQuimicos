@@ -37,7 +37,7 @@ public class CompraControlador implements Serializable {
 	private final CompraMod modcompra = new CompraMod();
 	private final ProveedorMod modprov = new ProveedorMod();
 
-	private void todo() {
+	public void todo() {
 		this.setLista(modcompra.todos());
 	}
 
@@ -107,10 +107,6 @@ public class CompraControlador implements Serializable {
 
 	public void setBuscador(String buscador) {
 		this.buscador = buscador;
-	}
-
-	public CompraControlador() {
-		this.todo();
 	}
 
 	public List<DetalleCompra> getListadet() {

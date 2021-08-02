@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<h:head>
+		<title>TODO supply a title</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</h:head>
+	<h:body>
+		<ui:composition template="../../Template/template.xhtml">
+			<ui:define name="cuerpo">
+				<h:form id="frm_venta">
+					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
+					<h:inputText id="txt_buscador" value="#{venta.buscador}" pt:placeholder="Numero de Factura" size="25">
+						<f:ajax execute="frm_venta:txt_buscador" listener="#{venta.buscar()}" event="keyup" render="frm_venta:tbl_venta frm_venta:esto" />
+					</h:inputText>&#8239;&#8239;
+					<h:commandLink action="#{venta.agregar()}" class="btn btn-primary">
+						<i class="pi pi-plus"></i>
+					</h:commandLink>
+					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
+					<!-- 
+					***********************************
+					*	Inicio Tabla de Ventas		  *
+					***********************************
+					-->
+					<p:dataTable id="tbl_venta" var="ven" value="#{venta.lista}" rows="5" paginator="true">
+						<f:facet name="header">
+							Ventas
+						</f:facet>
+						<p:column headerText="Numero Factura">
+							<h:outputLabel value="#{ven.ven_numFac}" />
+						</p:column>
+						<p:column headerText="Cliente">
+							<h:outputLabel value="#{venta.cliente(ven.cli_id)}" />
+						</p:column>
+						<p:column headerText="Fecha">
+							<h:outputLabel value="#{ven.ven_fecha}" />
+						</p:column>
+						<p:column headerText="Valor Total">
+							<h:outputLabel value="#{ven.ven_valorT}" />
+						</p:column>
+						<p:column headerText="Valor Impuesto">
+							<h:outputLabel value="#{ven.ven_valorIm}" />
+						</p:column>
+						<p:column headerText="Descuento">
+							<h:outputLabel value="#{ven.ven_descuento}" />
+						</p:column>
+						<p:column headerText="Opciones">
+							<center>
+								<h:commandLink class="btn btn-success" id="btn_seleccionar">
+									<i class="pi pi-check-square"></i>
+									<f:ajax execute="btn_seleccionar" event="click"
+											listener="#{venta.seleccionar(ven)}"
+											render="@form"/>
+								</h:commandLink>
+								<br/>
+								<br/>
+								<h:commandLink class="btn btn-danger" id="btn_borrar">
+									<i class="pi pi-trash"></i>
+									<f:ajax execute="btn_borrar" event="click"
+											listener="#{venta.archivar(ven.ven_id)}" 
+											render="frm_venta:tbl_venta" />
+								</h:commandLink>
+							</center>
+						</p:column>
+					</p:dataTable>
+					<br/>
+					<br/>
+					<br/>
+					<!-- 
+					***********************************
+					*	Fin Tabla de Ventas			  *
+					***********************************
+					-->
+					<!-- 
+					***********************************
+					*	Inicio Detalle Venta		  *
+					***********************************
+					-->
+					<p:dataTable id="tbl_detven" rendered="#{!(venta.listadet.size()==0)}" var="det" value="#{venta.listadet}">
+						<f:facet name="header">
+							Venta ID: ${venta.venta.ven_id} 
+							<br/>
+							Factura #: ${venta.venta.ven_numFac}
+						</f:facet>
+						<p:column headerText="ID Inventario">
+							<h:outputLabel value="#{venta.nomInv(det.inv_id)}" />
+						</p:column>
+						<p:column headerText="Cantidad">
+							<h:outputLabel value="#{det.detalle_cantidad}" />
+						</p:column>
+						<p:column headerText="Valor Unitario">
+							<h:outputLabel value="#{det.detalle_valorU}" />
+						</p:column>
+						<p:column headerText="Valor Total">
+							<h:outputLabel value="#{(det.detalle_cantidad*det.detalle_valorU)}" />
+						</p:column>
+						<f:facet name="footer">
+							Valor total: #{venta.venta.ven_valorT}
+						</f:facet>
+					</p:dataTable>
+					<!--
+					***********************************
+					*	Fin Detalle Venta			  *
+					***********************************
+					-->
+				</h:form>
+				<br/>
+				<br/>				
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

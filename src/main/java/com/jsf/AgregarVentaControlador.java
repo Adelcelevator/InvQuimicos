@@ -39,7 +39,7 @@ public class AgregarVentaControlador implements Serializable {
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
-	private String buscador, cantidad = "";
+	private String buscador="", cantidad = "";
 	private Venta venta = new Venta();
 
 	public String hoy() {
@@ -65,6 +65,7 @@ public class AgregarVentaControlador implements Serializable {
 		this.cli = new Cliente();
 		this.cantidad = "";
 		this.venta = new Venta();
+		this.listadet.clear();
 	}
 
 	public void seleccionarCli(Cliente se) {

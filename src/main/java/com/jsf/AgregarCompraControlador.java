@@ -64,6 +64,7 @@ public class AgregarCompraControlador implements Serializable {
 		this.prov = new Proveedor();
 		this.cantidad = "";
 		this.compra = new Compra();
+		this.listadet.clear();
 	}
 
 	public void seleccionarProv(Proveedor se) {
@@ -84,6 +85,8 @@ public class AgregarCompraControlador implements Serializable {
 				int auxc = Integer.parseInt(this.cantidad);
 				double  auxpc = Double.parseDouble(this.precioC), auxpv = Double.parseDouble(this.precioV);
 				this.cantidad = "";
+				this.precioC="";
+				this.precioV="";
 				this.limpiar();
 				if (this.listadet.isEmpty()) {
 					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc, UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc,auxpv));
@@ -156,8 +159,8 @@ public class AgregarCompraControlador implements Serializable {
 		} catch (Exception e) {
 			System.out.println("Existio un error general al guardar la compra: " + e);
 			try {
-				UtilitarioControlador.redirigir("compras.quimicos");
 				this.limpiarF();
+				UtilitarioControlador.redirigir("compras.quimicos");
 			} catch (Exception x) {
 				System.out.println("Existio un error general al redirigir: " + x);
 			}

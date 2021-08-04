@@ -43,4 +43,12 @@ public class TemplateControlador implements Serializable {
 	public static Usuario getUsuariolog() {
 		return usuariolog;
 	}
+	
+	public void redirigir(String direc){
+		try {
+			UtilitarioControlador.redirigir(direc);
+		} catch (Exception e) {
+			UtilitarioControlador.error("Error al redirigir");
+		}
+	}
 }

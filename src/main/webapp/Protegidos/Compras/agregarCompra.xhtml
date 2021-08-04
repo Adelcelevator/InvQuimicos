@@ -168,6 +168,14 @@ and open the template in the editor.
 						<h:outputLabel style="font-size: 15pt !important;" value="Cantidad:" />&#8239;
 						<h:inputText id="cantidad" value="#{agregarC.cantidad}" pt:placeholder="Cantidad" size="26"/>
 						<br/>
+						<br/>
+						<h:outputLabel style="font-size: 15pt !important;" value="Precio de Compra:" />&#8239;
+						<h:inputText id="cantidad" value="#{agregarC.precioC}" pt:placeholder="Precio de Compra" size="26"/>
+						<br/>
+						<br/>
+						<h:outputLabel style="font-size: 15pt !important;" value="Precio de Venta:" />&#8239;
+						<h:inputText id="cantidad" value="#{agregarC.precioV}" pt:placeholder="Precio de Venta" size="26"/>
+						<br/>
 						<p:dataTable id="tbl_inv" var="inv" value="#{agregarC.listaPro}" rows="2" paginator="true">
 							<p:column headerText="Quimico">
 								<h:outputLabel value="#{agregarC.nomQui(inv.qui_id)}" />

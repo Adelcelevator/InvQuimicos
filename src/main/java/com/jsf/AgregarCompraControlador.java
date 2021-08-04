@@ -38,7 +38,7 @@ public class AgregarCompraControlador implements Serializable {
 	private List<Proveedor> listaprov = modprov.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Proveedor prov = new Proveedor();
-	private String buscador, cantidad = "";
+	private String buscador, cantidad = "", precioC = "", precioV = "";
 	private Compra compra = new Compra();
 
 	public String hoy() {
@@ -77,16 +77,17 @@ public class AgregarCompraControlador implements Serializable {
 	}
 
 	public void seleccionarPro(Inventario inv) {
-		if (this.cantidad.isEmpty()) {
+		if (this.cantidad.isEmpty() || this.precioC.isEmpty() || this.precioV.isEmpty()) {
 			UtilitarioControlador.advertencia("Ingrese una cantidad");
 		} else {
 			try {
-				int aux = Integer.parseInt(this.cantidad);
+				int auxc = Integer.parseInt(this.cantidad);
+				double  auxpc = Double.parseDouble(this.precioC), auxpv = Double.parseDouble(this.precioV);
 				this.cantidad = "";
 				this.limpiar();
 				if (this.listadet.isEmpty()) {
-					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
-					this.valorF((inv.getInv_precioUI() * aux));
+					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc, UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc,auxpv));
+					this.valorF((auxpc * auxc));
 				} else {
 					boolean prueba = false;
 					for (int i = 0; i < this.listadet.size(); i++) {
@@ -98,13 +99,14 @@ public class AgregarCompraControlador implements Serializable {
 					if (prueba) {
 						UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
 					} else {
-						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
-						this.valorF((inv.getInv_precioUI() * aux));
+
+						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc, UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc,auxpv));
+						this.valorF((auxpc * auxc));
 					}
 				}
 			} catch (Exception e) {
 				this.limpiar();
-				UtilitarioControlador.error("En el campo cantidad ingrese solo numeros");
+				UtilitarioControlador.error("Ingrese solo numeros");
 			}
 		}
 	}
@@ -140,6 +142,8 @@ public class AgregarCompraControlador implements Serializable {
 						Inventario inv = this.modinv.buscado(ndetven.getInv_id());
 						inv.setInv_cantidad((inv.getInv_cantidad() + ndetven.getDetalle_cantidad()));
 						inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+						inv.setInv_precioCU(ndetven.getDetalle_valorU());
+						inv.setInv_precioUI(ndetven.getAuxpv());
 						this.modinv.actualizar(inv);
 						this.moddetven.guardar(ndetven);
 					}
@@ -261,6 +265,22 @@ public class AgregarCompraControlador implements Serializable {
 
 	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public String getPrecioC() {
+		return precioC;
+	}
+
+	public void setPrecioC(String precioC) {
+		this.precioC = precioC;
+	}
+
+	public String getPrecioV() {
+		return precioV;
+	}
+
+	public void setPrecioV(String precioV) {
+		this.precioV = precioV;
 	}
 
 }

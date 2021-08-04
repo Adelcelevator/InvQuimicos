@@ -71,11 +71,13 @@ and open the template in the editor.
 									Menu
 								</li>
 								<li class="nav-item ">
-									<a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Inventario <span class="badge badge-success">6</span></a>
+									<a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Inventario <span class="badge badge-success">6</span></a>
 									<div id="submenu-1" class="collapse submenu" style="">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Inventario</a>
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/inventario.quimicos')}">
+													Inventario
+												</h:commandLink></h:form>
 											</li>
 										</ul>
 									</div>
@@ -85,10 +87,19 @@ and open the template in the editor.
 									<div id="submenu-2" class="collapse submenu" style="">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
+												<h:form><h:commandLink rendered="false" class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/inventario.quimicos')}">
+													Historial
+												</h:commandLink></h:form>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Compra</a>
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/Compras/compras.quimicos')}">
+													Compras
+												</h:commandLink></h:form>
+											</li>
+											<li class="nav-item">
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/proveedores.quimicos')}">
+													Proveedores
+												</h:commandLink></h:form>
 											</li>
 										</ul>
 									</div>
@@ -98,13 +109,24 @@ and open the template in the editor.
 									<div id="submenu-3" class="collapse submenu" style="">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Historial <span class="badge badge-secondary">New</span></a>
+												<h:form><h:commandLink rendered="false" class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/inventario.quimicos')}">
+													Historial
+												</h:commandLink></h:form>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Generar Cotización</a>
+												<h:form><h:commandLink rendered="false" class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/inventario.quimicos')}">
+													Proforma
+												</h:commandLink></h:form>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Venta</a>
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/clientes.quimicos')}">
+													Clientes
+												</h:commandLink></h:form>
+											</li>
+											<li class="nav-item">
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/Ventas/ventas.quimicos')}">
+													Ventas
+												</h:commandLink></h:form>
 											</li>
 										</ul>
 									</div>
@@ -114,16 +136,14 @@ and open the template in the editor.
 									<div id="submenu-4" class="collapse submenu" style="">
 										<ul class="nav flex-column">
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Todos los Químicos <span class="badge badge-secondary">New</span></a>
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/quimicos.quimicos')}">
+													Químicos
+												</h:commandLink></h:form>
 											</li>
 											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Químico</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar Detalle para un Químico</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#CAMBIAR POR EL LINK">Registrar uso de Químico</a>
+												<h:form><h:commandLink class="nav-link" action="#{template.redirigir('/InvQuimicos/Protegidos/usos.quimicos')}">
+													Usos
+												</h:commandLink></h:form>
 											</li>
 										</ul>
 									</div>

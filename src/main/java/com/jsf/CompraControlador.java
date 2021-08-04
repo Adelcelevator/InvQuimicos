@@ -70,10 +70,6 @@ public class CompraControlador implements Serializable {
 		this.setListadet(moddetven.todos(this.compra.getCom_id()));
 	}
 
-	public void archivar(int id) {
-
-	}
-
 	public void agregar() {
 		try {
 			UtilitarioControlador.redirigir("agregarCompra.quimicos");
@@ -81,6 +77,10 @@ public class CompraControlador implements Serializable {
 			UtilitarioControlador.error("Hubo un error al redirigir: " + e.getMessage());
 		}
 	}
+
+	public double tot(double mult){
+		return UtilitarioControlador.dosDeci(mult);
+	}	
 
 	/*
 	Getters Setters

@@ -60,14 +60,6 @@ and open the template in the editor.
 											listener="#{compra.seleccionar(com)}"
 											render="@form"/>
 								</h:commandLink>
-								<br/>
-								<br/>
-								<h:commandLink class="btn btn-danger" id="btn_borrar">
-									<i class="pi pi-trash"></i>
-									<f:ajax execute="btn_borrar" event="click"
-											listener="#{compra.archivar(com.com_id)}" 
-											render="frm_compra:tbl_compra" />
-								</h:commandLink>
 							</center>
 						</p:column>
 					</p:dataTable>
@@ -100,7 +92,7 @@ and open the template in the editor.
 							<h:outputLabel value="#{det.detalle_valorU}" />
 						</p:column>
 						<p:column headerText="Valor Total">
-							<h:outputLabel value="#{(det.detalle_cantidad*det.detalle_valorU)}" />
+							<h:outputLabel value="#{compra.tot((det.detalle_cantidad*det.detalle_valorU))}" />
 						</p:column>
 						<f:facet name="footer">
 							Valor total: #{compra.compra.com_valorT}

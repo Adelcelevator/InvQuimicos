@@ -33,7 +33,7 @@ public class VentaControlador implements Serializable {
 	private Venta venta;
 	private String buscador;
 	private final VentaMod modventa = new VentaMod();
-	private  final ClienteMod modcli = new ClienteMod();
+	private final ClienteMod modcli = new ClienteMod();
 
 	public void todo() {
 		this.setLista(modventa.todos());
@@ -68,16 +68,16 @@ public class VentaControlador implements Serializable {
 		this.setListadet(moddetven.todos(this.venta.getVen_id()));
 	}
 
-	public void archivar(int id) {
-
-	}
-
 	public void agregar() {
 		try {
 			UtilitarioControlador.redirigir("agregarVenta.quimicos");
 		} catch (Exception e) {
 			UtilitarioControlador.error("Hubo un error al redirigir: " + e.getMessage());
 		}
+	}
+
+	public double tot(double mult) {
+		return UtilitarioControlador.dosDeci(mult);
 	}
 
 	/*

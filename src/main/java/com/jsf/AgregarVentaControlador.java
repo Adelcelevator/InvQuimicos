@@ -39,19 +39,11 @@ public class AgregarVentaControlador implements Serializable {
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
-	private String buscador="", cantidad = "";
+	private String buscador = "", cantidad = "";
 	private Venta venta = new Venta();
 
 	public String hoy() {
 		return LocalDate.now().toString();
-	}
-
-	public List<DescripcionQuimico> productos() {
-		List<DescripcionQuimico> nombre = new ArrayList<>();
-		this.modinv.todos().stream().forEach((es) -> {
-			nombre.add(this.moddescq.buscado(es.getDescq_id()));
-		});
-		return nombre;
 	}
 
 	public void limpiar() {
@@ -173,12 +165,12 @@ public class AgregarVentaControlador implements Serializable {
 		}
 	}
 
-	private final void valorF(double cantidad){
+	private void valorF(double cantidad) {
 		this.venta.setVen_valorT(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() + cantidad));
 		this.venta.setVen_valorIm(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() * 0.12));
 		this.venta.setVen_subtotal(UtilitarioControlador.dosDeci((this.venta.getVen_valorT() - this.venta.getVen_valorIm())));
 	}
-	
+
 	public void buscarC() {
 		if (buscador.isEmpty()) {
 			this.setListacli(modcli.todos());
@@ -222,10 +214,6 @@ public class AgregarVentaControlador implements Serializable {
 
 	public void setListadet(List<DetalleVenta> listadet) {
 		this.listadet = listadet;
-	}
-
-	public AgregarVentaControlador() {
-		this.productos();
 	}
 
 	public List<Cliente> getListacli() {

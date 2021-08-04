@@ -3,8 +3,6 @@ package com.jsf;
 import com.objetos.Usuario;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.LocalDate;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -14,7 +12,7 @@ import javax.faces.bean.SessionScoped;
 public class TemplateControlador implements Serializable {
 
 	private static final long serialVersionUID = 2173326729984611492L;
-	private static Usuario usuariolog;
+	private static Usuario usuariolog=(Usuario) UtilitarioControlador.sacar("usuario");
 
 	public String nombre() {
 		try {
@@ -32,12 +30,6 @@ public class TemplateControlador implements Serializable {
 
 	public void cerrar() {
 		UtilitarioControlador.vamonos();
-	}
-
-	public TemplateControlador() {
-		UtilitarioControlador.guardar("usuario", new Usuario(1, 1, "adel", "holamonica", "Eduardo", "Montenegro", "", "", "A",
-						Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now())));
-		usuariolog = (Usuario) UtilitarioControlador.sacar("usuario");
 	}
 
 	public static Usuario getUsuariolog() {

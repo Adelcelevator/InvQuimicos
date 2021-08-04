@@ -45,14 +45,6 @@ public class AgregarCompraControlador implements Serializable {
 		return LocalDate.now().toString();
 	}
 
-	public List<DescripcionQuimico> productos() {
-		List<DescripcionQuimico> nombre = new ArrayList<>();
-		this.modinv.todos().stream().forEach((es) -> {
-			nombre.add(this.moddescq.buscado(es.getDescq_id()));
-		});
-		return nombre;
-	}
-
 	public void limpiar() {
 		this.buscador = "";
 		this.listaprov = this.modprov.todos();
@@ -167,7 +159,7 @@ public class AgregarCompraControlador implements Serializable {
 		}
 	}
 
-	private final void valorF(double cantidad) {
+	private void valorF(double cantidad) {
 		this.compra.setCom_valorT(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() + cantidad));
 		this.compra.setCom_valorIm(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() * 0.12));
 		this.compra.setCom_subtotal(UtilitarioControlador.dosDeci((this.compra.getCom_valorT() - this.compra.getCom_valorIm())));
@@ -216,10 +208,6 @@ public class AgregarCompraControlador implements Serializable {
 
 	public void setListadet(List<DetalleCompra> listadet) {
 		this.listadet = listadet;
-	}
-
-	public AgregarCompraControlador() {
-		this.productos();
 	}
 
 	public List<Proveedor> getListaprov() {

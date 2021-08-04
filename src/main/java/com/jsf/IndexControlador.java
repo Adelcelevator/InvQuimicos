@@ -10,6 +10,7 @@ import com.objetos.Usuario;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -36,7 +37,7 @@ public class IndexControlador implements Serializable {
 						UtilitarioControlador.advertencia("Contraseña Equivocada");
 					} else {
 						UtilitarioControlador.guardar("usuario", usu);
-						UtilitarioControlador.redirigir("Protegidos/inv.quimicos");
+						UtilitarioControlador.redirigir("Protegidos/inventario.quimicos");
 					}
 				}
 			}
@@ -59,5 +60,16 @@ public class IndexControlador implements Serializable {
 
 	public void setContra(String contra) {
 		this.contra = contra;
+	}
+	
+	public void logueado(){
+		try{
+			
+		if(UtilitarioControlador.getUsu() != null){
+			UtilitarioControlador.redirigir("Protegidos/inventario.quimicos");
+		}
+		}catch(Exception e){
+			System.out.println("ERROR AL REDIRIGIR DESDE EL INICIO CON SESION INICIADA");
+		}
 	}
 }

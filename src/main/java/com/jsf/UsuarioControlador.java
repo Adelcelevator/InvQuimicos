@@ -5,6 +5,7 @@
  */
 package com.jsf;
 
+import com.utilitarios.UtilitarioControlador;
 import com.modelo.TipoUsuarioMod;
 import com.modelo.UsuarioMod;
 import com.objetos.Usuario;

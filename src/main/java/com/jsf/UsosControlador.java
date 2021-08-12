@@ -5,6 +5,7 @@
  */
 package com.jsf;
 
+import com.utilitarios.UtilitarioControlador;
 import com.modelo.QuimicoMod;
 import com.modelo.TipoUsoMod;
 import com.modelo.UsoQuimicoMod;

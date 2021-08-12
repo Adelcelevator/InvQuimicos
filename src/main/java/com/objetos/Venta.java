@@ -1,6 +1,6 @@
 package com.objetos;
 
-import com.jsf.UtilitarioControlador;
+import com.utilitarios.UtilitarioControlador;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;

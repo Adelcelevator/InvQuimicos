@@ -5,6 +5,7 @@
  */
 package com.jsf;
 
+import com.utilitarios.UtilitarioControlador;
 import com.modelo.DescQuimicosMod;
 import com.modelo.InventarioMod;
 import com.modelo.QuimicoMod;
@@ -64,7 +65,7 @@ public class InventarioControlador implements Serializable {
 	}
 
 	public void guardarInv() {
-		if (!this.modinv.buscado(this.inv.getQui_id(), this.inv.getDescq_id()).equals(new Inventario())) {
+		if (this.modinv.buscado(this.inv.getQui_id(), this.inv.getDescq_id()).equals(new Inventario())) {
 			UtilitarioControlador.advertencia("ya existe en el inventario");
 			this.limpiar();
 		} else {

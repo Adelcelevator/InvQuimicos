@@ -78,9 +78,11 @@ and open the template in the editor.
 					-->
 					<p:dataTable id="tbl_detcom" rendered="#{!(compra.listadet.size()==0)}" var="det" value="#{compra.listadet}">
 						<f:facet name="header">
-							Venta ID: ${compra.compra.com_id} 
+							Compra ID: ${compra.compra.com_id} 
 							<br/>
 							Factura #: ${compra.compra.com_numFac}
+							<br/>
+							Fecha: ${compra.compra.fecha_mod}
 						</f:facet>
 						<p:column headerText="ID Incomtario">
 							<h:outputLabel value="#{compra.nomInv(det.inv_id)}" />

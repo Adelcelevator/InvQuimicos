@@ -1,12 +1,13 @@
-package com.modelo;
+package com.utilitarios;
 
+import com.modelo.Peticiones;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtilitarioMod<T> implements Serializable,Peticiones<T> {
 	private static final long serialVersionUID = -9213506424687712430L;
-	private final List<T> lis = new ArrayList<T>();
+	private final List<T> lis = new ArrayList<>();
 	private T obj;
 	private boolean fue;
 

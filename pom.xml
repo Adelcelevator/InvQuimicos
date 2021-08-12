@@ -35,13 +35,31 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.20</version>
+			<version>42.2.23</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
 			<version>10.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.17.0</version>
 		</dependency>
 	</dependencies>
 
@@ -95,5 +113,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

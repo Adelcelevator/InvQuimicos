@@ -24,7 +24,7 @@ and open the template in the editor.
 					<h:inputText id="txt_buscador" value="#{cotizacion.buscador}" pt:placeholder="Numero de Cotizacion" size="25">
 						<f:ajax execute="frm_cotizacion:txt_buscador" listener="#{cotizacion.buscar()}" event="keyup" render="frm_cotizacion:tbl_cotizacion frm_cotizacion:esto" />
 					</h:inputText>&#8239;&#8239;
-					<h:commandLink action="#{cotizacion.agregar()}" class="btn btn-primary">
+					<h:commandLink action="#{template.redirigir('agregarCotizacion.quimicos')}" class="btn btn-primary">
 						<i class="pi pi-plus"></i>
 					</h:commandLink>
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>

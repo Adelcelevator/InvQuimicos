@@ -38,6 +38,8 @@ public class IndexControlador implements Serializable {
 					if (!usu.getUsu_contra().equals(contra)) {
 						UtilitarioControlador.advertencia("Contraseña Equivocada");
 					} else {
+						usu.setUsu_contra("");
+						usu.setUsu_usuario("");
 						UtilitarioControlador.guardar("usuario", usu);
 						UtilitarioControlador.redirigir("Protegidos/inventario.quimicos");
 					}

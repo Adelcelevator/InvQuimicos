@@ -62,14 +62,6 @@ public class CotizacionControlador implements Serializable {
 		this.setListadet(moddetven.todos(this.cotizacion.getVen_id()));
 	}
 
-	public void agregar() {
-		try {
-			UtilitarioControlador.redirigir("agregarVenta.quimicos");
-		} catch (Exception e) {
-			UtilitarioControlador.error("Hubo un error al redirigir: " + e.getMessage());
-		}
-	}
-
 	public double tot(double mult) {
 		return UtilitarioControlador.dosDeci(mult);
 	}

@@ -114,19 +114,22 @@ public class AgregarCotizacionControlador implements Serializable{
 	}
 
 	/*
-	 * Este es el metodo guardar y funciona de la siguiente manera: 1.- Se verifica
-	 * que el numero de factura no haya sido ingresado con anterioridad. 2.- Se
-	 * settea el id de usuario en el objeto cotizacion 3.- Se evalua que no existan
-	 * campos vacios 4.- Se registra la cabecera de la cotizacion y/o el objeto cotizacion 5.-
-	 * Se iguala el objeto cotizacion con el objeto cotizacion traido desde la base de datos
-	 * identificado por el numero de factura 6.- Se recorre la lista del detalle de
-	 * la cotizacion para hacer su insercion en la base 7.- Se comprueba una vez mas que
-	 * la cantidad no sea mayor a lo que hay en stock 8.- Se actualiza el inventario
-	 * y se guarda el datalle de la cotizacion
+	Este es el metodo guardar y funciona de la siguiente manera: 
+	1.- Se verifica que el numero de cotizacion no haya sido ingresado con anterioridad. 
+	2.- Se settea el id de usuario en el objeto cotizacion 
+	3.- Se evalua que no existan campos vacios 
+	4.- Se registra la cabecera de la cotizacion y/o el objeto cotizacion 
+	5.-Se iguala el objeto cotizacion con el objeto cotizacion traido desde la base de datos
+	 identificado por el numero de factura 
+	6.- Se recorre la lista del detalle de la cotizacion para hacer su insercion en la base 
+	7.- Se comprueba una vez mas que la cantidad no sea mayor a lo que hay en stock 
+	8.- Se actualiza el inventario y se guarda el datalle de la cotizacion
 	 */
 	public void guardar() {
 		try {
-			if (this.modcoti.buscado(this.cotizacion.getVen_numFac()) == null) {
+			while(this.modcoti.buscado(this.cotizacion.getVen_numFac()) != null){
+				this.cotizacion.setVen_numFac(Integer.parseInt(String.valueOf((Math.random()*300000)+2000000)));
+			}
 				this.cotizacion.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 				if (this.cli.equals(new Cliente()) || this.cotizacion.hasEmptyFilds() || this.listadet.isEmpty()) {
 					UtilitarioControlador.advertencia("Existen campos vacios");
@@ -136,22 +139,11 @@ public class AgregarCotizacionControlador implements Serializable{
 					this.cotizacion = modcoti.buscado(this.cotizacion.getVen_numFac());
 					for (DetalleVenta ndetven : this.listadet) {
 						ndetven.setVen_id(this.cotizacion.getVen_id());
-						Inventario inv = this.modinv.buscado(ndetven.getInv_id());
-						if ((inv.getInv_cantidad() - ndetven.getDetalle_cantidad()) < 0) {
-							break;
-						} else {
-							inv.setInv_cantidad((inv.getInv_cantidad() - ndetven.getDetalle_cantidad()));
-							inv.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-							this.modinv.actualizar(inv);
-							this.moddetcoti.guardar(ndetven);
+						this.moddetcoti.guardar(ndetven);
 						}
 					}
 					this.limpiarF();
-					UtilitarioControlador.redirigir("ventas.quimicos");
-				}
-			} else {
-				UtilitarioControlador.advertencia("Ya existe ese numero de factura");
-			}
+					UtilitarioControlador.redirigir("cotizaciones.quimicos");
 		} catch (Exception e) {
 			UtilitarioControlador.error("Existio un Error general");
 			try {

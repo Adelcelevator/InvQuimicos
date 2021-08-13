@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<h:head>
+		<title>TODO supply a title</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</h:head>
+	<h:body>
+		<ui:composition template="../../Template/template.xhtml">
+			<ui:define name="cuerpo">
+				<h:form id="fac">
+					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
+					Seleccionar Cliente &#8239;&#8239;
+					<h:commandLink class="btn btn-primary">
+						<i class="pi pi-search"></i>
+						<f:ajax event="click" onevent="PF('selec_cli').show()"/>
+					</h:commandLink>
+					<br/>
+					<br/>
+					<div style="background-color: white !important; padding: 2mm !important;">
+						<b style="color:black !important;"># Factura:</b>&#8239;&#8239;<h:inputText pt:placeholder="Numero de Factura" value="#{agregarV.venta.ven_numFac}"/>
+						<br/>
+						<br/>
+						<b style="color:black !important;">Fecha:</b> ${agregarV.hoy()}
+						<br/>
+						<br/>
+						<b style="color:black !important;">RUC:</b> ${agregarV.cli.ruc}
+						<br/>
+						<br/>
+						<b style="color:black !important;">Cliente:</b> ${agregarV.cli.nombreC}&#8239;&#8239;
+						<b style="color:black !important;">Representante:</b> ${agregarV.cli.representante}
+						<br/>
+						<br/>
+						<b style="color:black !important;">Direccion:</b> ${agregarV.cli.dire}
+						<br/>
+						<br/>
+						<b style="color:black !important;">Telefono:</b> ${agregarV.cli.telefono}
+						<br/>
+						<br/>
+						Agregar Producto &#8239;&#8239;
+						<h:commandLink class="btn btn-primary">
+							<i class="pi pi-plus"></i>
+							<f:ajax event="click" onevent="PF('selec_pro').show()"/>
+						</h:commandLink>
+						<br/>
+						<p:dataTable id="tbl_detven" var="detven" value="#{agregarV.listadet}">
+							<p:column headerText="Producto">
+								<h:outputLabel value="#{agregarV.nomFac(detven.inv_id)}"/>
+							</p:column>
+							<p:column headerText="Cantidad">
+								<h:outputLabel value="#{detven.detalle_cantidad}"/>
+							</p:column>
+							<p:column headerText="Valor Unitario">
+								<h:outputLabel value="#{detven.detalle_valorU}"/>
+							</p:column>
+							<p:column  headerText="Valor Total">
+								<h:outputLabel id="totalu" value="#{detven.detalle_valorTv}"/>
+							</p:column>
+							<p:column>
+								<h:commandLink class="btn btn-danger">
+									<i class="pi pi-trash"></i>
+									<f:ajax execute="@form"
+											event="click"
+											render="@form"
+											listener="#{agregarV.eliminar(detven)}"/>
+								</h:commandLink>
+							</p:column>
+						</p:dataTable>
+						<div style="text-align: right !important; margin-left: 70% !important;">
+							<table>
+								<tr>
+									<td>
+										<h:outputLabel style="color: black !important" value="Subtotal"/>
+									</td>
+									<td>
+										<h:outputLabel style="color: black !important" value="#{(agregarV.venta.ven_subtotal)}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel style="color: black !important" value="Impuesto 12%"/>
+									</td>
+									<td>
+										<h:outputLabel style="color: black !important" value="#{agregarV.venta.ven_valorIm}"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h:outputLabel style="color: black !important" value="Valor Total"/>
+									</td>
+									<td>
+										<h:outputLabel style="color: black !important" value="#{agregarV.venta.ven_valorT}"/>
+									</td>
+								</tr>
+							</table>
+
+							<h:commandLink class="btn btn-success">
+								<i class="pi pi-save"></i>
+								<f:ajax execute="@form" 
+										event="click"
+										render="@form"
+										listener="#{agregarV.guardar()}"/>
+							</h:commandLink>
+						</div>
+					</div>
+				</h:form>
+				<p:dialog header="Seleccionar Cliente" closable="false" closeOnEscape="true" onHide="#{agregarV.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">
+					<h:form id="selecCli">
+						<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
+						<h:inputText id="txt_buscador" value="#{agregarV.buscador}" pt:placeholder="Cliente, RUC" size="25">
+							<f:ajax execute="selecCli:txt_buscador" listener="#{agregarV.buscarC()}" 
+									event="keyup" render="selecCli:tbl_cli" />
+						</h:inputText>
+						<br/>
+						<p:dataTable id="tbl_cli" var="cli" value="#{agregarV.listacli}" rows="3" paginator="true">
+							<p:column headerText="RUC">
+								<h:outputLabel value="#{cli.ruc}" />
+							</p:column>
+							<p:column headerText="Nombre Comercial">
+								<h:outputLabel value="#{cli.nombreC}" />
+							</p:column>
+							<p:column headerText="Representante">
+								<h:outputLabel value="#{cli.representante}" />
+							</p:column>
+							<p:column headerText="Pais">
+								<h:outputLabel value="#{cli.pais}" />
+							</p:column>
+							<p:column headerText="Direccion">
+								<h:outputLabel value="#{cli.dire}" />
+							</p:column>
+							<p:column headerText="Telefono">
+								<h:outputLabel value="#{cli.telefono}" />
+							</p:column>
+							<p:column headerText="Opcion">
+								<center>
+									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
+										<i class="pi pi-check"></i>
+										<f:ajax execute="btn_seleccionar" event="click"
+												listener="#{agregarV.seleccionarCli(cli)}" 
+												onevent="PF('selec_cli').hide()"
+												render="selecCli fac"/>
+									</h:commandLink>
+								</center>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:dialog>
+
+				<p:dialog header="Seleccionar Producto" closable="false" closeOnEscape="true" onHide="#{agregarV.limpiar()}" widgetVar="selec_pro" minHeight="40" width="1000" showEffect="fade" modal="true">
+					<h:form id="selecPro">
+						<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
+						<h:inputText id="txt_buscador" value="#{agregarV.buscador}" pt:placeholder="Descripcion" size="25">
+							<f:ajax execute="selecPro:txt_buscador" listener="#{agregarV.buscarP()}" 
+									event="keyup" render="selecPro:tbl_inv" />
+						</h:inputText>
+						<br/>
+						<br/>
+						<h:outputLabel style="font-size: 15pt !important;" value="Cantidad:" />&#8239;
+						<h:inputText id="cantidad" value="#{agregarV.cantidad}" pt:placeholder="Cantidad" size="26"/>
+						<br/>
+						<p:dataTable id="tbl_inv" var="inv" value="#{agregarV.listaPro}" rows="2" paginator="true">
+							<p:column headerText="Quimico">
+								<h:outputLabel value="#{agregarV.nomQui(inv.qui_id)}" />
+							</p:column>
+							<p:column headerText="Descripcion">
+								<h:outputLabel value="#{agregarV.nomDesc(inv.descq_id)}" />
+							</p:column>
+							<p:column headerText="Existencia">
+								<h:outputLabel value="#{agregarV.uniMed(inv.descq_id, inv.inv_cantidad)}" />
+							</p:column>
+							<p:column headerText="Precio Unitario Compra">
+								<h:outputLabel value="$#{inv.inv_precioCU}" />
+							</p:column>
+							<p:column headerText="Precio Unitario Inventario">
+								<h:outputLabel value="$#{inv.inv_precioUI}" />
+							</p:column>
+							<p:column headerText="Opcion">
+								<center>
+									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
+										<i class="pi pi-check"></i>
+										<f:ajax execute="selecPro" event="click"
+												listener="#{agregarV.seleccionarPro(inv)}" 
+												onevent="PF('selec_pro').hide()"
+												render="selecPro fac"/>
+									</h:commandLink>
+								</center>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:dialog>
+			</ui:define>
+		</ui:composition>
+	</h:body>
+</html>

@@ -1,25 +1,24 @@
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.modelo.ProveedorMod;
-import com.modelo.DescQuimicosMod;
-import com.modelo.DetalleCompraMod;
-import com.modelo.InventarioMod;
-import com.modelo.QuimicoMod;
-import com.modelo.CompraMod;
-
-import com.objetos.Proveedor;
-import com.objetos.DescripcionQuimico;
-import com.objetos.DetalleCompra;
-import com.objetos.Inventario;
-import com.objetos.Compra;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.modelo.CompraMod;
+import com.modelo.DescQuimicosMod;
+import com.modelo.DetalleCompraMod;
+import com.modelo.InventarioMod;
+import com.modelo.ProveedorMod;
+import com.modelo.QuimicoMod;
+import com.objetos.Compra;
+import com.objetos.DetalleCompra;
+import com.objetos.Inventario;
+import com.objetos.Proveedor;
+import com.utilitarios.UtilitarioControlador;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "agregarC")
@@ -76,13 +75,14 @@ public class AgregarCompraControlador implements Serializable {
 		} else {
 			try {
 				int auxc = Integer.parseInt(this.cantidad);
-				double  auxpc = Double.parseDouble(this.precioC), auxpv = Double.parseDouble(this.precioV);
+				double auxpc = Double.parseDouble(this.precioC), auxpv = Double.parseDouble(this.precioV);
 				this.cantidad = "";
-				this.precioC="";
-				this.precioV="";
+				this.precioC = "";
+				this.precioV = "";
 				this.limpiar();
 				if (this.listadet.isEmpty()) {
-					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc, UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc,auxpv));
+					this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc,
+							UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc, auxpv));
 					this.valorF((auxpc * auxc));
 				} else {
 					boolean prueba = false;
@@ -96,7 +96,8 @@ public class AgregarCompraControlador implements Serializable {
 						UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
 					} else {
 
-						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc, UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc,auxpv));
+						this.listadet.add(new DetalleCompra(0, inv.getInv_id(), auxc,
+								UtilitarioControlador.dosDeci((auxpc * auxc)), auxpc, auxpv));
 						this.valorF((auxpc * auxc));
 					}
 				}
@@ -113,15 +114,15 @@ public class AgregarCompraControlador implements Serializable {
 	}
 
 	/*
-	Este es el metodo guardar y funciona de la siguiente manera:
-		1.- Se verifica que el numero de factura no haya sido ingresado con anterioridad por la misma entidad.
-		2.- Se settea el id de usuario en el objeto compra
-		3.- Se evalua que no existan campos vacios
-		4.- Se registra la cabecera de la compra y/o el objeto compra
-		5.- Se iguala el objeto compra con el objeto compra traido desde la base de datos
-			identificado por el numero de factura y el id de la entdad emisora
-		6.- Se recorre la lista del detalle de la venta para hacer su insercion en la base
-		7.- Se actualiza el inventario y se guarda el datalle de la compra
+	 * Este es el metodo guardar y funciona de la siguiente manera: 1.- Se verifica
+	 * que el numero de factura no haya sido ingresado con anterioridad por la misma
+	 * entidad. 2.- Se settea el id de usuario en el objeto compra 3.- Se evalua que
+	 * no existan campos vacios 4.- Se registra la cabecera de la compra y/o el
+	 * objeto compra 5.- Se iguala el objeto compra con el objeto compra traido
+	 * desde la base de datos identificado por el numero de factura y el id de la
+	 * entdad emisora 6.- Se recorre la lista del detalle de la venta para hacer su
+	 * insercion en la base 7.- Se actualiza el inventario y se guarda el datalle de
+	 * la compra
 	 */
 	public void guardar() {
 		try {
@@ -163,7 +164,8 @@ public class AgregarCompraControlador implements Serializable {
 	private void valorF(double cantidad) {
 		this.compra.setCom_valorT(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() + cantidad));
 		this.compra.setCom_valorIm(UtilitarioControlador.dosDeci(this.compra.getCom_valorT() * 0.12));
-		this.compra.setCom_subtotal(UtilitarioControlador.dosDeci((this.compra.getCom_valorT() - this.compra.getCom_valorIm())));
+		this.compra.setCom_subtotal(
+				UtilitarioControlador.dosDeci((this.compra.getCom_valorT() - this.compra.getCom_valorIm())));
 	}
 
 	public void buscarC() {
@@ -193,7 +195,8 @@ public class AgregarCompraControlador implements Serializable {
 	}
 
 	public String nomFac(int id) {
-		return this.nomQui(this.modinv.buscado(id).getQui_id()) + " | " + this.nomDesc(this.modinv.buscado(id).getDescq_id());
+		return this.nomQui(this.modinv.buscado(id).getQui_id()) + " | "
+				+ this.nomDesc(this.modinv.buscado(id).getDescq_id());
 	}
 
 	public String uniMed(int id, int cantidad) {
@@ -201,7 +204,7 @@ public class AgregarCompraControlador implements Serializable {
 	}
 
 	/*
-	Getters Setters
+	 * Getters Setters
 	 */
 	public List<DetalleCompra> getListadet() {
 		return listadet;

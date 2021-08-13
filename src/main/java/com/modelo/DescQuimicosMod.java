@@ -1,6 +1,5 @@
 package com.modelo;
 
-import com.utilitarios.UtilitarioMod;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.objetos.DescripcionQuimico;
+import com.utilitarios.UtilitarioMod;
 
 public class DescQuimicosMod extends UtilitarioMod<DescripcionQuimico> implements Serializable {
 	private static final long serialVersionUID = -505212644921952665L;

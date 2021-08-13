@@ -1,19 +1,5 @@
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.modelo.ClienteMod;
-import com.modelo.DescQuimicosMod;
-import com.modelo.DetalleVentaMod;
-import com.modelo.InventarioMod;
-import com.modelo.QuimicoMod;
-import com.modelo.VentaMod;
-
-import com.objetos.Cliente;
-import com.objetos.DescripcionQuimico;
-import com.objetos.DetalleVenta;
-import com.objetos.Inventario;
-import com.objetos.Venta;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +7,18 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.modelo.ClienteMod;
+import com.modelo.DescQuimicosMod;
+import com.modelo.DetalleVentaMod;
+import com.modelo.InventarioMod;
+import com.modelo.QuimicoMod;
+import com.modelo.VentaMod;
+import com.objetos.Cliente;
+import com.objetos.DetalleVenta;
+import com.objetos.Inventario;
+import com.objetos.Venta;
+import com.utilitarios.UtilitarioControlador;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "agregarV")
@@ -85,7 +83,8 @@ public class AgregarVentaControlador implements Serializable {
 				} else {
 					this.limpiar();
 					if (this.listadet.isEmpty()) {
-						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+						this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux,
+								UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
 						this.valorF((inv.getInv_precioUI() * aux));
 					} else {
 						boolean prueba = false;
@@ -98,7 +97,9 @@ public class AgregarVentaControlador implements Serializable {
 						if (prueba) {
 							UtilitarioControlador.advertencia("Ya Esta Seleccionado el Producto");
 						} else {
-							this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux, UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)), inv.getInv_precioUI()));
+							this.listadet.add(new DetalleVenta(0, inv.getInv_id(), aux,
+									UtilitarioControlador.dosDeci((inv.getInv_precioUI() * aux)),
+									inv.getInv_precioUI()));
 							this.valorF((inv.getInv_precioUI() * aux));
 						}
 					}
@@ -116,16 +117,15 @@ public class AgregarVentaControlador implements Serializable {
 	}
 
 	/*
-	Este es el metodo guardar y funciona de la siguiente manera:
-		1.- Se verifica que el numero de factura no haya sido ingresado con anterioridad.
-		2.- Se settea el id de usuario en el objeto venta
-		3.- Se evalua que no existan campos vacios
-		4.- Se registra la cabecera de la venta y/o el objeto venta
-		5.- Se iguala el objeto venta con el objeto venta traido desde la base de datos
-			identificado por el numero de factura
-		6.- Se recorre la lista del detalle de la venta para hacer su insercion en la base
-		7.- Se comprueba una vez mas que la cantidad no sea mayor a lo que hay en stock
-		8.- Se actualiza el inventario y se guarda el datalle de la venta
+	 * Este es el metodo guardar y funciona de la siguiente manera: 1.- Se verifica
+	 * que el numero de factura no haya sido ingresado con anterioridad. 2.- Se
+	 * settea el id de usuario en el objeto venta 3.- Se evalua que no existan
+	 * campos vacios 4.- Se registra la cabecera de la venta y/o el objeto venta 5.-
+	 * Se iguala el objeto venta con el objeto venta traido desde la base de datos
+	 * identificado por el numero de factura 6.- Se recorre la lista del detalle de
+	 * la venta para hacer su insercion en la base 7.- Se comprueba una vez mas que
+	 * la cantidad no sea mayor a lo que hay en stock 8.- Se actualiza el inventario
+	 * y se guarda el datalle de la venta
 	 */
 	public void guardar() {
 		try {
@@ -169,7 +169,8 @@ public class AgregarVentaControlador implements Serializable {
 	private void valorF(double cantidad) {
 		this.venta.setVen_valorT(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() + cantidad));
 		this.venta.setVen_valorIm(UtilitarioControlador.dosDeci(this.venta.getVen_valorT() * 0.12));
-		this.venta.setVen_subtotal(UtilitarioControlador.dosDeci((this.venta.getVen_valorT() - this.venta.getVen_valorIm())));
+		this.venta.setVen_subtotal(
+				UtilitarioControlador.dosDeci((this.venta.getVen_valorT() - this.venta.getVen_valorIm())));
 	}
 
 	public void buscarC() {
@@ -199,7 +200,8 @@ public class AgregarVentaControlador implements Serializable {
 	}
 
 	public String nomFac(int id) {
-		return this.nomQui(this.modinv.buscado(id).getQui_id()) + " | " + this.nomDesc(this.modinv.buscado(id).getDescq_id());
+		return this.nomQui(this.modinv.buscado(id).getQui_id()) + " | "
+				+ this.nomDesc(this.modinv.buscado(id).getDescq_id());
 	}
 
 	public String uniMed(int id, int cantidad) {
@@ -207,7 +209,7 @@ public class AgregarVentaControlador implements Serializable {
 	}
 
 	/*
-	Getters Setters
+	 * Getters Setters
 	 */
 	public List<DetalleVenta> getListadet() {
 		return listadet;

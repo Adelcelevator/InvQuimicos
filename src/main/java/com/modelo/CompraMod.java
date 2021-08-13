@@ -1,6 +1,5 @@
 package com.modelo;
 
-import com.utilitarios.UtilitarioMod;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.objetos.Compra;
+import com.utilitarios.UtilitarioMod;
 
 public class CompraMod extends UtilitarioMod<Compra> implements Serializable {
 	private static final long serialVersionUID = 4739519160489910146L;

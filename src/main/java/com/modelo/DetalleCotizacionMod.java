@@ -9,11 +9,9 @@ import java.util.List;
 import com.objetos.DetalleVenta;
 import com.utilitarios.UtilitarioMod;
 
-public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Serializable {
+public class DetalleCotizacionMod extends UtilitarioMod<DetalleVenta> implements Serializable {
+	private static final long serialVersionUID = 1873202432379815622L;
 
-	private static final long serialVersionUID = -9093700486569151670L;
-
-	// Consulta de Lectura
 	@Override
 	public List<DetalleVenta> todos(int id) {
 		this.getLis().clear();
@@ -23,19 +21,20 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
 			while (rst.next()) {
-				this.getLis().add(
-						new DetalleVenta(rst.getInt("ven_id"), rst.getInt("inv_id"), rst.getInt("detalle_cantidad"),
-								rst.getDouble("detalle_valorTv"), rst.getDouble("detalle_valorU")));
+				this.getLis()
+						.add(new DetalleVenta(rst.getInt("ven_id"), rst.getInt("inv_id"),
+								rst.getInt("detalle_cantidad"), rst.getDouble("detalle_valorTv"),
+								rst.getDouble("detalle_valorU")));
 			}
 			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
 			Conexion.desconectar();
-			System.out.println("ERROR AL TRAER EL DETALLE DE LA VENTA CON ID " + id + ": " + e.getMessage());
+			System.out.println("ERROR AL TRAER EL DETALLE DE LA COTIZACION CON ID " + id + ": " + e.getMessage());
 		}
 		return this.getLis();
 	}
-	
+
 	// Consulta de escritura
 	@Override
 	public boolean guardar(DetalleVenta nuevo) throws Exception {
@@ -57,7 +56,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL GUARDAR EL DETALLE: " + e.getMessage());
+			System.out.println("ERROR AL GUARDAR EL DETALLE DE LA COTIZACION: " + e.getMessage());
 		}
 		return this.isFue();
 	}
@@ -83,7 +82,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL ACTUALIZAR PARTE DEL DETALLE: " + e.getMessage());
+			System.out.println("ERROR AL ACTUALIZAR PARTE DEL DETALLE DE LA COTIZACION: " + e.getMessage());
 		}
 		return this.isFue();
 	}
@@ -104,7 +103,7 @@ public class DetalleVentaMod extends UtilitarioMod<DetalleVenta> implements Seri
 		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL ELIMINAR PARTE DEL DETALLE: " + e.getMessage());
+			System.out.println("ERROR AL ELIMINAR PARTE DEL DETALLE DE LA COTIZACION: " + e.getMessage());
 		}
 		return this.isFue();
 	}

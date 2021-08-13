@@ -5,14 +5,16 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 import com.modelo.TipoUsuarioMod;
 import com.modelo.UsuarioMod;
 import com.objetos.Usuario;
-import java.io.Serializable;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *

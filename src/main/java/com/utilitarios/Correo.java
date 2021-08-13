@@ -2,6 +2,7 @@ package com.utilitarios;
 
 import java.io.Serializable;
 import java.util.Properties;
+
 import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.Session;
@@ -12,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class Correo implements Serializable {
-
+	private static final long serialVersionUID = -1429807307434656704L;
 	private final static MimeMultipart multi = new MimeMultipart();
 	private final static MimeBodyPart cuerpo = new MimeBodyPart();
 	private final static MimeBodyPart adjunto = new MimeBodyPart();
@@ -20,8 +21,8 @@ public class Correo implements Serializable {
 	private static Session sesion;
 	private static MimeMessage mensaje;
 	private static Transport trans;
-	
-	public static boolean correoCA(String destino,String asunto, String txt_mensaje, String archivo) {
+
+	public static boolean correoCA(String destino, String asunto, String txt_mensaje, String archivo) {
 		try {
 			props.put("mail.smtp.host", "smtp.mail.yahoo.com");
 			props.put("mail.smtp.starttls.enable", "true");
@@ -36,7 +37,7 @@ public class Correo implements Serializable {
 			multi.addBodyPart(cuerpo);
 			multi.addBodyPart(adjunto);
 
-			mensaje= new MimeMessage(sesion);
+			mensaje = new MimeMessage(sesion);
 			mensaje.setFrom(new InternetAddress(props.getProperty("mail.smtp.mail.sender")));
 			mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destino));
 			mensaje.setContent(multi);

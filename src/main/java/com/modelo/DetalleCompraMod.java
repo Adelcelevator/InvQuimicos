@@ -1,6 +1,5 @@
 package com.modelo;
 
-import com.utilitarios.UtilitarioMod;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import com.objetos.DetalleCompra;
+import com.utilitarios.UtilitarioMod;
 
 public class DetalleCompraMod extends UtilitarioMod<DetalleCompra> implements Serializable {
 	private static final long serialVersionUID = -2717325712551819689L;

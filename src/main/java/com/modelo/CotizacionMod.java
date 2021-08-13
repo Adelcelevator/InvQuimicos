@@ -11,8 +11,8 @@ import java.util.List;
 import com.objetos.Venta;
 import com.utilitarios.UtilitarioMod;
 
-public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
-	private static final long serialVersionUID = 2445646734111037263L;
+public class CotizacionMod extends UtilitarioMod<Venta> implements Serializable {
+	private static final long serialVersionUID = 8831609339314578411L;
 
 	// Peticiones de Lectura
 	@Override
@@ -21,19 +21,20 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		try {
 			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
-							"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' ORDER BY ven.\"ven_numFac\"")
+							"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
-				this.getLis().add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
-						rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"), rst.getDouble("ven_descuento"),
-						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
-						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
+				this.getLis()
+						.add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
+								rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"),
+								rst.getDouble("ven_descuento"), rst.getString("ven_estado"), rst.getDate("ven_fecha"),
+								rst.getDate("fecha_in"), rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
 			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
 			Conexion.desconectar();
-			System.out.println("ERROR AL TRAER TODAS LAS FACTURAS: "+e.getMessage());
+			System.out.println("ERROR AL TRAER TODAS LAS COTIZACIONES: " + e.getMessage());
 		}
 		return this.getLis();
 	}
@@ -43,19 +44,20 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		this.getLis().clear();
 		try {
 			ResultSet rst = Conexion.conectar()
-					.prepareStatement("SELECT * FROM public.tbl_ventas ven where ORDER BY ven.\"ven_numFac\"")
+					.prepareStatement("SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
-				this.getLis().add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
-						rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"), rst.getDouble("ven_descuento"),
-						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
-						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
+				this.getLis()
+						.add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
+								rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"),
+								rst.getDouble("ven_descuento"), rst.getString("ven_estado"), rst.getDate("ven_fecha"),
+								rst.getDate("fecha_in"), rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
 			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
 			Conexion.desconectar();
-			System.out.println("ERROR AL TRAER EL HISTORIAL DE FACTURAS: "+e.getMessage());
+			System.out.println("ERROR AL TRAER EL HISTORIAL DE COTIZACIONES: " + e.getMessage());
 		}
 		return this.getLis();
 	}
@@ -65,29 +67,30 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		this.getLis().clear();
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
-					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' AND ven.\"ven_numFac\"::TEXT LIKE ? ORDER BY ven.\"ven_numFac\"");
-			pst.setString(1, "%"+id+"%");
+					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' AND ven.\"ven_numFac\"::TEXT LIKE ? ORDER BY ven.\"ven_numFac\"");
+			pst.setString(1, "%" + id + "%");
 			ResultSet rst = pst.executeQuery();
 			while (rst.next()) {
-				this.getLis().add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
-						rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"), rst.getDouble("ven_descuento"),
-						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
-						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
+				this.getLis()
+						.add(new Venta(rst.getInt("ven_id"), rst.getInt("ven_numFac"), rst.getInt("cli_id"),
+								rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"),
+								rst.getDouble("ven_descuento"), rst.getString("ven_estado"), rst.getDate("ven_fecha"),
+								rst.getDate("fecha_in"), rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
 			}
 			Conexion.desconectar();
 			return this.getLis();
 		} catch (Exception e) {
 			Conexion.desconectar();
-			System.out.println("ERROR AL BUSCAR FACTURAS: "+e.getMessage());
+			System.out.println("ERROR AL BUSCAR COTIZACIONES: " + e.getMessage());
 		}
 		return this.getLis();
 	}
-	
+
 	@Override
 	public Venta buscado(int id) {
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
-					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado!='A' AND ven.\"ven_numFac\"=? ORDER BY ven.\"ven_numFac\"");
+					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' AND ven.\"ven_numFac\"=? ORDER BY ven.\"ven_numFac\"");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
 			if (rst.next()) {
@@ -95,14 +98,14 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 						rst.getDouble("ven_valorT"), rst.getDouble("ven_valorIm"), rst.getDouble("ven_descuento"),
 						rst.getString("ven_estado"), rst.getDate("ven_fecha"), rst.getDate("fecha_in"),
 						rst.getDate("fecha_mod"), rst.getInt("usu_id_UltMod")));
-			}else{
+			} else {
 				return null;
 			}
 			Conexion.desconectar();
 			return this.getObj();
 		} catch (Exception e) {
 			Conexion.desconectar();
-			System.out.println("ERROR AL BUSCAR FACTURAS: "+e.getMessage());
+			System.out.println("ERROR AL BUSCAR COTIZACIONES: " + e.getMessage());
 		}
 		return null;
 	}
@@ -114,7 +117,8 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
-			PreparedStatement pst = cn.prepareStatement("INSERT INTO public.tbl_ventas(ven_id, \"ven_numFac\", \"ven_valorT\", \"ven_valorIm\", ven_descuento, cli_id, ven_estado, ven_fecha, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (default, ?, ?, ?, ?, ?, 'G', ?, ?, ?, ?);");
+			PreparedStatement pst = cn.prepareStatement(
+					"INSERT INTO public.tbl_ventas(ven_id, \"ven_numFac\", \"ven_valorT\", \"ven_valorIm\", ven_descuento, cli_id, ven_estado, ven_fecha, fecha_in, fecha_mod, \"usu_id_UltMod\") VALUES (default, ?, ?, ?, ?, ?, 'C', ?, ?, ?, ?);");
 			pst.setInt(1, nuevo.getVen_numFac());
 			pst.setDouble(2, nuevo.getVen_valorT());
 			pst.setDouble(3, nuevo.getVen_valorIm());
@@ -124,14 +128,14 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
 			pst.setDate(8, Date.valueOf(LocalDate.now()));
 			pst.setInt(9, nuevo.getUsu_id_UltMod());
-			this.setFue((pst.executeUpdate()==1));
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL GUARDAR LA VENTA: "+e.getMessage());
+			System.out.println("ERROR AL GUARDAR LA COTIZACION: " + e.getMessage());
 		}
 		return false;
 	}
@@ -142,18 +146,19 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
-			PreparedStatement pst = cn.prepareStatement("UPDATE public.tbl_ventas SET ven_estado='A',fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
+			PreparedStatement pst = cn.prepareStatement(
+					"UPDATE public.tbl_ventas SET ven_estado='C',fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
 			pst.setDate(1, Date.valueOf(LocalDate.now()));
 			pst.setInt(2, idusu);
 			pst.setInt(3, id);
-			this.setFue((pst.executeUpdate()==1));
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL GUARDAR LA VENTA: "+e.getMessage());
+			System.out.println("ERROR AL GUARDAR LA COTIZACION: " + e.getMessage());
 		}
 		return false;
 	}
@@ -164,7 +169,8 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 		Connection cn = Conexion.conectar();
 		cn.setAutoCommit(false);
 		try {
-			PreparedStatement pst = cn.prepareStatement("UPDATE public.tbl_ventas SET \"ven_numFac\"=?, \"ven_valorT\"=?, \"ven_valorIm\"=?, ven_descuento=?, cli_id=?, ven_fecha=?,fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
+			PreparedStatement pst = cn.prepareStatement(
+					"UPDATE public.tbl_ventas SET \"ven_numFac\"=?, \"ven_valorT\"=?, \"ven_valorIm\"=?, ven_descuento=?, cli_id=?, ven_fecha=?,fecha_mod=?, \"usu_id_UltMod\"=? WHERE ven_id=?;");
 			pst.setInt(1, actual.getVen_numFac());
 			pst.setDouble(2, actual.getVen_valorT());
 			pst.setDouble(3, actual.getVen_valorIm());
@@ -174,16 +180,15 @@ public class VentaMod extends UtilitarioMod<Venta> implements Serializable {
 			pst.setDate(7, Date.valueOf(LocalDate.now()));
 			pst.setInt(8, actual.getUsu_id_UltMod());
 			pst.setInt(9, actual.getVen_id());
-			this.setFue((pst.executeUpdate()==1));
+			this.setFue((pst.executeUpdate() == 1));
 			cn.commit();
 			cn.close();
 			return this.isFue();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			cn.rollback();
 			cn.close();
-			System.out.println("ERROR AL GUARDAR LA VENTA: "+e.getMessage());
+			System.out.println("ERROR AL GUARDAR LA COTIZACION: " + e.getMessage());
 		}
 		return false;
 	}
-
 }

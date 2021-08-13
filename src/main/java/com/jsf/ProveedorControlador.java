@@ -5,13 +5,15 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.modelo.ProveedorMod;
-import com.objetos.Proveedor;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.modelo.ProveedorMod;
+import com.objetos.Proveedor;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *
@@ -42,29 +44,29 @@ public class ProveedorControlador implements Serializable {
 
 	public void borrar(int id) {
 		try {
-			if(this.modprov.borrar(id, UtilitarioControlador.getUsu().getUsu_id())){
+			if (this.modprov.borrar(id, UtilitarioControlador.getUsu().getUsu_id())) {
 				UtilitarioControlador.informativo("Borrado con Exito");
 				this.todo();
-			}else{
+			} else {
 				UtilitarioControlador.advertencia("Existio un problema al eliminar");
 			}
 		} catch (Exception e) {
-			UtilitarioControlador.error("Existio un error al eliminar: "+e.getMessage());
+			UtilitarioControlador.error("Existio un error al eliminar: " + e.getMessage());
 		}
 	}
-	
-	public void editar(){
+
+	public void editar() {
 		this.prov.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
 		try {
 			if (this.modprov.actualizar(this.prov)) {
 				UtilitarioControlador.informativo("Proveedor Actualizado con exito");
 				this.limpiar();
-			}else{
+			} else {
 				UtilitarioControlador.advertencia("Existio un problema al actualizar");
 				this.limpiar();
 			}
 		} catch (Exception e) {
-			UtilitarioControlador.error("Ocurrio un error al editar el proveedor"+e.getMessage());
+			UtilitarioControlador.error("Ocurrio un error al editar el proveedor" + e.getMessage());
 		}
 	}
 

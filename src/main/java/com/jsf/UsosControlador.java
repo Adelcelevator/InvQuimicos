@@ -5,18 +5,20 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 import com.modelo.QuimicoMod;
 import com.modelo.TipoUsoMod;
 import com.modelo.UsoQuimicoMod;
 import com.objetos.TipoUso;
 import com.objetos.UsoQuimico;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *
@@ -79,7 +81,8 @@ public class UsosControlador implements Serializable {
 			}
 			for (int id : idsqui) {
 				if (this.modusq.buscado(this.uso.getTuso_id(), id).getUsu_id_UltMod() == 0) {
-					this.modusq.guardar(new UsoQuimico(UtilitarioControlador.getUsu().getUsu_id(), null, null, this.uso.getTuso_id(), id));
+					this.modusq.guardar(new UsoQuimico(UtilitarioControlador.getUsu().getUsu_id(), null, null,
+							this.uso.getTuso_id(), id));
 				}
 			}
 			UtilitarioControlador.informativo("Se Guardo de Forma exitosa");
@@ -105,6 +108,7 @@ public class UsosControlador implements Serializable {
 		Collections.sort(esto);
 		return esto;
 	}
+
 	/*
 	 * 
 	 * GETTERS Y SETTERS

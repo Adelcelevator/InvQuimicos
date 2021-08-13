@@ -1,11 +1,12 @@
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.objetos.Usuario;
-
 import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.objetos.Usuario;
+import com.utilitarios.UtilitarioControlador;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "template")
@@ -13,7 +14,7 @@ import javax.faces.bean.SessionScoped;
 public class TemplateControlador implements Serializable {
 
 	private static final long serialVersionUID = 2173326729984611492L;
-	private static Usuario usuariolog=(Usuario) UtilitarioControlador.sacar("usuario");
+	private static Usuario usuariolog = (Usuario) UtilitarioControlador.sacar("usuario");
 
 	public String nombre() {
 		try {
@@ -36,8 +37,8 @@ public class TemplateControlador implements Serializable {
 	public static Usuario getUsuariolog() {
 		return usuariolog;
 	}
-	
-	public void redirigir(String direc){
+
+	public void redirigir(String direc) {
 		try {
 			UtilitarioControlador.redirigir(direc);
 		} catch (Exception e) {

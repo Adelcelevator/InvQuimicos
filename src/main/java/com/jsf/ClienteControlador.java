@@ -5,13 +5,15 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.modelo.ClienteMod;
-import com.objetos.Cliente;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.modelo.ClienteMod;
+import com.objetos.Cliente;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *

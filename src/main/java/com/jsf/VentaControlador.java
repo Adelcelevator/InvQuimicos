@@ -5,7 +5,13 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 import com.modelo.ClienteMod;
 import com.modelo.DescQuimicosMod;
 import com.modelo.DetalleVentaMod;
@@ -13,11 +19,7 @@ import com.modelo.InventarioMod;
 import com.modelo.VentaMod;
 import com.objetos.DetalleVenta;
 import com.objetos.Venta;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *
@@ -82,7 +84,7 @@ public class VentaControlador implements Serializable {
 	}
 
 	/*
-	Getters Setters
+	 * Getters Setters
 	 */
 	public List<Venta> getLista() {
 		return lista;

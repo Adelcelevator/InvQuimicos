@@ -5,18 +5,20 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
 import com.modelo.DescQuimicosMod;
 import com.modelo.InventarioMod;
 import com.modelo.QuimicoMod;
 import com.objetos.DescripcionQuimico;
 import com.objetos.Inventario;
 import com.objetos.Quimico;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *
@@ -81,7 +83,8 @@ public class InventarioControlador implements Serializable {
 					UtilitarioControlador.advertencia("Error al Guardar");
 				}
 			} catch (Exception e) {
-				UtilitarioControlador.error("No ingresar letras en los precios o cantidades. \n y utilizar el punto como separador de dolares y monedas");
+				UtilitarioControlador.error(
+						"No ingresar letras en los precios o cantidades. \n y utilizar el punto como separador de dolares y monedas");
 			}
 		}
 	}
@@ -108,9 +111,9 @@ public class InventarioControlador implements Serializable {
 	}
 
 	/*
-
-	Getters y Setters
-
+	 * 
+	 * Getters y Setters
+	 * 
 	 */
 	public String getBuscador() {
 		return buscador;

@@ -5,19 +5,21 @@
  */
 package com.jsf;
 
-import com.utilitarios.UtilitarioControlador;
-import com.modelo.ProveedorMod;
-import com.modelo.DescQuimicosMod;
-import com.modelo.DetalleCompraMod;
-import com.modelo.InventarioMod;
-import com.modelo.CompraMod;
-import com.objetos.Compra;
-import com.objetos.DetalleCompra;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.modelo.CompraMod;
+import com.modelo.DescQuimicosMod;
+import com.modelo.DetalleCompraMod;
+import com.modelo.InventarioMod;
+import com.modelo.ProveedorMod;
+import com.objetos.Compra;
+import com.objetos.DetalleCompra;
+import com.utilitarios.UtilitarioControlador;
 
 /**
  *
@@ -34,7 +36,7 @@ public class CompraControlador implements Serializable {
 	private List<DetalleCompra> listadet = new ArrayList<>();
 	private Compra compra;
 	private String buscador;
-	
+
 	private final CompraMod modcompra = new CompraMod();
 	private final ProveedorMod modprov = new ProveedorMod();
 
@@ -79,12 +81,12 @@ public class CompraControlador implements Serializable {
 		}
 	}
 
-	public double tot(double mult){
+	public double tot(double mult) {
 		return UtilitarioControlador.dosDeci(mult);
-	}	
+	}
 
 	/*
-	Getters Setters
+	 * Getters Setters
 	 */
 	public List<Compra> getLista() {
 		return lista;

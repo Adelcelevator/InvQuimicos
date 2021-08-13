@@ -1,6 +1,5 @@
 package com.modelo;
 
-import com.utilitarios.UtilitarioMod;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.objetos.Cliente;
+import com.utilitarios.UtilitarioMod;
 
 public class ClienteMod extends UtilitarioMod<Cliente> implements Serializable {
 

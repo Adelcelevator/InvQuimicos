@@ -5,11 +5,13 @@
  */
 package com.utilitarios;
 
-import com.modelo.Conexion;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.HashMap;
+
+import com.modelo.Conexion;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;

@@ -1,6 +1,5 @@
 package com.modelo;
 
-import com.utilitarios.UtilitarioMod;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import com.objetos.TipoUsuario;
+import com.utilitarios.UtilitarioMod;
 
 public class TipoUsuarioMod extends UtilitarioMod<TipoUsuario> implements Serializable {
 	private static final long serialVersionUID = 5782337078176395916L;

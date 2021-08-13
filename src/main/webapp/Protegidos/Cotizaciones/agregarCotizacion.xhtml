@@ -18,7 +18,7 @@ and open the template in the editor.
 	<h:body>
 		<ui:composition template="../../Template/template.xhtml">
 			<ui:define name="cuerpo">
-				<h:form id="fac">
+				<h:form id="coti">
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
 					Seleccionar Cliente &#8239;&#8239;
 					<h:commandLink class="btn btn-primary">
@@ -28,23 +28,20 @@ and open the template in the editor.
 					<br/>
 					<br/>
 					<div style="background-color: white !important; padding: 2mm !important;">
-						<b style="color:black !important;"># Factura:</b>&#8239;&#8239;<h:inputText pt:placeholder="Numero de Factura" value="#{agregarV.venta.ven_numFac}"/>
+						<b style="color:black !important;">Fecha:</b> ${agregarCo.hoy()}
 						<br/>
 						<br/>
-						<b style="color:black !important;">Fecha:</b> ${agregarV.hoy()}
+						<b style="color:black !important;">RUC:</b> ${agregarCo.cli.ruc}
 						<br/>
 						<br/>
-						<b style="color:black !important;">RUC:</b> ${agregarV.cli.ruc}
+						<b style="color:black !important;">Cliente:</b> ${agregarCo.cli.nombreC}&#8239;&#8239;
+						<b style="color:black !important;">Representante:</b> ${agregarCo.cli.representante}
 						<br/>
 						<br/>
-						<b style="color:black !important;">Cliente:</b> ${agregarV.cli.nombreC}&#8239;&#8239;
-						<b style="color:black !important;">Representante:</b> ${agregarV.cli.representante}
+						<b style="color:black !important;">Direccion:</b> ${agregarCo.cli.dire}
 						<br/>
 						<br/>
-						<b style="color:black !important;">Direccion:</b> ${agregarV.cli.dire}
-						<br/>
-						<br/>
-						<b style="color:black !important;">Telefono:</b> ${agregarV.cli.telefono}
+						<b style="color:black !important;">Telefono:</b> ${agregarCo.cli.telefono}
 						<br/>
 						<br/>
 						Agregar Producto &#8239;&#8239;
@@ -53,18 +50,18 @@ and open the template in the editor.
 							<f:ajax event="click" onevent="PF('selec_pro').show()"/>
 						</h:commandLink>
 						<br/>
-						<p:dataTable id="tbl_detven" var="detven" value="#{agregarV.listadet}">
+						<p:dataTable id="tbl_detcoti" var="detcoti" value="#{agregarCo.listadet}">
 							<p:column headerText="Producto">
-								<h:outputLabel value="#{agregarV.nomFac(detven.inv_id)}"/>
+								<h:outputLabel value="#{agregarCo.nomFac(detcoti.inv_id)}"/>
 							</p:column>
 							<p:column headerText="Cantidad">
-								<h:outputLabel value="#{detven.detalle_cantidad}"/>
+								<h:outputLabel value="#{detcoti.detalle_cantidad}"/>
 							</p:column>
 							<p:column headerText="Valor Unitario">
-								<h:outputLabel value="#{detven.detalle_valorU}"/>
+								<h:outputLabel value="#{detcoti.detalle_valorU}"/>
 							</p:column>
 							<p:column  headerText="Valor Total">
-								<h:outputLabel id="totalu" value="#{detven.detalle_valorTv}"/>
+								<h:outputLabel id="totalu" value="#{detcoti.detalle_valorTv}"/>
 							</p:column>
 							<p:column>
 								<h:commandLink class="btn btn-danger">
@@ -72,7 +69,7 @@ and open the template in the editor.
 									<f:ajax execute="@form"
 											event="click"
 											render="@form"
-											listener="#{agregarV.eliminar(detven)}"/>
+											listener="#{agregarCo.eliminar(detcoti)}"/>
 								</h:commandLink>
 							</p:column>
 						</p:dataTable>
@@ -83,7 +80,7 @@ and open the template in the editor.
 										<h:outputLabel style="color: black !important" value="Subtotal"/>
 									</td>
 									<td>
-										<h:outputLabel style="color: black !important" value="#{(agregarV.venta.ven_subtotal)}"/>
+										<h:outputLabel style="color: black !important" value="#{(agregarCo.venta.ven_subtotal)}"/>
 									</td>
 								</tr>
 								<tr>
@@ -91,7 +88,7 @@ and open the template in the editor.
 										<h:outputLabel style="color: black !important" value="Impuesto 12%"/>
 									</td>
 									<td>
-										<h:outputLabel style="color: black !important" value="#{agregarV.venta.ven_valorIm}"/>
+										<h:outputLabel style="color: black !important" value="#{agregarCo.venta.ven_valorIm}"/>
 									</td>
 								</tr>
 								<tr>
@@ -99,7 +96,7 @@ and open the template in the editor.
 										<h:outputLabel style="color: black !important" value="Valor Total"/>
 									</td>
 									<td>
-										<h:outputLabel style="color: black !important" value="#{agregarV.venta.ven_valorT}"/>
+										<h:outputLabel style="color: black !important" value="#{agregarCo.venta.ven_valorT}"/>
 									</td>
 								</tr>
 							</table>
@@ -109,20 +106,20 @@ and open the template in the editor.
 								<f:ajax execute="@form" 
 										event="click"
 										render="@form"
-										listener="#{agregarV.guardar()}"/>
+										listener="#{agregarCo.guardar()}"/>
 							</h:commandLink>
 						</div>
 					</div>
 				</h:form>
-				<p:dialog header="Seleccionar Cliente" closable="false" closeOnEscape="true" onHide="#{agregarV.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">
+				<p:dialog header="Seleccionar Cliente" closable="false" closeOnEscape="true" onHide="#{agregarCo.limpiar()}" widgetVar="selec_cli" minHeight="40" width="1000" showEffect="fade" modal="true">
 					<h:form id="selecCli">
 						<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-						<h:inputText id="txt_buscador" value="#{agregarV.buscador}" pt:placeholder="Cliente, RUC" size="25">
-							<f:ajax execute="selecCli:txt_buscador" listener="#{agregarV.buscarC()}" 
+						<h:inputText id="txt_buscador" value="#{agregarCo.buscador}" pt:placeholder="Cliente, RUC" size="25">
+							<f:ajax execute="selecCli:txt_buscador" listener="#{agregarCo.buscarC()}" 
 									event="keyup" render="selecCli:tbl_cli" />
 						</h:inputText>
 						<br/>
-						<p:dataTable id="tbl_cli" var="cli" value="#{agregarV.listacli}" rows="3" paginator="true">
+						<p:dataTable id="tbl_cli" var="cli" value="#{agregarCo.listacli}" rows="3" paginator="true">
 							<p:column headerText="RUC">
 								<h:outputLabel value="#{cli.ruc}" />
 							</p:column>
@@ -146,9 +143,9 @@ and open the template in the editor.
 									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
 										<i class="pi pi-check"></i>
 										<f:ajax execute="btn_seleccionar" event="click"
-												listener="#{agregarV.seleccionarCli(cli)}" 
+												listener="#{agregarCo.seleccionarCli(cli)}" 
 												onevent="PF('selec_cli').hide()"
-												render="selecCli fac"/>
+												render="selecCli coti"/>
 									</h:commandLink>
 								</center>
 							</p:column>
@@ -156,27 +153,27 @@ and open the template in the editor.
 					</h:form>
 				</p:dialog>
 
-				<p:dialog header="Seleccionar Producto" closable="false" closeOnEscape="true" onHide="#{agregarV.limpiar()}" widgetVar="selec_pro" minHeight="40" width="1000" showEffect="fade" modal="true">
+				<p:dialog header="Seleccionar Producto" closable="false" closeOnEscape="true" onHide="#{agregarCo.limpiar()}" widgetVar="selec_pro" minHeight="40" width="1000" showEffect="fade" modal="true">
 					<h:form id="selecPro">
 						<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-						<h:inputText id="txt_buscador" value="#{agregarV.buscador}" pt:placeholder="Descripcion" size="25">
-							<f:ajax execute="selecPro:txt_buscador" listener="#{agregarV.buscarP()}" 
+						<h:inputText id="txt_buscador" value="#{agregarCo.buscador}" pt:placeholder="Descripcion" size="25">
+							<f:ajax execute="selecPro:txt_buscador" listener="#{agregarCo.buscarP()}" 
 									event="keyup" render="selecPro:tbl_inv" />
 						</h:inputText>
 						<br/>
 						<br/>
 						<h:outputLabel style="font-size: 15pt !important;" value="Cantidad:" />&#8239;
-						<h:inputText id="cantidad" value="#{agregarV.cantidad}" pt:placeholder="Cantidad" size="26"/>
+						<h:inputText id="cantidad" value="#{agregarCo.cantidad}" pt:placeholder="Cantidad" size="26"/>
 						<br/>
-						<p:dataTable id="tbl_inv" var="inv" value="#{agregarV.listaPro}" rows="2" paginator="true">
+						<p:dataTable id="tbl_inv" var="inv" value="#{agregarCo.listaPro}" rows="2" paginator="true">
 							<p:column headerText="Quimico">
-								<h:outputLabel value="#{agregarV.nomQui(inv.qui_id)}" />
+								<h:outputLabel value="#{agregarCo.nomQui(inv.qui_id)}" />
 							</p:column>
 							<p:column headerText="Descripcion">
-								<h:outputLabel value="#{agregarV.nomDesc(inv.descq_id)}" />
+								<h:outputLabel value="#{agregarCo.nomDesc(inv.descq_id)}" />
 							</p:column>
 							<p:column headerText="Existencia">
-								<h:outputLabel value="#{agregarV.uniMed(inv.descq_id, inv.inv_cantidad)}" />
+								<h:outputLabel value="#{agregarCo.uniMed(inv.descq_id, inv.inv_cantidad)}" />
 							</p:column>
 							<p:column headerText="Precio Unitario Compra">
 								<h:outputLabel value="$#{inv.inv_precioCU}" />
@@ -189,9 +186,9 @@ and open the template in the editor.
 									<h:commandLink class="btn btn-primary" id="btn_seleccionar">
 										<i class="pi pi-check"></i>
 										<f:ajax execute="selecPro" event="click"
-												listener="#{agregarV.seleccionarPro(inv)}" 
+												listener="#{agregarCo.seleccionarPro(inv)}" 
 												onevent="PF('selec_pro').hide()"
-												render="selecPro fac"/>
+												render="selecPro coti"/>
 									</h:commandLink>
 								</center>
 							</p:column>

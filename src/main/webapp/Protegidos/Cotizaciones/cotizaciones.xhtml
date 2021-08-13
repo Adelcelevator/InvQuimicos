@@ -79,7 +79,7 @@ and open the template in the editor.
 					*	Inicio Detalle Cotizacion	  *
 					***********************************
 					-->
-					<p:dataTable id="tbl_detcoti" rendered="#{!(cotizacion.listadet.size()==0)}" var="det" value="#{venta.listadet}">
+					<p:dataTable id="tbl_detcoti" rendered="#{!(cotizacion.listadet.size()==0)}" var="det" value="#{cotizacion.listadet}">
 						<f:facet name="header">
 							Cotizacion ID: ${cotizacion.cotizacion.ven_id} 
 							<br/>

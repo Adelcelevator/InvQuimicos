@@ -21,7 +21,7 @@ public class CotizacionMod extends UtilitarioMod<Venta> implements Serializable 
 		try {
 			ResultSet rst = Conexion.conectar()
 					.prepareStatement(
-							"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' ORDER BY ven.\"ven_numFac\"")
+							"SELECT * FROM public.tbl_ventas ven where ven.ven_estado='C' ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
 				this.getLis()
@@ -44,7 +44,7 @@ public class CotizacionMod extends UtilitarioMod<Venta> implements Serializable 
 		this.getLis().clear();
 		try {
 			ResultSet rst = Conexion.conectar()
-					.prepareStatement("SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' ORDER BY ven.\"ven_numFac\"")
+					.prepareStatement("SELECT * FROM public.tbl_ventas ven where ven.ven_estado='C' ORDER BY ven.\"ven_numFac\"")
 					.executeQuery();
 			while (rst.next()) {
 				this.getLis()
@@ -67,7 +67,7 @@ public class CotizacionMod extends UtilitarioMod<Venta> implements Serializable 
 		this.getLis().clear();
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
-					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' AND ven.\"ven_numFac\"::TEXT LIKE ? ORDER BY ven.\"ven_numFac\"");
+					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado='C' AND ven.\"ven_numFac\"::TEXT LIKE ? ORDER BY ven.\"ven_numFac\"");
 			pst.setString(1, "%" + id + "%");
 			ResultSet rst = pst.executeQuery();
 			while (rst.next()) {
@@ -90,7 +90,7 @@ public class CotizacionMod extends UtilitarioMod<Venta> implements Serializable 
 	public Venta buscado(int id) {
 		try {
 			PreparedStatement pst = Conexion.conectar().prepareStatement(
-					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado=='C' AND ven.\"ven_numFac\"=? ORDER BY ven.\"ven_numFac\"");
+					"SELECT * FROM public.tbl_ventas ven where ven.ven_estado='C' AND ven.\"ven_numFac\"=? ORDER BY ven.\"ven_numFac\"");
 			pst.setInt(1, id);
 			ResultSet rst = pst.executeQuery();
 			if (rst.next()) {

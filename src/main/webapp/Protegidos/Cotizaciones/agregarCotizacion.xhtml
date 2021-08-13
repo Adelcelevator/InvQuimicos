@@ -100,13 +100,9 @@ and open the template in the editor.
 									</td>
 								</tr>
 							</table>
-
 							<h:commandLink class="btn btn-success">
+								<f:ajax event="click" onevent="PF('enviar_cot').show()"/>
 								<i class="pi pi-save"></i>
-								<f:ajax execute="@form" 
-										event="click"
-										render="@form"
-										listener="#{agregarCo.guardar()}"/>
 							</h:commandLink>
 						</div>
 					</div>
@@ -193,6 +189,34 @@ and open the template in the editor.
 								</center>
 							</p:column>
 						</p:dataTable>
+					</h:form>
+				</p:dialog>
+				
+				<p:dialog header="Enviar Cotizacion" closable="false" closeOnEscape="true" onHide="#{agregarCo.limpiar()}" widgetVar="enviar_cot" minHeight="40" width="1000" showEffect="fade" modal="true">
+					<h:form id="enviarCot">
+						<table>
+							<tr>
+								<td>
+									<h:outputLabel value="Destinatario"/>
+								</td>
+								<td>
+									<h:inputText pt:placeholder="Destinatario" value="#{agregarCo.destino}"/>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<h:inputTextarea pt:placeholder="Mensaje" value="#{agregarCo.mensaje}"/>
+								</td>
+							</tr>
+						</table>
+						<h:commandLink class="btn btn-success">
+								<i class="pi pi-send"></i>
+								<f:ajax execute="@form" 
+										event="click"
+										render="@form"
+										onevent="PF('enviar_cot').hide()"
+										listener="#{agregarCo.guardar()}"/>
+							</h:commandLink>
 					</h:form>
 				</p:dialog>
 			</ui:define>

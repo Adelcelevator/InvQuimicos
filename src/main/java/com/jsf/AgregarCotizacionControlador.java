@@ -10,10 +10,12 @@ import com.objetos.Cliente;
 import com.objetos.DetalleVenta;
 import com.objetos.Inventario;
 import com.objetos.Venta;
+import com.utilitarios.HiloEnvioCorreos;
 import com.utilitarios.UtilitarioControlador;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -22,7 +24,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name = "agregarCo")
 @SessionScoped
 
-public class AgregarCotizacionControlador implements Serializable{
+public class AgregarCotizacionControlador implements Serializable {
 
 	private final InventarioMod modinv = new InventarioMod();
 	private final DescQuimicosMod moddescq = new DescQuimicosMod();
@@ -35,7 +37,7 @@ public class AgregarCotizacionControlador implements Serializable{
 	private List<Cliente> listacli = modcli.todos();
 	private List<Inventario> listaPro = modinv.todos();
 	private Cliente cli = new Cliente();
-	private String buscador = "", cantidad = "";
+	private String buscador = "", cantidad = "", destino = "", mensaje = "";
 	private Venta cotizacion = new Venta();
 
 	public String hoy() {
@@ -43,6 +45,8 @@ public class AgregarCotizacionControlador implements Serializable{
 	}
 
 	public void limpiar() {
+		this.destino = "";
+		this.mensaje ="";
 		this.buscador = "";
 		this.listacli = this.modcli.todos();
 		this.listaPro = this.modinv.todos();
@@ -60,10 +64,6 @@ public class AgregarCotizacionControlador implements Serializable{
 		this.cli = se;
 		this.cotizacion.setCli_id(se.getCli_id());
 		this.limpiar();
-	}
-
-	public void calcular(int id) {
-		System.out.println("Le Apachurras a este : " + id);
 	}
 
 	public void seleccionarPro(Inventario inv) {
@@ -119,35 +119,52 @@ public class AgregarCotizacionControlador implements Serializable{
 	2.- Se settea el id de usuario en el objeto cotizacion 
 	3.- Se evalua que no existan campos vacios 
 	4.- Se registra la cabecera de la cotizacion y/o el objeto cotizacion 
-	5.-Se iguala el objeto cotizacion con el objeto cotizacion traido desde la base de datos
-	 identificado por el numero de factura 
+	5.- Se iguala el objeto cotizacion con el objeto cotizacion traido desde la base de datos
+		identificado por el numero de factura 
 	6.- Se recorre la lista del detalle de la cotizacion para hacer su insercion en la base 
 	7.- Se comprueba una vez mas que la cantidad no sea mayor a lo que hay en stock 
-	8.- Se actualiza el inventario y se guarda el datalle de la cotizacion
+	8.- Se genera un hilo desde donde se enviara el correo
 	 */
 	public void guardar() {
 		try {
-			while(this.modcoti.buscado(this.cotizacion.getVen_numFac()) != null){
-				this.cotizacion.setVen_numFac(Integer.parseInt(String.valueOf((Math.random()*300000)+2000000)));
+			this.cotizacion.setVen_numFac((int) ((Math.random() * 3000000) + 2000000));
+			this.cotizacion.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
+			while (this.modcoti.buscado(this.cotizacion.getVen_numFac()) != null) {
+				this.cotizacion.setVen_numFac(Integer.parseInt(String.valueOf((Math.random() * 300000) + 2000000)));
 			}
-				this.cotizacion.setUsu_id_UltMod(UtilitarioControlador.getUsu().getUsu_id());
-				if (this.cli.equals(new Cliente()) || this.cotizacion.hasEmptyFilds() || this.listadet.isEmpty()) {
-					UtilitarioControlador.advertencia("Existen campos vacios");
-				} else if (!this.modcoti.guardar(this.cotizacion)) {
-					UtilitarioControlador.advertencia("Existio un Error al guardar la venta");
-				} else {
-					this.cotizacion = modcoti.buscado(this.cotizacion.getVen_numFac());
-					for (DetalleVenta ndetven : this.listadet) {
-						ndetven.setVen_id(this.cotizacion.getVen_id());
-						this.moddetcoti.guardar(ndetven);
-						}
+			if (this.cli.equals(new Cliente()) || this.cotizacion.hasEmptyFilds() || this.listadet.isEmpty() || this.destino.isBlank() || this.destino.isEmpty()) {
+				UtilitarioControlador.advertencia("Existen campos vacios");
+			} else if (!this.modcoti.guardar(this.cotizacion)) {
+				UtilitarioControlador.advertencia("Existio un Error al guardar la venta");
+			} else {
+				this.cotizacion = modcoti.buscado(this.cotizacion.getVen_numFac());
+				for (DetalleVenta ndetven : this.listadet) {
+					ndetven.setVen_id(this.cotizacion.getVen_id());
+					this.moddetcoti.guardar(ndetven);
+				}
+				if(this.mensaje.isBlank() || this.mensaje.isEmpty()){
+					Calendar calen = Calendar.getInstance();
+					int hora = calen.get(Calendar.HOUR_OF_DAY);
+					if(hora >= 6 && hora < 12){
+						this.setMensaje("Buenos días");
+					}else if(hora >=12 && hora<19){
+						this.setMensaje("Buenos Tardes");
+					}else if(hora>=19 && hora <6){
+						this.setMensaje("Buenos Noches");
 					}
-					this.limpiarF();
-					UtilitarioControlador.redirigir("cotizaciones.quimicos");
+					this.setMensaje(this.getMensaje()
+							+"\n Estimando "+this.cli.getRepresentante()
+							+"\n Adjunto envio la cotización.");
+				}
+				Runnable correo = new HiloEnvioCorreos(this.destino, this.mensaje, this.cotizacion.getVen_id());
+				correo.run();
+				this.limpiarF();
+				UtilitarioControlador.redirigir("cotizaciones.quimicos");
+			}
 		} catch (Exception e) {
 			UtilitarioControlador.error("Existio un Error general");
 			try {
-				UtilitarioControlador.redirigir("ventas.quimicos");
+				UtilitarioControlador.redirigir("cotizaciones.quimicos");
 				this.limpiarF();
 			} catch (Exception x) {
 
@@ -254,4 +271,21 @@ public class AgregarCotizacionControlador implements Serializable{
 	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
 	}
+
+	public String getDestino() {
+		return destino;
+	}
+
+	public void setDestino(String destino) {
+		this.destino = destino;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
 }

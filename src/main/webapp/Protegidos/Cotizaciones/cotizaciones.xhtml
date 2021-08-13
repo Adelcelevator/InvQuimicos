@@ -18,49 +18,49 @@ and open the template in the editor.
 	<h:body>
 		<ui:composition template="../../Template/template.xhtml">
 			<ui:define name="cuerpo">
-				<h:form id="frm_venta">
-					#{venta.todo()}
+				<h:form id="frm_cotizacion">
+					#{cotizacion.todo()}
 					<h:outputLabel style="font-size: 15pt !important;" value="Buscador:" />&#8239;
-					<h:inputText id="txt_buscador" value="#{venta.buscador}" pt:placeholder="Numero de Factura" size="25">
-						<f:ajax execute="frm_venta:txt_buscador" listener="#{venta.buscar()}" event="keyup" render="frm_venta:tbl_venta frm_venta:esto" />
+					<h:inputText id="txt_buscador" value="#{cotizacion.buscador}" pt:placeholder="Numero de Cotizacion" size="25">
+						<f:ajax execute="frm_cotizacion:txt_buscador" listener="#{cotizacion.buscar()}" event="keyup" render="frm_cotizacion:tbl_cotizacion frm_cotizacion:esto" />
 					</h:inputText>&#8239;&#8239;
-					<h:commandLink action="#{venta.agregar()}" class="btn btn-primary">
+					<h:commandLink action="#{cotizacion.agregar()}" class="btn btn-primary">
 						<i class="pi pi-plus"></i>
 					</h:commandLink>
 					<p:growl id="esto" showDetail="true" life="3000" sticky="true"/>
 					<!-- 
 					***********************************
-					*	Inicio Tabla de Ventas		  *
+					*	Inicio Tabla de Cotizaciones  *
 					***********************************
 					-->
-					<p:dataTable id="tbl_venta" var="ven" value="#{venta.lista}" rows="5" paginator="true">
+					<p:dataTable id="tbl_cotizacion" var="coti" value="#{cotizacion.lista}" rows="5" paginator="true">
 						<f:facet name="header">
-							Ventas
+							Cotizaciones
 						</f:facet>
 						<p:column headerText="Numero Factura">
-							<h:outputLabel value="#{ven.ven_numFac}" />
+							<h:outputLabel value="#{coti.ven_numFac}" />
 						</p:column>
 						<p:column headerText="Cliente">
-							<h:outputLabel value="#{venta.cliente(ven.cli_id)}" />
+							<h:outputLabel value="#{cotizacion.cliente(coti.cli_id)}" />
 						</p:column>
 						<p:column headerText="Fecha">
-							<h:outputLabel value="#{ven.ven_fecha}" />
+							<h:outputLabel value="#{coti.ven_fecha}" />
 						</p:column>
 						<p:column headerText="Valor Total">
-							<h:outputLabel value="#{ven.ven_valorT}" />
+							<h:outputLabel value="#{coti.ven_valorT}" />
 						</p:column>
 						<p:column headerText="Valor Impuesto">
-							<h:outputLabel value="#{ven.ven_valorIm}" />
+							<h:outputLabel value="#{coti.ven_valorIm}" />
 						</p:column>
 						<p:column headerText="Descuento">
-							<h:outputLabel value="#{ven.ven_descuento}" />
+							<h:outputLabel value="#{coti.ven_descuento}" />
 						</p:column>
 						<p:column>
 							<center>
 								<h:commandLink class="btn btn-success" id="btn_seleccionar">
 									<i class="pi pi-check-square"></i>
 									<f:ajax execute="btn_seleccionar" event="click"
-											listener="#{venta.seleccionar(ven)}"
+											listener="#{cotizacion.seleccionar(coti)}"
 											render="@form"/>
 								</h:commandLink>
 							</center>
@@ -71,24 +71,24 @@ and open the template in the editor.
 					<br/>
 					<!-- 
 					***********************************
-					*	Fin Tabla de Ventas			  *
+					*	Fin Tabla de Cotizaciones	  *
 					***********************************
 					-->
 					<!-- 
 					***********************************
-					*	Inicio Detalle Venta		  *
+					*	Inicio Detalle Cotizacion	  *
 					***********************************
 					-->
-					<p:dataTable id="tbl_detven" rendered="#{!(venta.listadet.size()==0)}" var="det" value="#{venta.listadet}">
+					<p:dataTable id="tbl_detcoti" rendered="#{!(cotizacion.listadet.size()==0)}" var="det" value="#{venta.listadet}">
 						<f:facet name="header">
-							Venta ID: ${venta.venta.ven_id} 
+							Cotizacion ID: ${cotizacion.cotizacion.ven_id} 
 							<br/>
-							Factura #: ${venta.venta.ven_numFac}
+							# Provisional: ${cotizacion.cotizacion.ven_numFac}
 							<br/>
-							Fecha: ${venta.venta.fecha_mod}
+							Fecha: ${cotizacion.cotizacion.fecha_mod}
 						</f:facet>
 						<p:column headerText="ID Inventario">
-							<h:outputLabel value="#{venta.nomInv(det.inv_id)}" />
+							<h:outputLabel value="#{cotizacion.nomInv(det.inv_id)}" />
 						</p:column>
 						<p:column headerText="Cantidad">
 							<h:outputLabel value="#{det.detalle_cantidad}" />
@@ -97,15 +97,15 @@ and open the template in the editor.
 							<h:outputLabel value="#{det.detalle_valorU}" />
 						</p:column>
 						<p:column headerText="Valor Total">
-							<h:outputLabel value="#{venta.tot((det.detalle_cantidad*det.detalle_valorU))}" />
+							<h:outputLabel value="#{cotizacion.tot((det.detalle_cantidad*det.detalle_valorU))}" />
 						</p:column>
 						<f:facet name="footer">
-							Valor total: #{venta.venta.ven_valorT}
+							Valor total: #{cotizacion.cotizacion.ven_valorT}
 						</f:facet>
 					</p:dataTable>
 					<!--
 					***********************************
-					*	Fin Detalle Venta			  *
+					*	Fin Detalle Cotizacion		  *
 					***********************************
 					-->
 				</h:form>

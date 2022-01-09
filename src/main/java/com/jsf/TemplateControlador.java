@@ -14,7 +14,7 @@ import com.utilitarios.UtilitarioControlador;
 public class TemplateControlador implements Serializable {
 
 	private static final long serialVersionUID = 2173326729984611492L;
-	private static Usuario usuariolog = (Usuario) UtilitarioControlador.sacar("usuario");
+	private static final Usuario usuariolog = (Usuario) UtilitarioControlador.sacar("usuario");
 
 	public String nombre() {
 		try {

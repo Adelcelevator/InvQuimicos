@@ -11,7 +11,7 @@ public class Conexion implements Serializable {
 	public static Connection conectar() {
 		try {
 			Class.forName("org.postgresql.Driver");
-			Conexion.cn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pruebas", "postgres", "holamonica");
+			Conexion.cn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/pruebas", "cliente", "clientebat");
 			return Conexion.cn;
 		} catch (Exception e) {
 			System.err.println("ERROR AL CONECTAR: " + e.getMessage());

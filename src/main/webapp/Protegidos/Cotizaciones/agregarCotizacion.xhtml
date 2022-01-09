@@ -197,15 +197,18 @@ and open the template in the editor.
 						<table>
 							<tr>
 								<td>
-									<h:outputLabel value="Destinatario"/>
+									<h:outputLabel value="Destinatario: "/>
 								</td>
 								<td>
-									<h:inputText pt:placeholder="Destinatario" value="#{agregarCo.destino}"/>
+									<h:inputText pt:placeholder="Destinatario" value="#{agregarCo.destino}" size="30"/>
 								</td>
 							</tr>
 							<tr>
+								<td colspan="2"><h:outputLabel value=""/></td>
+							</tr>
+							<tr>
 								<td colspan="2">
-									<h:inputTextarea pt:placeholder="Mensaje" value="#{agregarCo.mensaje}"/>
+									<h:inputTextarea rows="10" cols="30" pt:placeholder="Mensaje" value="#{agregarCo.mensaje}"/>
 								</td>
 							</tr>
 						</table>

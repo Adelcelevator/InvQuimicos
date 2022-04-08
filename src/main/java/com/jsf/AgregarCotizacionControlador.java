@@ -156,8 +156,7 @@ public class AgregarCotizacionControlador implements Serializable {
 							+"\n Estimando "+this.cli.getRepresentante()
 							+"\n Adjunto envio la cotización.");
 				}
-				Runnable correo = new HiloEnvioCorreos(this.destino, this.mensaje, this.cotizacion.getVen_id());
-				correo.run();
+				new Thread(new HiloEnvioCorreos(this.destino, this.mensaje, this.cotizacion.getVen_id())).start();
 				this.limpiarF();
 				UtilitarioControlador.redirigir("cotizaciones.quimicos");
 			}

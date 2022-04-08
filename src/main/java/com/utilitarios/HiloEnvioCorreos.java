@@ -16,6 +16,8 @@ public class HiloEnvioCorreos implements Runnable {
 			String report = Reportes.generarCotizacion(id);
 			Correo.correoCA(this.destino, "Cotización", this.mensaje, report);
 		} catch (Exception e) {
+                    System.err.println("ERROR: "+e.getMessage());
+                    System.err.println(e);
 		}
 	}
 

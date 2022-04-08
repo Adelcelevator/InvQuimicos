@@ -45,12 +45,13 @@ public class Correo implements Serializable {
 			mensaje.setFlag(Flags.Flag.FLAGGED, true);
 
 			trans = sesion.getTransport("smtp");
-			trans.connect((String) props.getProperty("mail.smtp.user"), "kwugbzwllwqnouqf");
+			trans.connect((String) props.getProperty("mail.smtp.user"), "bfjtcuzygnxjrimi");
 			trans.sendMessage(mensaje, mensaje.getAllRecipients());
 			trans.close();
 			return true;
 		} catch (Exception e) {
 			System.out.println("ERROR AL ENVIAR EL CORREO: " + e);
+                        System.err.println(e);
 			return false;
 		}
 	}

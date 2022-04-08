@@ -5,7 +5,6 @@ import com.modelo.CotizacionMod;
 import com.modelo.DescQuimicosMod;
 import com.modelo.DetalleVentaMod;
 import com.modelo.InventarioMod;
-import com.modelo.VentaMod;
 import com.objetos.DetalleVenta;
 import com.objetos.Venta;
 import com.utilitarios.UtilitarioControlador;

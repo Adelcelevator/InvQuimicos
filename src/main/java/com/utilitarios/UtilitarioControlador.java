@@ -105,6 +105,6 @@ public class UtilitarioControlador implements Serializable {
 	}
 
 	public final static double dosDeci(double valor) {
-		return new BigDecimal(valor).setScale(2, RoundingMode.HALF_UP).doubleValue();
+		return BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_UP).doubleValue();
 	}
 }
